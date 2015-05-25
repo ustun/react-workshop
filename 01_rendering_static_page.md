@@ -1,10 +1,12 @@
+# Rendering a Static Page in React
 
+In this section, we will be starting with the basics: Rendering a static page using React. Here we mean a static page in the sense that once the page is rendered, nothing changes, not in the server side rendering sense of the word.
 
-In this section, we will be starting with the basics: Rendering a static page using React.
-
-As we saw in the previous section, the method we are interested in in this section is the `render` method.
+As we saw in the previous section, the method we are interested in in this section is `render`.
 
 In the render method, we return a JSX expression, that can either be composed of ordinary HTML elements or composite React components.
+
+## JSX in Detail
 
 Before we continue further with rendering, let's first see JSX in detail and compare it with HTML.
 
@@ -35,6 +37,8 @@ React.createElement('div', {name: 'foo'}, React.createElement('span', null, "Bar
 When one sees JSX for the first time, it reminds them of the dark ages of web programming, where HTML was mixed with JavaScript with onclick handlers. Then came the separation of concerns where we separated HTML from JavaScript.
 
 JSX takes a different approach. There is actually no mixing of HTML and JavaScript, it actually is all JavaScript. I would like you to pause your concerns about mixing HTML and JavaScript for the duration of today, and try to see what JSX provides.
+
+## Main Features of JSX
 
 Let's see the main features of JSX:
 
@@ -126,6 +130,7 @@ Another important feature is the following: For most of the CSS properties where
 
 Note that this doesn't always work as expected. For example, for line-height, the default unit is in ems, so in this case, React does not automatically append px for you. So, if you write `{lineHeight: 18}`, you will get the equivalent `{lineHeight: '18em'}`, not `{lineHeight: '18px'}`.
 
+## Converting existing HTML to React
 
 With this knowledge of JSX, we are ready to take an existing HTML page and convert it to a static React application. This is almost always the first step in React applications.
 
@@ -142,6 +147,8 @@ The steps to converting an existing mockup to a React application is as follows:
 The usual way to do steps 2 and 3 are as follows: Run your React transpiler such as react-tools, webpack in watch mode. Make the changes until it no longer contains.
 
 Congratulations, if you include the referenced CSS files in your HTML page, your HTML should look identical, and this is the first step in converting a mockup or existing application into React.
+
+## Tools for Converting JSX to JavaScript
 
 Before seeing an example, let's see how we convert our application with JSX into plain old JavaScript. Here, we install react-tools node module. This gives us a tool called `jsx` that operates in two ways: It can take a single file and output to a single file, or it can take a directory and can output to a directory. In the second mode, it can also watch the directory for changes.
 
@@ -179,6 +186,7 @@ g - Question: Why do we put the script at the end of body?
 *Notes for Windows users*: It is not required, but encouraged to install make, curl and git for these exercises. If you do not install make, you can simply execute the instructions given in the Makefile manually. For curl, simply download React file in a browser and rename it react.js. Download make from `http://gnuwin32.sourceforge.net/packages/make.htm` and ensure that it is in the path.
 
 
+## A More Complex Example: ToDo App
 
 Let's see an example, where we convert a todo application.
 
@@ -193,3 +201,11 @@ Pass the HTML for the main content through this and put it in a file called todo
 Then refer to this file in your HTML page. The output should be identical if you also put the CSS references.
 
 # Exercise 2:
+
+a - Convert the HTML given in 02_convert_mockup/mockup.html to React. Note that you will have two root nodes here, the main part and the footer.
+
+b - Dissect the ToDo app in smaller components: You should have components like SearchBar, Todos, TodoItem, Footer. This will prepare us for the next section, in which we discuss props.
+
+
+
+c - Pass each todo item ("Buy tomatoes") as a prop to TodoItem.
