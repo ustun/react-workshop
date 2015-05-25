@@ -44,7 +44,7 @@ Let's see the main features of JSX:
 
 First of all, all the tagged elements should be self-closing. In this manner, JSX is more similar to XHTML. For example, in HTML, you do not have to close the <img> or <input> tags, in JSX this is required.
 
-Second, one uses curly braces to embed JavaScript expressions into a JSX expression. To give an example, <div>{2 + 3}</div> is valid JSX. Behind the scenes, it will be converted to the following JavaScript expression: `div(null, 2 + 3)`
+Second, one uses curly braces to embed JavaScript expressions into a JSX expression. To give an example, `<div>{2 + 3}</div>` is valid JSX. Behind the scenes, it will be converted to the following JavaScript expression: `div(null, 2 + 3)`
 
 Almost any JavaScript expression is valid in a JSX curly brace expression: For example, one can do the following:
 ```js
