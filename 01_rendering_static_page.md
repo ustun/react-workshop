@@ -174,11 +174,17 @@ Notice that HelloWorld is self-closing. We could instead have written `<HelloWor
 Hint: Look in the Makefile for instructions for downloading react, installing react-tools, compiling the app, and opening the file. It already contains the commands you should be executing for the following tasks.
 
 a - Clone the repository
+
 b - Go to examples/01_hello_world
+
 c - Download react.js, install react-tools, compile the application using jsx, and see "Hello World" in browser.
+
 d - Tweak the application so that you see "Hello Denmark!" in browser.
+
 e - Repeat for the folder examples/01_hello_world_watch but this time, make sure to run jsx in watch mode.
+
 f - Bonus: How would you copy the React.render call to an inline script in HTML? You need to transform the JSX manually to a React.createElement call.
+
 g - Question: Why do we put the script at the end of body?
 
 
