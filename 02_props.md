@@ -182,4 +182,14 @@ g - Question: Why do we put the script at the end of body?
 
 Let's see an example, where we convert a todo application.
 
-We are given the HTML of a todo application.
+We are given the HTML of a todo application in examples/02_todo/mockup.html. We want to convert it as it is to React.
+
+We can do the HTML to JSX transformation by hand, but luckily there is an online tool called HTML to JSX at https://facebook.github.io/react/html-jsx.html
+
+Note: You can also use the command line version of this tool: https://www.npmjs.com/package/htmltojsx
+
+Pass the HTML for the main content through this and put it in a file called todo.js in src. Add the call to React.render so that it is mounted in the div with id "app". Then issue jsx src build to have the compiled version in build/todo.js.
+
+Then refer to this file in your HTML page. The output should be identical if you also put the CSS references.
+
+# Exercise 2:
