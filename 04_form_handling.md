@@ -145,6 +145,11 @@ return <form onSubmit={this.onSubmit}>
 We no longer need to access the form values using ref's, it is already synchronized in our state object.
 This is the essence of form handling with React.
 
+## Other Form or Input Events
+
+In addition to `onChange` and `onSubmit`, some other events of note are the following: `onFocus`, `onBlur`.
+
+
 
 Exercise:
 
@@ -155,3 +160,7 @@ Hint: You can use `/^\d+$/.test(foo)` to test whether the variable `foo` consist
 - Can you delete the card number after entering a few digits? If not, fix the bug.
 
 - As the user types in the name field, greet them with a gender prefix. The male names are: `["John", "George"]`. The female names are `["Jane", "Mary"]`. If gender cannot be determined from the name, greet with just the name. If there is no name yet, do not greet.
+
+- As the user passes from the name field to the card field, validate the name such that it is at least 3 letters. If the name is 2 letters, show a warning. Note that you should not show the warning initially.
+
+Hint: Think about state variables to keep track of. Should the variable that determines whether the input is valid or not be stored in state? Think about pros and cons.
