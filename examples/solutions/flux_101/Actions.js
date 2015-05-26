@@ -1,7 +1,8 @@
 var AppDispatcher = require('./AppDispatcher');
 
-var increment = function () {
-    AppDispatcher.dispatch({actionType: 'INCREMENT', data: "foo"})
+var increment = function (x) {
+    AppDispatcher.dispatch({actionType: 'INCREMENT', 
+    						data: "foo"})
 }
 
 var decrement = function () {

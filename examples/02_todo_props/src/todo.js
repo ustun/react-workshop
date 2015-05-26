@@ -56,19 +56,19 @@ var Todo = React.createClass({
 var Todos = React.createClass({
 
     render: function () {
-        var tasks = ["do this", "do that", "buy tickets"];
+        var tasks = ["do this", "do this", "foo bar", "do that", "buy tickets"];
 
         return (
         <section id="main" style={{display: 'block'}}>
           <input id="toggle-all" type="checkbox" />
           <label htmlFor="toggle-all">Mark all as complete</label>
             <ul id="todo-list">
-            {tasks.slice().sort().map(function (task) {
-                return <Todo task={task}/>;
+            {tasks.slice().sort().map(function (task, index) {
+                return <Todo task={task} key={"foo" + index}/>;
             })}
             </ul>
-            {tasks.map(function (task) {
-                return <div>{task}</div>;
+            {tasks.map(function (task, index) {
+                return <div key={index}>{task}</div>;
             })}
         </section>);
 

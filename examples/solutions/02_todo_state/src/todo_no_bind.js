@@ -1,16 +1,21 @@
 
 var Todo = React.createClass({
 
+    toggleItemWithName: function (val) {
+        this.props.toggleItemWithName(val);
+    },
+
+    removeItemWithName: function (val) {
+        this.props.removeItemWithName(val);
+    },
+
     render: function () {
         return <li>
               <div className="view">
-        <input className="toggle" type="checkbox"
-        checked={this.props.item.completed}
-        onChange={this.props.toggleItemWithName.bind(this, this.props.item.name)}
-        />
+        <input className="toggle" type="checkbox" checked={this.props.item.completed}
+        onChange={this.toggleItemWithName.bind(this, this.props.item.name)}/>
                 <label>{this.props.item.name}</label>
-        <button className="destroy"
-        onClick={this.props.removeItemWithName.bind(this, this.props.item.name)}/>
+                <button className="destroy" onClick={this.removeItemWithName.bind(this, this.props.item.name)}/>
               </div>
               <input className="edit" defaultValue="Buy tomatos" />
             </li>;
@@ -24,9 +29,7 @@ var Todos = React.createClass({
     render: function () {
         return      <ul id="todo-list">
         {this.props.items.map(function (item) {
-            return <Todo item={item}
-            toggleItemWithName={this.props.toggleItemWithName}
-            removeItemWithName={this.props.removeItemWithName}/>;
+            return <Todo item={item} toggleItemWithName={this.props.toggleItemWithName} removeItemWithName={this.props.removeItemWithName}/>;
         }.bind(this))}
         </ul>;
     }
@@ -36,18 +39,22 @@ var Todos = React.createClass({
 
 var Footer = React.createClass({
 
+    setCriteria: function (val) {
+        this.props.setCriteria(val)
+    },
+
     render: function () {
         return <footer id="footer" style={{display: 'block'}}>
           <span id="todo-count"><strong>{this.props.nLeft}</strong> items left</span>
           <ul id="filters">
             <li>
-              <a className={!this.props.criteria && "selected"} href="#/" onClick={this.props.setCriteria.bind(this, null)}>All</a>
+              <a className={!this.props.criteria && "selected"} href="#/" onClick={this.setCriteria.bind(this, null)}>All</a>
             </li>
             <li>
-              <a className={this.props.criteria === "active" && "selected"} href="#/active" onClick={this.props.setCriteria.bind(this, "active")}>Active</a>
+              <a className={this.props.criteria === "active" && "selected"} href="#/active" onClick={this.setCriteria.bind(this, "active")}>Active</a>
             </li>
             <li>
-              <a className={this.props.criteria === "completed" && "selected"}  href="#/completed" onClick={this.props.setCriteria.bind(this, "completed")}>Completed</a>
+              <a className={this.props.criteria === "completed" && "selected"}  href="#/completed" onClick={this.setCriteria.bind(this, "completed")}>Completed</a>
             </li>
           </ul>
         </footer>
@@ -78,6 +85,7 @@ var App = React.createClass({
                 item.completed = !item.completed;
             }
         });
+
         this.setState({items: this.state.items});
 
     },
@@ -108,10 +116,6 @@ var App = React.createClass({
             });
         }
 
-        var nLeft = this.state.items.filter(function (item) {
-            return !item.completed}).length;
-
-
     return (
 
       <section id="todoapp">
@@ -126,8 +130,7 @@ var App = React.createClass({
         removeItemWithName={this.removeItemWithName}/>
         </section>
 
-        <Footer setCriteria={this.setCriteria} criteria={this.state.criteria}
-        nLeft={nLeft}/>
+        <Footer setCriteria={this.setCriteria} criteria={this.state.criteria} nLeft={this.state.items.filter(function (item) { return !item.completed}).length}/>
       </section>
     );
   }

@@ -15,6 +15,8 @@ var MyView = React.createClass({
     },
 
 
+
+
     render: function () {
         return <div>
         Counter value is: {this.state.counter}
