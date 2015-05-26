@@ -231,3 +231,5 @@ pros and cons.
 - Add validation on submit. The name should be at least 3 letters, the card
   should be at least 3 digits. Should we be storing the validation of the form
   in state? Think about it.
+
+- Implement adding a todo in the todo application.

@@ -1,0 +1,98 @@
+% Created 2015-05-26 Tue 12:18
+\documentclass[presentation]{beamer}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{fixltx2e}
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{marvosym}
+\usepackage{wasysym}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\tolerance=1000
+\usetheme{default}
+\usecolortheme{spruce}
+\author{Ustun Ozgur}
+\date{2015-05-26 Tue}
+\title{Flux}
+\hypersetup{
+  pdfkeywords={},
+  pdfsubject={},
+  pdfcreator={Emacs 24.4.1 (Org mode 8.2.10)}}
+\begin{document}
+
+\maketitle
+
+
+\begin{frame}[label=sec-1]{Flux}
+\begin{itemize}
+\item open sourced by Facebook
+\item not a library, a technique like MVC
+\item suitable for bigger applications
+\end{itemize}
+\end{frame}
+
+\begin{frame}[label=sec-2]{When is Flux a good idea?}
+\begin{itemize}
+\item Too deep level in React hiearchy
+\item Need to pass props to the bottom too much
+\item Two components not having a single parent, but want to sync state
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}[label=sec-3]{Stores}
+\begin{itemize}
+\item Enclose the domain logic
+\item Act as event emitters
+\item Emits a change event whenever it changes
+\item Simple version, not Flux: No actions
+\item React component intercepts the events, forwards them to store
+\item React component subscribe to store events
+\item React component syncs its state with store
+\end{itemize}
+\end{frame}
+
+\begin{frame}[label=sec-4]{Actions}
+\begin{itemize}
+\item As apps get big, react component should not call store directly
+\item Instead a level of indirection
+\item React components intercept events
+\item Forward them to dispatcher as events
+\end{itemize}
+\end{frame}
+
+\begin{frame}[label=sec-5]{Dispatcher}
+\begin{itemize}
+\item Dispatcher broadcasts events to all stores
+\item Stores decide which events they are interested in
+\item They decide accordingly and emit a change event
+\item React components sync accordingly
+\end{itemize}
+\end{frame}
+
+\begin{frame}[label=sec-6]{Flux Architecture (1/3)}
+\includegraphics[width=.9\linewidth]{./flux1.png}
+\end{frame}
+
+
+
+\begin{frame}[label=sec-7]{Flux Architecture (2/3)}
+\includegraphics[width=.9\linewidth]{./flux2.png}
+\end{frame}
+\begin{frame}[label=sec-8]{Flux Architecture (3/3)}
+\includegraphics[width=.9\linewidth]{./flux3.png}
+\end{frame}
+\begin{frame}[label=sec-9]{Detail}
+\begin{itemize}
+\item \emph{Demo}
+\end{itemize}
+\end{frame}
+% Emacs 24.4.1 (Org mode 8.2.10)
+\end{document}

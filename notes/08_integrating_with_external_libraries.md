@@ -1,8 +1,51 @@
-# Integrating React with AJAX calls
+# Integrating React with External Libraries
 
-In this chapter, we will be covering how to integrate React with AJAX calls, initiated via jQuery.
 
-## AJAX calls
+## Simple Cases
+
+- Two lifecycle methods
+- componentDidMount
+- componentWillUnmount
+- Register the external component in componentDidMount
+- Deregister the external component in componentWillUnmount
+
+* Example
+
+#+BEGIN_SRC js2
+componentDidMount: function() {
+  var tags = ['banana', 'strawberry', 'chocolate'];
+  $(React.findDOMNode(this)).autocomplete({source: tags});
+},
+
+componentWillUnmount: function() {
+  $(React.findDOMNode(this)).autocomplete('destroy');
+}
+#+END_SRC
+
+* Advanced Example
+
+- This technique originally due to Pete Hunt, later on popularized by Ryan Florence
+- Portals: create an empty div that will act as the gateway
+- Render simply nothing in react
+
+#+BEGIN_SRC js2
+var Dialog = React.createClass({
+  render: function() {
+    // don't render anything, this is where we open the portal
+    return <div/>;
+    },
+    componentDidMount: function() {
+    var node = this.getDOMNode();
+
+    // do the old-school stuff
+    var dialog = $(node).dialog().data('ui-dialog');
+
+    // start a new React render tree with our node and the children
+    // passed in from above, this is the other side of the portal.
+    React.renderComponent(<div>{this.props.children}</div>, node):
+  }
+});
+#+END_SRC
 
 One common question when learning React is how React does AJAX calls. The short answer is it doesn't. So, say you have an AJAX request via jQuery, for example if you issue a GET request using jQuery, it is up to you how to use the response data in your React components.
 

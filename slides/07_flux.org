@@ -1,0 +1,55 @@
+#+TITLE:   Flux
+#+AUTHOR:  Ustun Ozgur
+#+EMAIL:   ustun@ustunozgur.com
+#+DATE:    2015-05-26 Tue
+#+BEAMER-FRAME-LEVEL: 1
+#+BEAMER_COLOR_THEME: spruce
+#+OPTIONS: toc:nil outline:nil H:1
+
+
+* Flux
+- open sourced by Facebook
+- not a library, a technique like MVC
+- suitable for bigger applications
+
+* When is Flux a good idea?
+
+- Too deep level in React hiearchy
+- Need to pass props to the bottom too much
+- Two components not having a single parent, but want to sync state
+
+
+* Stores
+- Enclose the domain logic
+- Act as event emitters
+- Emits a change event whenever it changes
+- Simple version, not Flux: No actions
+- React component intercepts the events, forwards them to store
+- React component subscribe to store events
+- React component syncs its state with store
+
+* Actions
+- As apps get big, react component should not call store directly
+- Instead a level of indirection
+- React components intercept events
+- Forward them to dispatcher as events
+
+* Dispatcher
+- Dispatcher broadcasts events to all stores
+- Stores decide which events they are interested in
+- They decide accordingly and emit a change event
+- React components sync accordingly
+
+* Flux Architecture (1/3)
+[[./flux1.png]]
+
+
+
+* Flux Architecture (2/3)
+
+[[./flux2.png]]
+* Flux Architecture (3/3)
+[[./flux3.png]]
+* Detail
+
+- /Demo/
