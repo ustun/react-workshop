@@ -1,0 +1,73 @@
+<!doctype html>
+
+<head>
+  <meta charset="utf-8">
+<link rel="stylesheet" href="base.css" type="text/css" media="screen" />
+<link rel="stylesheet" href="index.css" type="text/css" media="screen" />
+</head>
+
+<body>
+
+<section id="todoapp">
+  <header id="header">
+	<h1>todos</h1>
+	<input id="new-todo" placeholder="What needs to be done?" autofocus="">
+  </header>
+  <section id="main" style="display: block;">
+	<input id="toggle-all" type="checkbox">
+	<label for="toggle-all">Mark all as complete</label>
+	<ul id="todo-list"><li>
+		<div class="view">
+		  <input class="toggle" type="checkbox">
+		  <label>Buy tomatos</label>
+		  <button class="destroy"></button>
+		</div>
+		<input class="edit" value="Buy tomatos">
+	  </li><li>
+		<div class="view">
+		  <input class="toggle" type="checkbox">
+		  <label>Buy potatoes</label>
+		  <button class="destroy"></button>
+		</div>
+		<input class="edit" value="Buy potatoes">
+	  </li><li>
+		<div class="view">
+		  <input class="toggle" type="checkbox">
+		  <label>Write the report</label>
+		  <button class="destroy"></button>
+		</div>
+		<input class="edit" value="Write the report">
+	  </li><li>
+		<div class="view">
+		  <input class="toggle" type="checkbox">
+		  <label>Call Mom</label>
+		  <button class="destroy"></button>
+		</div>
+		<input class="edit" value="Call Mom">
+	  </li><li>
+		<div class="view">
+		  <input class="toggle" type="checkbox">
+		  <label>Have a haircut</label>
+		  <button class="destroy"></button>
+		</div>
+		<input class="edit" value="Have a haircut">
+	</li></ul>
+  </section>
+  <footer id="footer" style="display: block;">
+	<span id="todo-count"><strong>5</strong> items left</span>
+	<ul id="filters">
+	  <li>
+		<a class="selected" href="#/">All</a>
+	  </li>
+	  <li>
+		<a href="#/active">Active</a>
+	  </li>
+	  <li>
+		<a href="#/completed">Completed</a>
+	  </li>
+	</ul>
+
+  </footer>
+</section>
+</body>
+</html>
