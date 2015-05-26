@@ -298,6 +298,5 @@ var People = React.createClass({
       return <div>
         <HelloWorld name="John"/>
         <HelloWorld greeting="Hola" name="Mary"/>
-        </div>
-    }});
+        </div>}});
 #+END_SRC

@@ -16,7 +16,7 @@ Let's review the Counter example.
             this.setState({counter: this.state.counter + 1});
         },
         render: function () {
-            return <div className="react-component " onClick={this.increment}>
+            return <div onClick={this.increment}>
                 Counter value is {this.state.counter}
                 </div>;
 
@@ -27,7 +27,8 @@ Let's review the Counter example.
 
 We have `onClick` handler that calls `setState` with state incremented by 1. This is the essence of state management with React.
 
-An owner component can pass its state as props to its children. So we might say that one component's state is another's props.
+An owner component can pass its state as props to its children. So we might say that one component's state is another's props
+.
 Let's return to the Counters example from the introduction. There, we were collecting the state at the top, owner component. This technique, combined with passing down event handler functions as props to child components is how applications are built with React. Let's analyze:
 
 ```js
@@ -76,8 +77,8 @@ this.setState({counter1: this.state.counter1 + increment, counter2: this.state.c
 
 render: function () {
 return <div>
-<Counter click={this.incrementCounter1.bind(this, 1)} counter={this.state.counter1}/>
-<Counter click={this.incrementCounter2.bind(this, -1)} counter={this.state.counter2}/>
+<Counter click={this.incrementCounter.bind(this, 1)} counter={this.state.counter1}/>
+<Counter click={this.incrementCounter.bind(this, -1)} counter={this.state.counter2}/>
 
 </div>
 

@@ -1,0 +1,157 @@
+% Created 2015-05-26 Tue 04:42
+\documentclass[presentation]{beamer}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{fixltx2e}
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{marvosym}
+\usepackage{wasysym}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\tolerance=1000
+\usetheme{default}
+\usecolortheme{spruce}
+\author{Ustun Ozgur}
+\date{2015-05-26 Tue}
+\title{State}
+\hypersetup{
+  pdfkeywords={},
+  pdfsubject={},
+  pdfcreator={Emacs 24.4.1 (Org mode 8.2.10)}}
+\begin{document}
+
+\maketitle
+
+
+\begin{frame}[fragile,label=sec-1]{State}
+ \begin{itemize}
+\item Handling apps with changing state
+\item Two important methods: \texttt{getInitialState} and \texttt{setState}
+\item \texttt{setState}: merges the input to current state
+\item Also \texttt{replaceState}, replaces the state with the input
+\item state can be accessed from render as \texttt{this.state}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=sec-2]{Example: Counter}
+ \begin{verbatim}
+var Counter = React.createClass({
+
+  getInitialState: function () {
+    return {counter: 0};
+  },
+  increment: function () {
+    this.setState({counter: this.state.counter + 1});
+  },
+  render: function () {
+    return <div onClick={this.increment}>
+      Counter value is {this.state.counter}
+    </div>;
+
+  }
+
+});
+\end{verbatim}
+\end{frame}
+
+\begin{frame}[label=sec-3]{Overview}
+\begin{itemize}
+\item We have `onClick` handler that calls `setState` with state incremented
+by 1.
+\item This is the essence of state management with React.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[label=sec-4]{Passing State as Props to Children}
+\begin{itemize}
+\item An owner component can pass its state as props to its children
+\item One component's state is another's props.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=sec-5]{Example: Counter in Counters}
+ \begin{verbatim}
+var Counter = React.createClass({
+  render: function () {
+    return <div>
+      Counter value is {this.props.counter}
+      <button onClick={this.props.click}>Increment</button>
+      </div>
+  }
+
+});
+\end{verbatim}
+\end{frame}
+
+\begin{frame}[fragile,label=sec-6]{Example: Counters Component}
+ \begin{verbatim}
+var Counters = React.createClass({
+  getInitialState: function () {
+    return {counter1: 10, counter2: 0};  },
+  incrementCounter1: function () {
+    this.setState({counter1: this.state.counter1 + 1,
+                   counter2: this.state.counter2 - 1})  },
+  incrementCounter2: function () {
+    this.setState({counter1: this.state.counter1 - 1,
+                   counter2: this.state.counter2 + 1})  },
+  render: function () {
+    return <div>
+      <Counter click={this.incrementCounter1}
+       counter={this.state.counter1}/>
+      <Counter click={this.incrementCounter2}
+       counter={this.state.counter2}/>
+      </div>  }})
+\end{verbatim}
+\end{frame}
+
+\begin{frame}[fragile,label=sec-7]{A More Succint Version using bind}
+ \begin{verbatim}
+var Counters = React.createClass({
+  getInitialState: function () {
+    return {counter1: 10, counter2: 0};    },
+  incrementCounter: function (increment) {
+    this.setState({
+      counter1: this.state.counter1 + increment,
+      counter2: this.state.counter2 - increment})    },
+  render: function () {
+    return <div>
+      <Counter
+       click={this.incrementCounter.bind(this, 1)}
+       counter={this.state.counter1}/>
+      <Counter
+       click={this.incrementCounter.bind(this, -1)}
+       counter={this.state.counter2}/>
+      </div>    }})
+\end{verbatim}
+\end{frame}
+
+
+\begin{frame}[label=sec-8]{Summary}
+\begin{itemize}
+\item Child components never update their props directly.
+\item They inform the parent component that some event has happened via functions
+passed as props.
+\item The parent modifies its state.
+\item React handles propagating the state as props downward.
+\item Everything is re-rendered.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[label=sec-9]{Exercise:}
+\begin{itemize}
+\item Modify the todo app so that the list items are stored in a store variable
+instead of being passed as props.
+\item Implement toggling of completed status of todo items.
+\item Hint: Should the todo items be a list of strings as it was previously? Is a
+list of objects better?
+\end{itemize}
+\end{frame}
+% Emacs 24.4.1 (Org mode 8.2.10)
+\end{document}
