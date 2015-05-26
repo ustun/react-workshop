@@ -7,7 +7,9 @@ var Github = React.createClass({
     },
     componentDidMount: function () {
         $.getJSON("https://api.github.com/users/ustun/repos", function (data) {
-            this.setState({data: data});
+            if (this.isMounted()) {
+                this.setState({data: data});
+            }
         }.bind(this));
     },
     render: function () {

@@ -121,3 +121,4 @@
 - Hint: Store whether the filter is in effect by saving it in a state
   variable.
 - Implement removing a todo item.
+- Implement showing the number of remaining items.

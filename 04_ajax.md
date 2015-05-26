@@ -1,6 +1,6 @@
-# Integrating React with External Libraries
+# Integrating React with AJAX calls
 
-In this chapter, we will be covering how to integrate React with external libraries such as jQuery or Angular.
+In this chapter, we will be covering how to integrate React with AJAX calls, initiated via jQuery.
 
 ## AJAX calls
 
@@ -46,14 +46,14 @@ return {repos: []};
 
 componentDidMount: function () {
 $.get(GITHUB_ENDPOINT, function (data) {
-this.setState({repos: data.objects});
+this.setState({repos: data});
 }.bind(this));
 
 },
 render: function () {
 
 var renderRepo = function (repo) {
-return <div>Repo {repo.name} {repo.date}</div>
+return <div>Repo {repo.name} {repo.created_at}</div>
 }
 return <div>
 {repos.map(renderRepo)}
@@ -64,3 +64,14 @@ return <div>
 
 });
 ```
+
+Exercise:
+
+Instagram has an API at https://api.instagram.com/v1/tags/nofilter/media/recent?client_id=CLIENT_ID where nofilter is the name of the tag.
+- For the workshop, you can use CLIENT_ID=8ed8f14f61b24c95ad54583110ace715 or you can register your own Instagram app at https://instagram.com/developer/
+- Implement an Instagram client that shows the photos tagged as HDR.
+- The API returns a limited subset of responses, but has a next parameter. Add a "Load More" button at the bottom that loads more items from the API.
+- Unlike Github, Instagram API has a cross site security restriction (same origin policy). To overcome this, for this exercise, open Google chrome with web security disabled. "
+
+- On OS X: Open -a Google\ Chrome --args --disable-web-security"
+- On Windows: "C:\Program Files\Google\Chrome\Application\chrome.exe" --disable-web-security
