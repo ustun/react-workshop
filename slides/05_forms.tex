@@ -1,0 +1,281 @@
+% Created 2015-05-26 Tue 06:49
+\documentclass[presentation]{beamer}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{fixltx2e}
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{marvosym}
+\usepackage{wasysym}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\tolerance=1000
+\usetheme{default}
+\usecolortheme{spruce}
+\author{Ustun Ozgur}
+\date{2015-05-26 Tue}
+\title{Forms with React}
+\hypersetup{
+  pdfkeywords={},
+  pdfsubject={},
+  pdfcreator={Emacs 24.4.1 (Org mode 8.2.10)}}
+\begin{document}
+
+\maketitle
+
+\begin{frame}[label=sec-1]{Forms}
+\begin{itemize}
+\item Uncontrolled
+\item Controlled
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=sec-2]{Uncontrolled}
+ \begin{itemize}
+\item Discouraged
+\item Native DOM elements are the source of truth, not sate
+\item Values read from events or DOM elements through refs
+\item ref: unique identifier for a child
+\item \texttt{this.refs} an object like \texttt{props}, \texttt{state} that is an object of refs
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=sec-3]{Refs}
+ \begin{itemize}
+\item Example
+\end{itemize}
+\begin{verbatim}
+<div><span ref="inner">This is the inner text</span></div>
+\end{verbatim}
+
+\begin{itemize}
+\item The inner span can  be referred as \texttt{this.refs.inner}
+
+\item To retrieve actual DOM node, use:
+\begin{itemize}
+\item \texttt{React.findDOMNode}: preferred
+\item \texttt{this.refs.inner.getDOMNode}: deprecated
+\end{itemize}
+
+\item To retrieve the value, use value after getting the DOM node
+\item \texttt{this.refs.inner.getDOMNode().value}
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}[fragile,label=sec-4]{Example: Form with Uncontrolled Inputs}
+ \begin{verbatim}
+<form onSubmit={this.onSubmit}>
+
+<input ref={name} placeholder="What is your name"/>
+<input ref={surname} placeholder="What is your surname?"/>
+<button type="submit">Submit</button>
+
+</form>
+\end{verbatim}
+\end{frame}
+
+\begin{frame}[fragile,label=sec-5]{Example (cont'd)}
+ \begin{verbatim}
+var MyForm = React.createClass({
+render: function () {
+
+  return <form onSubmit={this.onSubmit}>
+    <input ref="name" placeholder="What is your name"/>
+    <input ref="surname"
+     placeholder="What is your surname?"/>
+    <textarea ref="comment" placeholder="Comment"/>
+    <label><input ref="fromDenmark"
+            type="checkbox"/>Are you from Denmark?</label>
+    <label>Gender:
+    <select ref="gender">
+    <option>Male</option>
+    <option>Female</option>
+    </select></label>
+    <button type="submit">Submit</button>
+
+    </form>
+\end{verbatim}
+\end{frame}
+
+
+\begin{frame}[fragile,label=sec-6]{Example (cont'd)}
+ \begin{verbatim}
+onSubmit: function (e) {
+  e.preventDefault();
+  var name = React.findDOMNode(this.refs.name).value;
+  var surname = React
+        .findDOMNode(this.refs.surname).value;
+  var comment = React
+        .findDOMNode(this.refs.comment).value;
+  var fromDenmark = React
+        .findDOMNode(this.refs.fromDenmark).checked;
+  var gender = React.findDOMNode(this.refs.gender).value;
+
+  console.log("Form submitted with",
+              name, surname, comment,
+              fromDenmark, gender);
+
+}});
+
+React.render(<MyForm/>, document.body);
+\end{verbatim}
+\end{frame}
+
+\begin{frame}[label=sec-7]{Observations}
+\begin{itemize}
+\item For checkboxes, we use checked attribute, not value.
+\item textarea does not have children content unlike HTML. Its value can be
+retrieved/set from its value attribute.
+\item Forms have an onSubmit event handler, however this by default calls the
+default form handler as well. We need to preventDefault.
+\item Events are synthetic events that wrap and normalize native DOM events.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[label=sec-8]{Controlled Forms}
+\begin{itemize}
+\item Idiomatic way
+\item Each input component accepts a value or checked property
+\item Each input component exposes onChange
+\item Set the value from the state
+\item Update the state in onChange
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=sec-9]{Example: Controlled Input (initial state)}
+ \begin{verbatim}
+var MyForm = React.createClass({
+
+  getInitialState: function () {
+    return {name: ''};
+  },
+  render: function () {
+    return <form onSubmit={this.onSubmit}>
+      <input value={this.state.name} placeholder="What is your name?"/>
+      </form>
+  }
+})
+\end{verbatim}
+\end{frame}
+
+\begin{frame}[fragile,label=sec-10]{Example (cont'd) (the event handlers)}
+ \begin{verbatim}
+var MyForm = React.createClass({
+
+  getInitialState: function () {
+    return {name: ''};
+  },
+  changeName: function (e) {
+    this.setState({name: e.target.value});
+  },
+  render: function () {
+    return <form onSubmit={this.onSubmit}>
+      <input onChange={this.changeName}
+       value={this.state.name}
+       placeholder="What is your name?"/>
+      </form>}})
+\end{verbatim}
+\end{frame}
+
+\begin{frame}[fragile,label=sec-11]{Example (the submit handler)}
+ \begin{verbatim}
+var MyForm = React.createClass({
+  onSubmit: function () {
+    console.log("the form values are", this.state.name); },
+  getInitialState: function () {
+    return {name: ''};  },
+  changeName: function (e) {
+    this.setState({name: e.target.value});  },
+  render: function () {
+    return <form onSubmit={this.onSubmit}>
+      <input onChange={this.changeName}
+       value={this.state.name}
+       placeholder="What is your name?"/>
+      </form>  }})
+\end{verbatim}
+\end{frame}
+
+
+\begin{frame}[label=sec-12]{Other Events Related to Forms}
+\begin{itemize}
+\item onBlur
+\item onFocus
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=sec-13]{A Debugging Trick}
+ \begin{itemize}
+\item A nice trick in debugging form is to output state visually
+\item \texttt{JSON.stringify(this.state, null, 4)} yields a properly indented version of
+state.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=sec-14]{Example:}
+ \begin{verbatim}
+var MyForm = React.createClass({
+  onSubmit: function () {
+    console.log("the form values are", this.state.name); },
+  getInitialState: function () {
+    return {name: ''};  },
+  changeName: function (e) {
+    this.setState({name: e.target.value});  },
+  render: function () {
+    return <form onSubmit={this.onSubmit}>
+      <input onChange={this.changeName}
+       value={this.state.name}
+       placeholder="What is your name?"/>
+      <pre>{JSON.stringify(this.state, null, 4)}</pre>
+      </form>  }})
+\end{verbatim}
+
+
+DEMO
+\end{frame}
+
+\begin{frame}[fragile,label=sec-15]{Exercise 1/2:}
+ \begin{itemize}
+\item Add another form input for credit card where the user can only enter numbers.
+\end{itemize}
+
+Hint: You can use \texttt{/\textasciicircum{}\textbackslash{}d+\$/.test(foo)} to test whether the variable `foo` consists of only numbers.
+
+\begin{itemize}
+\item Can you delete the card number after entering a few digits? If not, fix the
+bug. Hint: either change the regex or find some other means.
+
+\item As the user types in the name field, greet them with a gender prefix. The
+male names are: \texttt{["John", "George"]}. The female names are \texttt{["Jane",
+  "Mary"]}.
+
+\item If gender cannot be determined from the name, greet with just the name. If
+there is no name yet, do not greet.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[label=sec-16]{Exercise 2/2:}
+\begin{itemize}
+\item As the user passes from the name field to the card field, validate the name
+such that it is at least 3 letters. If the name is 2 letters, show a
+warning. Note that you should not show the warning initially.
+\end{itemize}
+
+Hint: Think about state variables to keep track of. Should the variable that
+determines whether the input is valid or not be stored in state? Think about
+pros and cons.
+
+\begin{itemize}
+\item Add validation on submit. The name should be at least 3 letters, the card
+should be at least 3 digits. Should we be storing the validation of the form
+in state? Think about it.
+\end{itemize}
+\end{frame}
+% Emacs 24.4.1 (Org mode 8.2.10)
+\end{document}

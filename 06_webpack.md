@@ -121,3 +121,23 @@ module.exports = {
 Now, for dev purposes, just use webpack; for production issue `PROD=true webpack -p | jq ".assetsByChunkName.main" > bundle_hash`
 
 Then, in your HTML, you can embed the contents of `bundle_hash` file so that your bundles are versioned.
+
+# Watch mode and auto refresh
+
+Webpack supports watching for file changes using the -w flag.
+
+It also has a development static server, which serves the files from memory
+and triggers a websocket connection to a browser so that the browser refreshes
+itself.
+
+Install and run webpack-dev-server.
+
+Point to the following for websocket connection:
+
+<script src="http://localhost:8080/webpack-dev-server.js"></script>
+
+The bundle will be generated at http://localhost:8080/bundle.js
+
+Point to this url in your HTML.
+
+Make changes to your JS files and ensure that the page is refreshed automatically.
