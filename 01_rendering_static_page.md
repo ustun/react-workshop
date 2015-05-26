@@ -165,7 +165,7 @@ var HelloWorld = React.createClass({
 ```
 Assume we have the following existing container in the DOM: <div id="app"></div>
 
-Then we mount it on the DOM as follows: React.render(<HelloWorld/>, document.getElementById('app'))
+Then we mount it on the DOM as follows: `React.render(<HelloWorld/>, document.getElementById('app'))`
 
 Notice that HelloWorld is self-closing. We could instead have written `<HelloWorld></HelloWorld>`, but that is more verbose.
 

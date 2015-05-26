@@ -1,6 +1,6 @@
 # Props in React
 
-In this section, we introduce props, short for properties. Each component in React, whether a native component like div, p or a composite component we create like HelloWorld can take an object of properties. In JSX syntax, this object is passed as key-value attributes delimited by equals sign.
+In this section, we introduce props, short for properties. Each component in React, whether a native component like div, p or a custom component we create like HelloWorld can take an object of properties. In JSX syntax, this object is passed as key-value attributes delimited by equals sign.
 
 
 For example, if we want to pass the object `{name: "Ustun"}` as props to `HelloWorld`, we write the following: `<HelloWorld name="Ustun"/>`
@@ -130,9 +130,19 @@ var People = React.createClass({
 });
 ```
 
-This is a bit harder to comprehend. Let's dissect it further. First of all, we modified the onClick handler so that it accepts a name argument. This way, it can be used with different names. Second, we are passing an onClick handler to each HelloWorld, but that onClick handler needs to be customized for each HelloWorld, according to the person name. So, first, we generalized the onClick function by adding an argument name, then we specialized it using the `bind` method, that is created partially applied functions customized for each person.
+This is a bit harder to comprehend. Let's dissect it further. First of all, we
+modified the onClick handler so that it accepts a name argument. This way, it
+can be used with different names. Second, we are passing an onClick handler to
+each HelloWorld, but that onClick handler needs to be customized for each
+HelloWorld, according to the person name. So, first, we generalized the
+onClick function by adding an argument name, then we specialized it using the
+`bind` method, that is created partially applied functions customized for each
+person.
 
-Also note the second bind where we bind `this` of the function we are mapping with to the component itself. We could have instead done the following: Pass this as a second parameter to map or use another variable name like `that` at the outer scope and refer to it.
+Also note the second bind where we bind `this` of the function we are mapping
+with to the component itself. We could have instead done the following: Pass
+this as a second parameter to map or use another variable name like `that` at
+the outer scope and refer to it.
 
 ## Bind method
 

@@ -1,0 +1,303 @@
+#+TITLE:   Props
+#+AUTHOR:  Ustun Ozgur
+#+EMAIL:   ustun@ustunozgur.com
+#+DATE:    2015-05-26 Tue
+#+BEAMER-FRAME-LEVEL: 1
+#+BEAMER_COLOR_THEME: spruce
+#+OPTIONS: toc:nil outline:nil H:1
+
+* Props
+- Short for properties
+- Both native components like div, p and our custom components like HelloWorld
+  can take props
+- Key-value attributes delimited by equals sign
+- To pass ={name: "ustun"}= to HelloWorld component
+- ~<HelloWorld name="Ustun"/>~
+
+* Props
+- Can be accessed in the render method and other lifecycle methods
+- Accessed as =this.props=
+- =name= key from previous example: =this.props.name=
+#+BEGIN_SRC javascript
+var HelloWorld = React.createClass({
+  render: function () {
+    return <div>{"Hello " + this.props.name}</div>;
+  }});
+#+END_SRC
+
+* A More Complex Example
+
+- Aim: Greet a number of people
+- People array: =["John", "Mary", "Susan"]=
+
+#+BEGIN_SRC javascript
+  var People = React.createClass({
+    render: function () {
+      var people = ["John", "Mary", "Susan"];
+      var peopleNodes = [];
+
+      for (var i = 0; i < people.length; i++) {
+        peopleNodes.push(<HelloWorld name={people[i]}/>);
+      }
+      return <div>{peopleNodes}</div>;
+  }});
+#+END_SRC
+
+
+* A More Complex Example: Using Map
+
+#+BEGIN_SRC javascript
+  var People = React.createClass({
+    render: function () {
+      var people = ["John", "Mary", "Susan"];
+
+      var peopleNodes = people.map(function (person) {
+        return <HelloWorld name={person}/>;
+      });
+
+      return <div>{peopleNodes}</div>;
+  }});
+#+END_SRC
+
+* Cont'd
+- We don't even need the intermediate variable
+- Can directly embed in JSX expression
+
+#+BEGIN_SRC javascript
+
+  var People = React.createClass({
+    render: function () {
+      var people = ["John", "Mary", "Susan"];
+
+      return <div>
+        {people.map(function (person) {
+          return <HelloWorld name={person}/>; })}
+      </div>;
+  }});
+#+END_SRC
+
+* Exercise:
+
+- Modify the todo list application so that a list of todo items (a list of
+  strings) is passed as props.
+- That is, the ToDos component should be passed a list such as:
+- =["Buy Tomatoes", "Buy Potatoes"]=
+- Modify the list in code and ensure that the output is updated accordingly.
+- Modify the render method so that the todo items are always sorted
+  alphabetically.
+
+* Events and Functions as Props
+
+- Any JavaScript expression can be passed down as props.
+- Functions in JS are first class values: We can pass functions as props.
+- For event handling, we have props like onClick, onBlur
+- Pass functions for these props.
+
+* Attaching an onClick handler
+
+#+BEGIN_SRC javascript
+  var HelloWorld = React.createClass({
+    onClick: function () {
+      console.log("Hello " + this.props.name);
+    },
+    render: function () {
+      return <div onClick={this.onClick}>
+        {"Hello " + this.props.name}
+      </div>;
+    }
+  });
+#+END_SRC
+
+* People List
+
+- People list and HelloWorld child components
+- Assume that the event handler logic is in People component, not HelloWorld.
+- HelloWorld is just passed an onClick property (event handler)
+- It executes whatever is passed from above.
+
+#+BEGIN_SRC javascript
+  var HelloWorld = React.createClass({
+    render: function () {
+      return <div onClick={this.props.onClick}>
+        {"Hello " + this.props.name}
+      </div>;
+    }
+  });
+
+#+END_SRC
+
+* Complexity in the Parent Component
+
+#+BEGIN_SRC javascript
+  var People = React.createClass({
+    onClick: function (name) {
+      console.log("Hello " + name);
+    },
+    render: function () {
+      var people = ["John", "Mary", "Susan"];
+
+      return <div>
+        {people.map(function (person) {
+          return <HelloWorld
+          onClick={this.onClick.bind(this, person)}
+          name={person}/>;
+        }.bind(this))}
+      </div>;
+    }});
+#+END_SRC
+
+* What Changed?
+- We modified onClick handler so that it accepts a name argument.
+#+BEGIN_SRC javascript
+    onClick: function (name) {
+#+END_SRC
+
+- We customized the onClick handler passed to each HelloWorld by binding the
+  name parameter to the current person name.
+#+BEGIN_SRC javascript
+onClick={this.onClick.bind(this, person)}
+#+END_SRC
+
+* Bind method
+
+- Introduced in ES5
+- "creates a new function that, when called, has its this keyword set to the
+  provided value, with a given sequence of arguments preceding any provided
+  when the new function is called."
+- First purpose: bind the =this= value
+- Second purpose: bind the arguments: Create *partial* function
+
+* Example: Function that Adds 5
+#+BEGIN_SRC javascript
+function add(a, b) { return a + b; }
+#+END_SRC
+
+- We want to fix =a= to 5.
+- Value of =this= not important since unused
+- Bind =this= to null
+
+#+BEGIN_SRC
+var add5 = add.bind(null, 5)
+console.log(add5(3)); // 8
+#+END_SRC
+
+
+* Exercise:
+
+- Think about how you can rename the method =console.log= to =l=.
+- Does a simple ~var l = console.log~ work correctly? What is the correct
+  solution?
+
+* Re-visit previous example
+
+#+BEGIN_SRC javascript
+  var People = React.createClass({
+    onClick: function (name) {
+      console.log("Hello " + name);
+    },
+    render: function () {
+      var people = ["John", "Mary", "Susan"];
+      return <div>
+        {people.map(function (person) {
+          return <HelloWorld
+          onClick={this.onClick.bind(this, person)}
+          name={person}/>;
+        }.bind(this))}
+      </div>;
+    }});
+#+END_SRC
+
+- Second bind: Binding this value.
+- First bind: Binding this value and the additional argument
+
+* Verbose Version
+
+#+BEGIN_SRC javascript
+var People = React.createClass({
+  onClick: function (name) {
+    console.log("Hello " + name);
+  },
+  render: function () {
+    var people = ["John", "Mary", "Susan"];
+
+    return <div>
+    {people.map(function (person) {
+      var boundFunction = this.onClick.bind(this, person);
+      return <HelloWorld
+      onClick={boundFunction}
+      name={person}/>;
+    }.bind(this))}
+    </div>;
+}});
+#+END_SRC
+
+* Another alternative
+
+- Store the current =this= value in a variable, for example =that=
+
+#+BEGIN_SRC javascript
+  var People = React.createClass({
+    onClick: function (name) {
+      console.log("Hello " + name);
+    },
+    render: function () {
+      var people = ["John", "Mary", "Susan"];
+      var that = this;
+      return <div>
+        {people.map(function (person) {
+          return <HelloWorld
+          onClick={that.onClick.bind(that, person)}
+          name={person}/>; })}
+      </div>;
+    }});
+#+END_SRC
+
+
+* Alternative using _.partial
+
+#+BEGIN_SRC javascript
+  var People = React.createClass({
+    onClick: function (name) {
+      console.log("Hello " + name);
+    },
+    render: function () {
+      var people = ["John", "Mary", "Susan"];
+      var that = this;
+      return <div>
+        {people.map(function (person) {
+          return <HelloWorld
+          onClick={_.partial(that.onClick, person)}
+          name={person}/>; })}
+      </div>;
+    }});
+#+END_SRC
+
+* getDefaultProps
+
+- A component method like render
+- Default property values
+
+
+* Example: HelloWorld with Default Greeting
+
+#+BEGIN_SRC javascript
+
+  var HelloWorld = React.createClass({
+    getDefaultProps: function () {
+      return {greeting: 'Hello'}
+    },
+    render: function () {
+      return <div>
+        {this.props.greeting} {this.props.name}
+      </div>;
+    }
+  });
+
+  var People = React.createClass({
+    render: function () {
+      return <div>
+        <HelloWorld name="John"/>
+        <HelloWorld greeting="Hola" name="Mary"/>
+        </div>
+    }});
+#+END_SRC

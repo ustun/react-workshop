@@ -1,0 +1,292 @@
+% Created 2015-05-26 Tue 03:22
+\documentclass[presentation]{beamer}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{fixltx2e}
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{marvosym}
+\usepackage{wasysym}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\tolerance=1000
+\usetheme{default}
+\usecolortheme{spruce}
+\author{Ustun Ozgur}
+\date{2015-05-26 Tue}
+\title{Rendering Static Pages in React}
+\hypersetup{
+  pdfkeywords={},
+  pdfsubject={},
+  pdfcreator={Emacs 24.4.1 (Org mode 8.2.10)}}
+\begin{document}
+
+\maketitle
+
+\begin{frame}[label=sec-1]{Rendering a Static Page in React}
+\begin{block}{\emph{render} method}
+\begin{itemize}
+\item In render, we return a JSX expression
+\item Composed of ordinary HTML elements or composite React components
+\end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile,label=sec-2]{JSX in Detail}
+ \begin{itemize}
+\item Not a version of HTML or XML
+\item Transpiled to ordinary JavaScript
+\item \verb~<div name="foo" surname="bar">content</div>~
+\item \texttt{React.createElement('div', (\{name: "foo", surname: "bar"\}, "content")}
+\item Attributes collected in an object called \emph{props}
+\item Children passed as consecutive arguments
+\item \texttt{functionForTheElement(props, children)}
+\item Can nest: Composite components
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=sec-3]{A more complex Example}
+ \verb~<div name="foo"><span>Bar</span><span>Baz</span></div>~
+
+\begin{verbatim}
+React.createElement('div', {name: 'foo'},
+   React.createElement('span', {}, "Bar"),
+   React.createElement('span', {}, "Baz"))
+\end{verbatim}
+\end{frame}
+
+\begin{frame}[label=sec-4]{JSX: Give it 5 Minutes}
+\begin{itemize}
+\item HTML in JS?
+\item JS in HTML?
+\item Actually no mixing of JS and HTML, it is all JS
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=sec-5]{Main Features}
+ \begin{itemize}
+\item Always return a single element
+\begin{itemize}
+\item Just like you return a single value from a function
+\end{itemize}
+\item All elements should be closed or self-closing
+\begin{itemize}
+\item \texttt{<img/>}, \texttt{<input/>}
+\end{itemize}
+\item Use curly braces to embed JSX expressions
+\begin{itemize}
+\item \texttt{<div>\{2 + 3\}</div>} valid JSX
+\end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=sec-6]{Main Features}
+ \begin{verbatim}
+var inner = <div>Hello</div>
+
+var outer = <div>{inner} {inner}</div>
+\end{verbatim}
+\begin{itemize}
+\item Not string concetenation. \texttt{inner} is just another variable.
+\end{itemize}
+\begin{verbatim}
+var contents = [];
+
+contents.push(inner);
+contents.push(inner);
+
+var outer = <div>{contents}</div>
+\end{verbatim}
+\end{frame}
+
+\begin{frame}[fragile,label=sec-7]{Main Features}
+ \begin{verbatim}
+var names = ["John", "Mary", "Jane"];
+
+var contents = names.map(function (name) {
+    return <div>Hello {name}</div>;
+});
+
+var outer = <div>{contents}</div>
+\end{verbatim}
+\end{frame}
+
+\begin{frame}[fragile,label=sec-8]{Main Features}
+ \begin{verbatim}
+var content;
+
+if (this.props.color == "red") {
+   content = <div>The color is red.</div>
+}
+
+
+outer = <div>{content}</div>
+\end{verbatim}
+\end{frame}
+
+\begin{frame}[fragile,label=sec-9]{Main Features}
+ \begin{itemize}
+\item If statements are not expressions
+\item But ternaries are expressions: \textasciitilde{}a == 3 ? "a is 3" : "a is not 3"\textasciitilde{}
+\end{itemize}
+
+\begin{verbatim}
+outer = <div>{this.props.color == "red" ?
+                <div>The color is red</div>:  null}</div>
+\end{verbatim}
+
+\begin{verbatim}
+outer = <div>{this.props.color == "red" &&
+               <div>The color is red</div>}</div>
+\end{verbatim}
+
+\begin{itemize}
+\item May or may not make the reading harder
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=sec-10]{CSS in JSX}
+ \begin{itemize}
+\item JSX is JS behind the scenes
+\item \texttt{class} is reserved in JS
+\item Use \texttt{className} instead
+\item \verb~<div class="foo bar">~ becomes \verb~<div className="foo bar">~
+\item Styles in HTML are strings. In CSS, a syntax similar to
+JS objects
+\item In JSX, styles are real JS objects
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=sec-11]{CSS in JSX (cont'd)}
+ \verb~<div style="color: red; background-color: yellow">~
+\begin{itemize}
+\item String converted to JS object
+\end{itemize}
+\texttt{\{color: 'red', backgroundColor: 'yellow'\}}
+\verb~<div style={{color: 'red', backgroundColor: 'yellow'}}~
+\begin{itemize}
+\item Note the double \texttt{\{}'s: The first is for JSX, the second is for JS object
+literal
+\item No dashes: instead capitalize the next letter:
+\end{itemize}
+\texttt{backgroundColor} instead of \texttt{background-color}
+\begin{itemize}
+\item We could have quoted background-color since it is in object key position,
+but this is easier
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=sec-12]{CSS in JSX (cont'd)}
+ \begin{itemize}
+\item Numbers in JSX: Most units are px in CSS: so automatically appende
+\end{itemize}
+\begin{verbatim}
+fontSize:'12px'
+\end{verbatim}
+can be written as:
+\begin{verbatim}
+fontSize: 12
+\end{verbatim}
+\end{frame}
+
+\begin{frame}[fragile,label=sec-13]{CSS in JSX (cont'd)}
+ \begin{itemize}
+\item Doesn't always work as expected. For lineHeight, the default unit is `em`
+\end{itemize}
+\begin{verbatim}
+lineHeight: 18 means lineHeight: "18em"
+\end{verbatim}
+
+Write
+\begin{verbatim}
+lineHeight: '18px'
+\end{verbatim}
+\end{frame}
+
+\begin{frame}[label=sec-14]{Converting Existing HTML to React}
+\begin{enumerate}
+\item Create a React component called App. Take the existing HTML  and return it from the render method of the component.
+
+\item Make the required CSS changes, so that classes are converted classNames, styles are converted to objects.
+
+\item Ensure that all the tags are closed properly.
+
+\item Reference the App.js file, add a container HTML element where your React component will live, mount the React component using `React.render`. In fact, you can directly mount to body, but this is discouraged since sometimes using external plugins such as Facebook or Twitter embeds add some nodes into the body and this might cause some bugs.
+\end{enumerate}
+
+For Steps 2-3, run the transpiler in watch mode. Make changes until it no
+longer complains.
+\end{frame}
+
+\begin{frame}[fragile,label=sec-15]{Tools for Converting JSX to JavaScript}
+ \begin{itemize}
+\item Transpilation
+\item Install \alert{react-tools} using \texttt{npm install -g react-tools}
+\item Two modes: single file input, or directory input
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=sec-16]{A Simple Example}
+ \begin{verbatim}
+var HelloWorld = React.createClass({
+    render: function () {
+            return <div>Hello World</div>
+    }
+})
+\end{verbatim}
+
+In HTML, we have
+\begin{verbatim}
+<div id="app"></div>
+\end{verbatim}
+Mount using:
+\begin{verbatim}
+React.render(<HelloWorld/>, document.getElementById('app'))
+\end{verbatim}
+\end{frame}
+
+\begin{frame}[fragile,label=sec-17]{Exercise 1: Getting up and running with React: 5-10 minutes}
+ Hint: Look at Makefile for instructions.
+
+a - Clone the repository
+
+b - Go to \texttt{examples/01\_hello\_world}
+
+c - Download react.js, install react-tools, compile the application using jsx, and see "Hello World" in browser.
+
+d - Tweak the application so that you see "Hello Denmark!" in browser.
+
+e - Repeat for the folder \texttt{examples/01\_hello\_world\_watch} but this time, make sure to run jsx in watch mode.
+
+f - Bonus: How would you copy the React.render call to an inline script in HTML? You need to transform the JSX manually to a React.createElement call.
+
+g - Question: Why do we put the script at the end of body?
+\end{frame}
+
+\begin{frame}[fragile,label=sec-18]{A More Complex Example: ToDo App}
+ \begin{itemize}
+\item Given \texttt{examples/02\_todo/mockup.html}, convert to React.
+\item Online HTML to JSX transformer:
+\url{https://facebook.github.io/react/html-jsx.html}
+\item Command line version: \url{https://www.npmjs.com/package/htmltojsx}
+\item Paste output in \texttt{src/todo.js}
+\item Run jsx in directory mode: \texttt{jsx src build}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=sec-19]{Exercise 2:}
+ a - Convert the HTML given in \texttt{02\_convert\_mockup/mockup.html} to React. Note
+that you will have two root nodes here, the main part and the footer.
+
+b - Dissect the ToDo app in smaller components: You should have components
+like SearchBar, Todos, TodoItem, Footer. This will prepare us for the next
+section, in which we discuss props.
+\end{frame}
+% Emacs 24.4.1 (Org mode 8.2.10)
+\end{document}

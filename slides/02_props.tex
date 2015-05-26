@@ -1,0 +1,360 @@
+% Created 2015-05-26 Tue 04:20
+\documentclass[presentation]{beamer}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{fixltx2e}
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{marvosym}
+\usepackage{wasysym}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\tolerance=1000
+\usetheme{default}
+\usecolortheme{spruce}
+\author{Ustun Ozgur}
+\date{2015-05-26 Tue}
+\title{Props}
+\hypersetup{
+  pdfkeywords={},
+  pdfsubject={},
+  pdfcreator={Emacs 24.4.1 (Org mode 8.2.10)}}
+\begin{document}
+
+\maketitle
+
+\begin{frame}[fragile,label=sec-1]{Props}
+ \begin{itemize}
+\item Short for properties
+\item Both native components like div, p and our custom components like HelloWorld
+can take props
+\item Key-value attributes delimited by equals sign
+\item To pass \texttt{\{name: "ustun"\}} to HelloWorld component
+\item \verb~<HelloWorld name="Ustun"/>~
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=sec-2]{Props}
+ \begin{itemize}
+\item Can be accessed in the render method and other lifecycle methods
+\item Accessed as \texttt{this.props}
+\item \texttt{name} key from previous example: \texttt{this.props.name}
+\end{itemize}
+\begin{verbatim}
+var HelloWorld = React.createClass({
+  render: function () {
+    return <div>{"Hello " + this.props.name}</div>;
+  }});
+\end{verbatim}
+\end{frame}
+
+\begin{frame}[fragile,label=sec-3]{A More Complex Example}
+ \begin{itemize}
+\item Aim: Greet a number of people
+\item People array: \texttt{["John", "Mary", "Susan"]}
+\end{itemize}
+
+\begin{verbatim}
+var People = React.createClass({
+  render: function () {
+    var people = ["John", "Mary", "Susan"];
+    var peopleNodes = [];
+
+    for (var i = 0; i < people.length; i++) {
+      peopleNodes.push(<HelloWorld name={people[i]}/>);
+    }
+    return <div>{peopleNodes}</div>;
+}});
+\end{verbatim}
+\end{frame}
+
+
+\begin{frame}[fragile,label=sec-4]{A More Complex Example: Using Map}
+ \begin{verbatim}
+var People = React.createClass({
+  render: function () {
+    var people = ["John", "Mary", "Susan"];
+
+    var peopleNodes = people.map(function (person) {
+      return <HelloWorld name={person}/>;
+    });
+
+    return <div>{peopleNodes}</div>;
+}});
+\end{verbatim}
+\end{frame}
+
+\begin{frame}[fragile,label=sec-5]{Cont'd}
+ \begin{itemize}
+\item We don't even need the intermediate variable
+\item Can directly embed in JSX expression
+\end{itemize}
+
+\begin{verbatim}
+var People = React.createClass({
+  render: function () {
+    var people = ["John", "Mary", "Susan"];
+
+    return <div>
+      {people.map(function (person) {
+        return <HelloWorld name={person}/>; })}
+    </div>;
+}});
+\end{verbatim}
+\end{frame}
+
+\begin{frame}[fragile,label=sec-6]{Exercise:}
+ \begin{itemize}
+\item Modify the todo list application so that a list of todo items (a list of
+strings) is passed as props.
+\item That is, the ToDos component should be passed a list such as:
+\item \texttt{["Buy Tomatoes", "Buy Potatoes"]}
+\item Modify the list in code and ensure that the output is updated accordingly.
+\item Modify the render method so that the todo items are always sorted
+alphabetically.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[label=sec-7]{Events and Functions as Props}
+\begin{itemize}
+\item Any JavaScript expression can be passed down as props.
+\item Functions in JS are first class values: We can pass functions as props.
+\item For event handling, we have props like onClick, onBlur
+\item Pass functions for these props.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=sec-8]{Attaching an onClick handler}
+ \begin{verbatim}
+var HelloWorld = React.createClass({
+  onClick: function () {
+    console.log("Hello " + this.props.name);
+  },
+  render: function () {
+    return <div onClick={this.onClick}>
+      {"Hello " + this.props.name}
+    </div>;
+  }
+});
+\end{verbatim}
+\end{frame}
+
+\begin{frame}[fragile,label=sec-9]{People List}
+ \begin{itemize}
+\item People list and HelloWorld child components
+\item Assume that the event handler logic is in People component, not HelloWorld.
+\item HelloWorld is just passed an onClick property (event handler)
+\item It executes whatever is passed from above.
+\end{itemize}
+
+\begin{verbatim}
+var HelloWorld = React.createClass({
+  render: function () {
+    return <div onClick={this.props.onClick}>
+      {"Hello " + this.props.name}
+    </div>;
+  }
+});
+\end{verbatim}
+\end{frame}
+
+\begin{frame}[fragile,label=sec-10]{Complexity in the Parent Component}
+ \begin{verbatim}
+var People = React.createClass({
+  onClick: function (name) {
+    console.log("Hello " + name);
+  },
+  render: function () {
+    var people = ["John", "Mary", "Susan"];
+
+    return <div>
+      {people.map(function (person) {
+        return <HelloWorld
+        onClick={this.onClick.bind(this, person)}
+        name={person}/>;
+      }.bind(this))}
+    </div>;
+  }});
+\end{verbatim}
+\end{frame}
+
+\begin{frame}[fragile,label=sec-11]{What Changed?}
+ \begin{itemize}
+\item We modified onClick handler so that it accepts a name argument.
+\end{itemize}
+\begin{verbatim}
+onClick: function (name) {
+\end{verbatim}
+
+\begin{itemize}
+\item We customized the onClick handler passed to each HelloWorld by binding the
+name parameter to the current person name.
+\end{itemize}
+\begin{verbatim}
+onClick={this.onClick.bind(this, person)}
+\end{verbatim}
+\end{frame}
+
+\begin{frame}[fragile,label=sec-12]{Bind method}
+ \begin{itemize}
+\item Introduced in ES5
+\item "creates a new function that, when called, has its this keyword set to the
+provided value, with a given sequence of arguments preceding any provided
+when the new function is called."
+\item First purpose: bind the \texttt{this} value
+\item Second purpose: bind the arguments: Create \alert{partial} function
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=sec-13]{Example: Function that Adds 5}
+ \begin{verbatim}
+function add(a, b) { return a + b; }
+\end{verbatim}
+
+\begin{itemize}
+\item We want to fix \texttt{a} to 5.
+\item Value of \texttt{this} not important since unused
+\item Bind \texttt{this} to null
+\end{itemize}
+
+\begin{verbatim}
+var add5 = add.bind(null, 5)
+console.log(add5(3)); // 8
+\end{verbatim}
+\end{frame}
+
+
+\begin{frame}[fragile,label=sec-14]{Exercise:}
+ \begin{itemize}
+\item Think about how you can rename the method \texttt{console.log} to \texttt{l}.
+\item Does a simple \verb~var l = console.log~ work correctly? What is the correct
+solution?
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=sec-15]{Re-visit previous example}
+ \begin{verbatim}
+var People = React.createClass({
+  onClick: function (name) {
+    console.log("Hello " + name);
+  },
+  render: function () {
+    var people = ["John", "Mary", "Susan"];
+    return <div>
+      {people.map(function (person) {
+        return <HelloWorld
+        onClick={this.onClick.bind(this, person)}
+        name={person}/>;
+      }.bind(this))}
+    </div>;
+  }});
+\end{verbatim}
+
+\begin{itemize}
+\item Second bind: Binding this value.
+\item First bind: Binding this value and the additional argument
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=sec-16]{Verbose Version}
+ \begin{verbatim}
+var People = React.createClass({
+  onClick: function (name) {
+    console.log("Hello " + name);
+  },
+  render: function () {
+    var people = ["John", "Mary", "Susan"];
+
+    return <div>
+    {people.map(function (person) {
+      var boundFunction = this.onClick.bind(this, person);
+      return <HelloWorld
+      onClick={boundFunction}
+      name={person}/>;
+    }.bind(this))}
+    </div>;
+}});
+\end{verbatim}
+\end{frame}
+
+\begin{frame}[fragile,label=sec-17]{Another alternative}
+ \begin{itemize}
+\item Store the current \texttt{this} value in a variable, for example \texttt{that}
+\end{itemize}
+
+\begin{verbatim}
+var People = React.createClass({
+  onClick: function (name) {
+    console.log("Hello " + name);
+  },
+  render: function () {
+    var people = ["John", "Mary", "Susan"];
+    var that = this;
+    return <div>
+      {people.map(function (person) {
+        return <HelloWorld
+        onClick={that.onClick.bind(that, person)}
+        name={person}/>; })}
+    </div>;
+  }});
+\end{verbatim}
+\end{frame}
+
+
+\begin{frame}[fragile,label=sec-18]{Alternative using \_.partial}
+ \begin{verbatim}
+var People = React.createClass({
+  onClick: function (name) {
+    console.log("Hello " + name);
+  },
+  render: function () {
+    var people = ["John", "Mary", "Susan"];
+    var that = this;
+    return <div>
+      {people.map(function (person) {
+        return <HelloWorld
+        onClick={_.partial(that.onClick, person)}
+        name={person}/>; })}
+    </div>;
+  }});
+\end{verbatim}
+\end{frame}
+
+\begin{frame}[label=sec-19]{getDefaultProps}
+\begin{itemize}
+\item A component method like render
+\item Default property values
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}[fragile,label=sec-20]{Example: HelloWorld with Default Greeting}
+ \begin{verbatim}
+var HelloWorld = React.createClass({
+  getDefaultProps: function () {
+    return {greeting: 'Hello'}
+  },
+  render: function () {
+    return <div>
+      {this.props.greeting} {this.props.name}
+    </div>;
+  }
+});
+
+var People = React.createClass({
+  render: function () {
+    return <div>
+      <HelloWorld name="John"/>
+      <HelloWorld greeting="Hola" name="Mary"/>
+      </div>
+  }});
+\end{verbatim}
+\end{frame}
+% Emacs 24.4.1 (Org mode 8.2.10)
+\end{document}

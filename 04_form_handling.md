@@ -11,14 +11,15 @@ Each child component can have a unique ref by which the owner can refer to it. F
 To get to the actual DOM node, we either use React.findDOMNode() which accepts a ref or we use `getDOMNode` method of the ref. It should however be noted that `getDOMNode` is deprecated, and it is recommended to use `findDOMNode`.
 
 Let's have a form with uncontrolled text inputs.
-
+```js
 <form onSubmit={this.onSubmit}>
+
 <input ref={name} placeholder="What is your name"/>
 <input ref={surname} placeholder="What is your surname?"/>
 <button type="submit">Submit</button>
 
 </form>
-
+```
 To access the name and surname, we use findDOMNode in the submit function as follows:
 
 ```js
