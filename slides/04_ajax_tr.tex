@@ -1,0 +1,153 @@
+% Created 2015-06-13 Sat 08:27
+\documentclass[presentation]{beamer}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{fixltx2e}
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{marvosym}
+\usepackage{wasysym}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\tolerance=1000
+\usetheme{Rochester}
+\author{Ustun Ozgur}
+\date{2015-06-13 Cumartesi}
+\title{React ile AJAX}
+\hypersetup{
+  pdfkeywords={},
+  pdfsubject={},
+  pdfcreator={Emacs 24.4.1 (Org mode 8.2.10)}}
+\begin{document}
+
+\maketitle
+
+\begin{frame}[label=sec-1]{React ile AJAX}
+\begin{itemize}
+\item React, Ajax'tan tamamen bağımsızdır
+\item Sadece bir görüntü katmanıdır
+\item AJAX isteğini yapın, örneğin jQuery get metodu ile
+\item Çıktı verişini bileşenin state'inde kaydedin
+\begin{itemize}
+\item Örneğin success fonksiyonunda setState kullanarak.
+\end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[label=sec-2]{componentDidMount}
+\begin{itemize}
+\item Bu da render gib bir özel yaşamdongusu metodudur
+\item Bileşen gerçek DOM'e monte edildiğinde çağrılır
+\item Teknik: Bileşen monte olmadan önce state'i başlatın. Monte olduktan sonra
+AJAX isteğini başlatın.
+\item AJAX sonucu dönünce, bileşen hala monte durumda ise state'i güncelleyin.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=sec-3]{Örnek: Github}
+ \begin{itemize}
+\item Amacımız bir kullanıcının depo listesini alıp görüntülemek.
+\item Github'in bir ucnoktası var \texttt{https://api.github.com/users/USER\_NAME/repos}
+  (buradaki USER$_{\text{NAME}}$ yerine gerçek bir kullanıcı adı gelecek)
+\item Bu bir depo dizisi halinde bir json çıktısı döner.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=sec-4]{getInitialState kullanarak boş depo dizisi}
+ \begin{verbatim}
+var Repos = React.createClass({
+  getInitialState: function () {
+    return {repos: []};
+  },
+  render: function () {
+    var renderRepo = function (repo) {
+      return <div>Repo {repo.name} {repo.date}</div>
+    }
+    return <div>
+      {this.state.repos.map(renderRepo)}
+    </div>
+
+  }
+
+});
+\end{verbatim}
+\end{frame}
+
+\begin{frame}[fragile,label=sec-5]{Github'dan veriyi çekmek}
+ \begin{verbatim}
+var GITHUB_ENDPOINT = "https://api.github.com/users/ustun/repos"
+var Repos = React.createClass({
+  getInitialState: function () { return {repos: []};},
+
+  componentDidMount: function () {
+    $.getJSON(GITHUB_ENDPOINT, function (data) {
+      this.setState({repos: data});
+    }.bind(this));  },
+  render: function () {
+    var renderRepo = function (repo) {
+      return <div>Repo {repo.name} {repo.created_at}</div>}
+    return <div>{this.state.repos.map(renderRepo)}</div>
+  }
+});
+\end{verbatim}
+\end{frame}
+
+\begin{frame}[fragile,label=sec-6]{Bileşenin hala monte olduğundan emin olmak}
+ \begin{itemize}
+\item İsteği başlattığımızda bileşen monte
+\item AJAX çağrısı dönünce emin değiliz.
+\item React şu an monte edilmemiş olan bir bileşenin state'ini değiştiriyor olabilir.
+\item Bunu önlemek için state'i monte etmeden önce isMounted kullanın.
+\end{itemize}
+
+\begin{verbatim}
+componentDidMount: function () {
+  $.getJSON(GITHUB_ENDPOINT, function (data) {
+    if (this.isMounted()) {
+      this.setState({repos: data});
+    }
+  }.bind(this));  },
+\end{verbatim}
+\end{frame}
+
+\begin{frame}[label=sec-7]{Özet}
+\begin{itemize}
+\item AJAX sonuçlarında setState kullanın.
+\item AJAX çağrıları genelde componentDidMount metodunda başlatılır.
+\item AJAX çağrıları bir olay fonksiyonunda (event handler) da çağrılabilir.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[label=sec-8]{Alıştırma}
+\begin{itemize}
+\item Instagram'ın şu adreste bir API'i var
+\item \url{https://api.instagram.com/v1/tags/nofilter/media/recent?client_id=CLIENT_ID}
+  nofilter herhangi etiketin ismi.
+\item Yani
+\url{https://api.instagram.com/v1/tags/TAG_NAME/media/recent?client_id=CLIENT_ID}
+TAG$_{\text{NAME}}$ doldurulacak
+\item Workshop için \url{https://ınstagram.çom/developer/} adresinden bir Instagram
+uygulaması oluşturun ve oradaki client id'yi kullanın.
+\item HDR etiketli instagramları getirecek bir uygulama yapın.
+\item API ilk birkaç sonucu döner, ancak bir de next adında bir parametresi
+vardır. Bunu kullanarak bir "Daha Fazla Sonuç Getir" düğmesi yapın.
+\item Uyarı (sonraki sayfa)
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=sec-9]{Uyarı}
+ \begin{itemize}
+\item Instagram same origin policy kullanmaktadır. Bu alıştırma için bunu devre
+dışı bırakın
+\item \verb~open -a Google\ Chrome --args --disable-web-security~
+\item \texttt{chrome.exe -{}-disable-web-security}
+\end{itemize}
+\end{frame}
+% Emacs 24.4.1 (Org mode 8.2.10)
+\end{document}

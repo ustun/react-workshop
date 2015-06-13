@@ -1,0 +1,112 @@
+#+TITLE:   React ile AJAX
+#+AUTHOR:  Ustun Ozgur
+#+EMAIL:   ustun@ustunozgur.com
+#+DATE:    2015-06-13 Cumartesi
+#+BEAMER-FRAME-LEVEL: 1
+#+BEAMER_THEME: Rochester
+#+OPTIONS: toc:nil outline:nil H:1
+
+* React ile AJAX
+
+- React, Ajax'tan tamamen bağımsızdır
+- Sadece bir görüntü katmanıdır
+- AJAX isteğini yapın, örneğin jQuery get metodu ile
+- Çıktı verişini bileşenin state'inde kaydedin
+  - Örneğin success fonksiyonunda setState kullanarak.
+
+* componentDidMount
+- Bu da render gib bir özel yaşamdongusu metodudur
+- Bileşen gerçek DOM'e monte edildiğinde çağrılır
+- Teknik: Bileşen monte olmadan önce state'i başlatın. Monte olduktan sonra
+  AJAX isteğini başlatın.
+- AJAX sonucu dönünce, bileşen hala monte durumda ise state'i güncelleyin.
+
+* Örnek: Github
+
+- Amacımız bir kullanıcının depo listesini alıp görüntülemek.
+- Github'in bir ucnoktası var =https://api.github.com/users/USER_NAME/repos=
+  (buradaki USER_NAME yerine gerçek bir kullanıcı adı gelecek)
+- Bu bir depo dizisi halinde bir json çıktısı döner.
+
+* getInitialState kullanarak boş depo dizisi
+
+#+BEGIN_SRC js2
+  var Repos = React.createClass({
+    getInitialState: function () {
+      return {repos: []};
+    },
+    render: function () {
+      var renderRepo = function (repo) {
+        return <div>Repo {repo.name} {repo.date}</div>
+      }
+      return <div>
+        {this.state.repos.map(renderRepo)}
+      </div>
+
+    }
+
+  });
+#+END_SRC
+
+* Github'dan veriyi çekmek
+
+#+BEGIN_SRC js2
+  var GITHUB_ENDPOINT = "https://api.github.com/users/ustun/repos"
+  var Repos = React.createClass({
+    getInitialState: function () { return {repos: []};},
+
+    componentDidMount: function () {
+      $.getJSON(GITHUB_ENDPOINT, function (data) {
+        this.setState({repos: data});
+      }.bind(this));  },
+    render: function () {
+      var renderRepo = function (repo) {
+        return <div>Repo {repo.name} {repo.created_at}</div>}
+      return <div>{this.state.repos.map(renderRepo)}</div>
+    }
+  });
+#+END_SRC
+
+* Bileşenin hala monte olduğundan emin olmak
+
+- İsteği başlattığımızda bileşen monte
+- AJAX çağrısı dönünce emin değiliz.
+- React şu an monte edilmemiş olan bir bileşenin state'ini değiştiriyor olabilir.
+- Bunu önlemek için state'i monte etmeden önce isMounted kullanın.
+
+#+BEGIN_SRC js2
+  componentDidMount: function () {
+    $.getJSON(GITHUB_ENDPOINT, function (data) {
+      if (this.isMounted()) {
+        this.setState({repos: data});
+      }
+    }.bind(this));  },
+
+#+END_SRC
+
+* Özet
+
+- AJAX sonuçlarında setState kullanın.
+- AJAX çağrıları genelde componentDidMount metodunda başlatılır.
+- AJAX çağrıları bir olay fonksiyonunda (event handler) da çağrılabilir.
+
+* Alıştırma
+
+- Instagram'ın şu adreste bir API'i var
+- https://api.instagram.com/v1/tags/nofilter/media/recent?client_id=CLIENT_ID
+  nofilter herhangi etiketin ismi.
+- Yani
+  https://api.instagram.com/v1/tags/TAG_NAME/media/recent?client_id=CLIENT_ID
+  TAG_NAME doldurulacak
+- Workshop için https://ınstagram.çom/developer/ adresinden bir Instagram
+  uygulaması oluşturun ve oradaki client id'yi kullanın.
+- HDR etiketli instagramları getirecek bir uygulama yapın.
+- API ilk birkaç sonucu döner, ancak bir de next adında bir parametresi
+  vardır. Bunu kullanarak bir "Daha Fazla Sonuç Getir" düğmesi yapın.
+- Uyarı (sonraki sayfa)
+
+* Uyarı
+- Instagram same origin policy kullanmaktadır. Bu alıştırma için bunu devre
+  dışı bırakın
+- ~open -a Google\ Chrome --args --disable-web-security~
+- =chrome.exe --disable-web-security=

@@ -1,0 +1,291 @@
+% Created 2015-06-13 Sat 08:26
+\documentclass[presentation]{beamer}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{fixltx2e}
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{marvosym}
+\usepackage{wasysym}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\tolerance=1000
+\usetheme{Rochester}
+\author{Ustun Ozgur}
+\date{2015-06-13 Cumartesi}
+\title{React ile Formlar}
+\hypersetup{
+  pdfkeywords={},
+  pdfsubject={},
+  pdfcreator={Emacs 24.4.1 (Org mode 8.2.10)}}
+\begin{document}
+
+\maketitle
+
+\begin{frame}[label=sec-1]{Formlar}
+\begin{itemize}
+\item Kontrolsüz (Uncontrolled)
+\item Kontrollü (Controlled)
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=sec-2]{Kontrolsüz (Uncontrolled)}
+ \begin{itemize}
+\item Önerilmez
+\item Ana DOM bileşenleri veriyi saklar, state değil
+\item Değerler olaylardan (event) ya da ref'ler üzerinden DOM elemanlarından okunur
+\item ref: bir çocuk bir eşsiz bir gösterici (ünique identifier)
+\item \texttt{this.refs} aynı \texttt{props}, \texttt{state} gibi ref'lerden oluşan bir nesnedir
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=sec-3]{Refs}
+ \begin{block}{Örnek}
+\begin{verbatim}
+<div>
+    <span ref="inner">This is the inner text</span>
+</div>
+\end{verbatim}
+
+\begin{itemize}
+\item İçteki span elemanına şu şekilde ulaşılabilir \texttt{this.refs.inner}
+
+\item Gerçek bir DOM düğümüne ulaşmak için, sunlar kullanılabilir:
+\begin{itemize}
+\item \texttt{React.findDOMNode}: tercih edilen
+\item \texttt{this.refs.inner.getDOMNode}: eski yöntem
+\end{itemize}
+
+\item Değeri almak için DOM düğümüne eriştikten sonra value değerini okuyun
+\item \texttt{this.refs.inner.getDOMNode().value}
+\end{itemize}
+\end{block}
+\end{frame}
+
+
+\begin{frame}[fragile,label=sec-4]{Örnek: Kontrolsüz Girdili (İnput) Bir Form}
+ \begin{verbatim}
+<form onSubmit={this.onSubmit}>
+
+<input ref={name} placeholder="What is your name"/>
+<input ref={surname} placeholder="What is your surname?"/>
+<button type="submit">Submit</button>
+
+</form>
+\end{verbatim}
+\end{frame}
+
+\begin{frame}[fragile,label=sec-5]{Örnek (devam)}
+ \begin{verbatim}
+var MyForm = React.createClass({
+render: function () {
+
+  return <form onSubmit={this.onSubmit}>
+    <input ref="name" placeholder="What is your name"/>
+    <input ref="surname"
+     placeholder="What is your surname?"/>
+    <textarea ref="comment" placeholder="Comment"/>
+    <label><input ref="fromDenmark"
+            type="checkbox"/>Are you from Denmark?</label>
+    <label>Gender:
+    <select ref="gender">
+    <option>Male</option>
+    <option>Female</option>
+    </select></label>
+    <button type="submit">Submit</button>
+
+    </form>
+\end{verbatim}
+\end{frame}
+
+
+\begin{frame}[fragile,label=sec-6]{Örnek (devam)}
+ \begin{verbatim}
+onSubmit: function (e) {
+  e.preventDefault();
+  var name = React.findDOMNode(this.refs.name).value;
+  var surname = React
+        .findDOMNode(this.refs.surname).value;
+  var comment = React
+        .findDOMNode(this.refs.comment).value;
+  var fromDenmark = React
+        .findDOMNode(this.refs.fromDenmark).checked;
+  var gender = React.findDOMNode(this.refs.gender).value;
+
+  console.log("Form submitted with",
+              name, surname, comment,
+              fromDenmark, gender);
+
+}});
+
+React.render(<MyForm/>, document.body);
+\end{verbatim}
+\end{frame}
+
+\begin{frame}[label=sec-7]{Özet}
+\begin{itemize}
+\item İşaret kutuları için (checkbox), value yerine checked özelliğini kullanılır
+\item textarea bileşeninin çocuk elemanları yoktur, HTML'de vardır. textarea için
+yine value değeri kullanılır.
+\item defaultValue : varsayılan (ilk )değer için bu kullanılır.
+\item Formların bir de onSubmit adında bir olay fonksiyonu vardır, ama bu aynı
+zamanda formun asıl metodunu (GET/POST) çalıştırır, bu nedenle
+preventDefault kullanarak asıl metodun çağrılması engellenir.
+\item Buradaki olaylar (Event) sentetik olay adı verilen React'e özel olaylardır
+ve ana DOM olaylarını normalize ederler.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[label=sec-8]{Kontrollü Formlar}
+\begin{itemize}
+\item Tercih edilen yöntem
+\item Her girdi bileşeninin bir değer ya da işaretlenmiş özelliği vardırk
+\item Her girdi bileşeni bir onChange olayı yaratır.
+\item State'i bu onChange olayında değiştiririz.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=sec-9]{Örnek: Kontrollü Bir girdi (ilk değer)}
+ \begin{verbatim}
+var MyForm = React.createClass({
+
+  getInitialState: function () {
+    return {name: ''};
+  },
+  render: function () {
+    return <form onSubmit={this.onSubmit}>
+      <input value={this.state.name} placeholder="What is your name?"/>
+      </form>
+  }
+})
+\end{verbatim}
+\end{frame}
+
+\begin{frame}[fragile,label=sec-10]{Örnek (devam) (olay fonksiyonları)}
+ \begin{verbatim}
+var MyForm = React.createClass({
+
+  getInitialState: function () {
+    return {name: ''};
+  },
+  changeName: function (e) {
+    this.setState({name: e.target.value});
+  },
+  render: function () {
+    return <form onSubmit={this.onSubmit}>
+      <input onChange={this.changeName}
+       value={this.state.name}
+       placeholder="What is your name?"/>
+      </form>}})
+\end{verbatim}
+\end{frame}
+
+\begin{frame}[fragile,label=sec-11]{Örnek (submit (gönder) metodu)}
+ \begin{verbatim}
+var MyForm = React.createClass({
+  onSubmit: function () {
+    console.log("the form values are", this.state.name); },
+  getInitialState: function () {
+    return {name: ''};  },
+  changeName: function (e) {
+    this.setState({name: e.target.value});  },
+  render: function () {
+    return <form onSubmit={this.onSubmit}>
+      <input onChange={this.changeName}
+       value={this.state.name}
+       placeholder="What is your name?"/>
+      </form>  }})
+\end{verbatim}
+\end{frame}
+
+
+\begin{frame}[label=sec-12]{Formlara Yönelik Diğer Olaylar}
+\begin{itemize}
+\item onBlur
+\item onFocus
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=sec-13]{Hata Ayıklama (Debugging) için bir İpucu}
+ \begin{itemize}
+\item State'i görsel olarak öldüğü gibi ekrana yazdırma
+\item \texttt{JSON.stringify(this.state, null, 4)} kullanarak state'i yazdırabiliriz.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=sec-14]{Örnek:}
+ \begin{verbatim}
+var MyForm = React.createClass({
+  onSubmit: function () {
+    console.log("the form values are", this.state.name); },
+  getInitialState: function () {
+    return {name: ''};  },
+  changeName: function (e) {
+    this.setState({name: e.target.value});  },
+  render: function () {
+    return <form onSubmit={this.onSubmit}>
+      <input onChange={this.changeName}
+       value={this.state.name}
+       placeholder="What is your name?"/>
+      <pre>{JSON.stringify(this.state, null, 4)}</pre>
+      </form>  }})
+\end{verbatim}
+
+
+DEMO
+\end{frame}
+
+\begin{frame}[fragile,label=sec-15]{Alıştırma 1/3:}
+ \begin{itemize}
+\item Kullanıcının sadece sayı girebildiği bir kredi kartı form input'u ekleyin.
+\end{itemize}
+
+İpucu: Bir değişkenin sadece sayılardan oluştuğunu anlamak için su regex'i kullanabilirsiniz \texttt{/\textasciicircum{}\textbackslash{}d+\$/.test(foo)}
+
+\begin{itemize}
+\item Birkaç sayı girdikten sonra tamamen silebiliyor musunuz? Silemiyorsanız neyi
+değiştirmeniz gerekli? Neden? İpucu: Ya regex'i değiştirin ya da başka bir
+yöntem bulun.
+
+\item Tireleri girecek şekilde regex'i değiştirin.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=sec-16]{Alıştırma 2/3:}
+ \begin{itemize}
+\item Kullanıcı ad alanına giriş yaparken onları cinsiyetlerine göre Bey/Hanım,
+olarak selamlayın. Örneğin adını Ali olarak girerse Merhaba Ali Bey desin,
+Ayşe olarak girerse Merhaba Ayşe Hanım desin. Erkek adları: \texttt{["Ali",
+  "Ahmet"]}. Kadın adları \texttt{["Ayşe", "Fatma"]}.
+\item Bunun dışındaki adlara sadece adıyla hitap edin. Merhaba Hüseyin.
+\item Eğer ad yoksa, ekranda Merhaba yazmasın, ekran boş olsun.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[label=sec-17]{Alıştırma 3/3:}
+\begin{itemize}
+\item Kullanıcı ad alanından kart alanına geçerken eğer 3 harften kısa bir ad
+yazdıysa bir uyarı oluşturun. Ancak daha alanı terk etmediyse bu uyarı
+görüntülenmemeli.
+\end{itemize}
+
+İpucu: Takip edilmesi gereken state değişkenleri hakkında düşünün. Bir
+değişkenin geçerli olup olmadığı bilgisi state'te tutulmalı mı? Artıları ve
+eksikleri düşünün.
+
+\begin{itemize}
+\item Submit tuşuna tıklayınca bir validasyon ekleyin. İsim en az üç harf, kredi
+kartı tireler hariç en az 16 rakam olmalı. Formun validasyon değerini
+state'te tutmalı mıyız? Bu konuya kafa yörün.
+
+\item Todo uygulamasında, yeni bir todo ekleme özelliğini ekleyin.
+\end{itemize}
+\end{frame}
+% Emacs 24.4.1 (Org mode 8.2.10)
+\end{document}

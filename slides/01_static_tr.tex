@@ -1,0 +1,313 @@
+% Created 2015-06-13 Sat 08:29
+\documentclass[presentation]{beamer}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{fixltx2e}
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{marvosym}
+\usepackage{wasysym}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\tolerance=1000
+\usetheme{Rochester}
+\author{Üstün Özgür}
+\date{2015-06-13 Cumartesi}
+\title{React ile statik sayfa görüntüleme}
+\hypersetup{
+  pdfkeywords={},
+  pdfsubject={},
+  pdfcreator={Emacs 24.4.1 (Org mode 8.2.10)}}
+\begin{document}
+
+\maketitle
+
+\begin{frame}[label=sec-1]{React ile statik sayfa görüntüleme}
+\begin{block}{\emph{render} metodu}
+\begin{itemize}
+\item render'da bir JSX ifadesi döneriz
+\item Sıradan HTML elemanları ya da birleşik (kompozit) React bileşenleri
+\end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile,label=sec-2]{JSX Hakkında}
+ \begin{itemize}
+\item Bir HTML ya da XML sürümü değil
+\item Normal JavaScript'e dönüştürülür
+\item \verb~<div ad="foo" soyad="bar">içerik</div>~
+\item \texttt{React.createElement('div', (\{ad: "foo", soyad: "bar"\}, "icerik")}
+\item Özellikler \emph{props} adı verilen bir nesnede (object) toplanır
+\item Çocuklar sonraki argümanlar olarak geçirilir
+\item \texttt{fonksiyon(props, çocuklar)}
+\item İç içe gecebilir:: Birleşik (kompozit) bileşenler
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=sec-3]{Daha karmaşık bir örnek}
+ \begin{block}{JSX}
+\begin{verbatim}
+<div ad="foo">
+      <span>Bar</span>
+      <span>Baz</span>
+</div>
+\end{verbatim}
+\end{block}
+\begin{block}{JS}
+\begin{verbatim}
+React.createElement('div', {ad: 'foo'},
+   React.createElement('span', {}, "Bar"),
+   React.createElement('span', {}, "Baz"))
+\end{verbatim}
+\end{block}
+\end{frame}
+
+\begin{frame}[label=sec-4]{JSX: 5 Dakika Verin}
+\begin{itemize}
+\item JS içinde HTML mi?
+\item HTML içinde JS mi?
+\item Aslında JS ve HTML karışımı değil, sadece JS
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=sec-5]{Ana Özellikler}
+ \begin{itemize}
+\item Sadece tek bir eleman dön
+\begin{itemize}
+\item Bir fonksiyonun tek bir çıktısı olması gibi
+\end{itemize}
+\item Bütün elemanlar kapanmalı ya da kendiliğinden kapanır olmalı
+\begin{itemize}
+\item \texttt{<div></div>}, \texttt{<img/>}, \texttt{<input/>}
+\end{itemize}
+\item JSX ifadeleri koymak için süslü parantezler
+\begin{itemize}
+\item \texttt{<div>\{2 + 3\}</div>} Geçerli JSX
+\end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=sec-6]{Ana Özellikler}
+ \begin{verbatim}
+var icTaraf = <div>Merhaba</div>
+
+var disTaraf = <div>{icTaraf} {icTaraf}</div>
+\end{verbatim}
+\begin{itemize}
+\item String birleşimi değil. \texttt{icTaraf} herhangi bir değişken gibi
+\end{itemize}
+\begin{verbatim}
+var icerikler = [];
+
+icerikler.push(icTaraf);
+icerikler.push(icTaraf);
+
+var disTaraf = <div>{icerikler}</div>
+\end{verbatim}
+\end{frame}
+
+\begin{frame}[fragile,label=sec-7]{Ana Özellikler}
+ \begin{verbatim}
+var isimler = ["Ali", "Ahmet", "Mehmet"];
+
+var icEleman = isimler.map(function (ad) {
+    return <div>Merhaba {ad}</div>;
+});
+
+var disEleman = <div>{icEleman}</div>
+\end{verbatim}
+\end{frame}
+
+\begin{frame}[fragile,label=sec-8]{Ana Özellikler}
+ \begin{verbatim}
+var icerik;
+
+if (this.props.renk == "kirmizi") {
+   icerik = <div>Renk kırmızı.</div>
+}
+
+
+dis = <div>{icerik}</div>
+\end{verbatim}
+\end{frame}
+
+\begin{frame}[fragile,label=sec-9]{Ana Özellik}
+ \begin{itemize}
+\item If ifadeleri statement'tır, expression değildir
+\item Ama üç terimliler expression:
+\end{itemize}
+\begin{verbatim}
+a == 3 ? "a 3" : "a 3 değil"
+\end{verbatim}
+
+\begin{block}{Örnek}
+\begin{verbatim}
+outer = <div>{this.props.renk == "kırmızı" ?
+                <div>Renk kırmızı</div>:  null}</div>
+\end{verbatim}
+
+\begin{verbatim}
+outer = <div>{this.props.color == "kırmızı" &&
+               <div>Renk kırmızı</div>}</div>
+\end{verbatim}
+
+\begin{itemize}
+\item Okumayı zorlaştırabilir
+\end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile,label=sec-10]{JSX içinde CSS}
+ \begin{itemize}
+\item JSX aslında arka planda sadece JS
+\end{itemize}
+\begin{block}{class}
+\begin{itemize}
+\item \texttt{class} kelimesi JS içinde rezerve (anahtar kelime)
+\item Bunun yerine \texttt{className} kullanılır
+\item \verb~<div class="foo bar">~ suna dönüşür:  \verb~<div className="foo bar">~
+\end{itemize}
+\end{block}
+\begin{block}{Stiller}
+\begin{itemize}
+\item HTML'deki stiller string'dir. CSS'te, JS'teki nesnelere benzer bir sözdizim
+kullanılır.
+\item JSX'te stiller gerçek JS nesneleridir.
+\end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile,label=sec-11]{JSX içinde CSS (devam)}
+ \verb~<div style="color: red; background-color: yellow">~
+\begin{itemize}
+\item String bir JS nesnesine dönüştürülür
+\end{itemize}
+\texttt{\{color: 'red', backgroundColor: 'yellow'\}}
+\verb~<div style={{color: 'red', backgroundColor: 'yellow'}}~
+\begin{itemize}
+\item Dikkat: İki tane \texttt{\{}: Birincisi JSX için, ikincisi JS nesnesi için
+\item Tire yok: Bunun yerine sonraki harfi büyük harfe çevir
+\texttt{background-color} yerine \texttt{backgroundColor}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=sec-12]{JSX içinde CSS (devam)}
+ \begin{itemize}
+\item JSX'te sayılar: CSS'te çoğu birim px'tır, bu yüzden otomatik olarak eklenir
+\end{itemize}
+\begin{verbatim}
+fontSize:'12px'
+\end{verbatim}
+ifadesi şu şekilde yazılabilir
+\begin{verbatim}
+fontSize: 12
+\end{verbatim}
+\end{frame}
+
+\begin{frame}[fragile,label=sec-13]{JSX içinde CSS (devam)}
+ \begin{itemize}
+\item Her zaman beklendiği gibi çalışmaz. Örneğin lineHeight için ana birim 'px'
+değil 'em'dir
+\end{itemize}
+\begin{verbatim}
+lineHeight: 18 ifadesi lineHeight: "18em" anlamına gelir
+\end{verbatim}
+
+Şunu yazın:
+\begin{verbatim}
+lineHeight: '18px'
+\end{verbatim}
+\end{frame}
+
+\begin{frame}[label=sec-14]{Var olan bir HTML'i React'e çevirmek}
+\begin{enumerate}
+\item App adında bir React bileşeni oluşturun. Hazır HTML'i alın ve render
+metodunda bunu dondurun.
+
+\item Gerekli CSS değişikliklerini yapın. class: className. stiller: nesne
+
+\item Bütün etiketlerin (taglerin) doğru kapandığından emin olun.
+
+\item App.js dosyasını HTML'den çağırın, HTML'e React bileşeninizin
+yerleştirileceği ana HTML bileşenini koyun ve React bileşenini `React.render`
+ile yerleştirin (mount). (Doğrudan body'ye de yerlestirilebilir.)
+
+\item 2. ve 3. adımlar için dönüştürücüyü (transpiler) izleme (watch) modunda
+çalıştırın. Hata vermeyene kadar değişiklikleri yapın.
+\end{enumerate}
+\end{frame}
+
+\begin{frame}[fragile,label=sec-15]{JSX'i JavaScript'e Çevirmek İçin Araçlar}
+ \begin{itemize}
+\item Dönüştürücü (Transpilation)
+\item \alert{react-tools}'u şununla yükleyin: \texttt{npm install -g react-tools}
+\item İki mod: Tek dosya girişi  ya da klasör girişi
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=sec-16]{Basit Bir Örnek}
+ \begin{verbatim}
+var MerhabaDunya = React.createClass({
+    render: function () {
+            return <div>Merhaba Dunya</div>
+    }
+})
+\end{verbatim}
+
+HTML kısmında ana bileşen için bir içerici (container)
+\begin{verbatim}
+<div id="app"></div>
+\end{verbatim}
+Yerleştirmek (monte) için:
+\begin{verbatim}
+React.render(<MerhabaDunya/>, document.getElementById('app'))
+\end{verbatim}
+\end{frame}
+
+\begin{frame}[fragile,label=sec-17]{Alıştırma 1: React ile Başlangıç: 5-10 dakika}
+ İpucu: Makefile dosyasına bakabilirsiniz.
+
+a - Depoyu klonlayın.
+
+b - \texttt{examples/01\_hello\_world} klasörüne gidin.
+
+c - react.js'i indirin, react-tools yükleyin, daha sonra uygulamayı jsx
+kullanarak derleyin, ve tarayıcıda "Merhaba Dünya"'yı görüntüleyin.
+
+d - Uygulamayı "Merhaba Istanbul!" diye değiştirin.
+
+e - Aynısını şu klasör için tekrarlayin \texttt{examples/01\_hello\_world\_watch} ama bu
+sefer jsx'i izleme modunda çalıştırın.
+
+f - Bonus: React.render'i doğrudan HTML içindeki bir script içine nasıl
+yerleştirirdiniz. JSX'i elle bir React.createElement çağrısına dönüştürmeniz gerekir.
+
+g - Soru: Niye script'i body'nin sonuna koyuyoruz?
+\end{frame}
+
+\begin{frame}[fragile,label=sec-18]{Daha Karmaşık bir örnek: ToDo Uygulaması}
+ \begin{itemize}
+\item \texttt{examples/02\_todo\_props/mockup.html} alıp React'e çevirin.
+\item Çevrimiçi HTML-JSX dönüştürücü :
+\url{https://facebook.github.io/react/html-jsx.html}
+\item Komut satırı versiyonu: \url{https://www.npmjs.com/package/htmltojsx}
+\item Sonucu \texttt{src/todo.js} klasörüne kopyalayın.
+\item jsx'i klasör modunda çalıştırın: \texttt{jsx src build}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=sec-19]{Alıştırma 2:}
+ a - \texttt{02\_convert\_mockup/mockup.html}'da verilen HTML'i React'e çevirin. Dikkat:
+Burada iki farklı ana kısım var, o yüzden iki ayrı kök eleman (node) olacak.
+
+b - ToDo uygulamasını küçük bileşenlere parçalayın. Şu adlarda bileşenler
+olusturun: SearchBar, Todos, TodoItem, Footer.
+\end{frame}
+% Emacs 24.4.1 (Org mode 8.2.10)
+\end{document}

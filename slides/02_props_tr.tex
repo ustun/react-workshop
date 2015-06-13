@@ -1,0 +1,389 @@
+% Created 2015-06-13 Sat 08:29
+\documentclass[presentation]{beamer}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{fixltx2e}
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{marvosym}
+\usepackage{wasysym}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\tolerance=1000
+\usetheme{Rochester}
+\author{Ustun Ozgur}
+\date{2015-06-13 Cumartesi}
+\title{Props}
+\hypersetup{
+  pdfkeywords={},
+  pdfsubject={},
+  pdfcreator={Emacs 24.4.1 (Org mode 8.2.10)}}
+\begin{document}
+
+\maketitle
+
+\begin{frame}[fragile,label=sec-1]{Props}
+ \begin{itemize}
+\item properties (özellikler) için kısaltma
+\item Hem div, p gibi hazır bileşenler, hem de MerhabaDünya gibi özel bileşenler,
+props alabilir
+\item Key-value (anahtar-değer) özellikleri
+\item Eşittir işareti
+\item MerhabaDunya'ya \texttt{\{ad: "ustun"\}} geçirmek için
+\item \verb~<MerhabaDunya ad="Ustun"/>~
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=sec-2]{Props}
+ \begin{itemize}
+\item Render metodunda ve diğer yaşam döngüsü metodlarında erişilebilir
+\item \texttt{this.props} olarak erişilir
+\item \texttt{ad} alanına ulaşmak için: \texttt{this.props.ad}
+\end{itemize}
+\begin{verbatim}
+var MerhabaDunya = React.createClass({
+  render: function () {
+    return <div>{"Merhaba " + this.props.ad}</div>;
+  }});
+\end{verbatim}
+\end{frame}
+
+
+\begin{frame}[fragile,label=sec-3]{Daha Karmaşık Bir Örnek}
+ \begin{itemize}
+\item Hedef: Birden fazla insana merhaba de
+\item İnsanlar dizisi: \texttt{["Ali", "Ahmet", "Ayse"]}
+\end{itemize}
+
+\begin{verbatim}
+var Insanlar = React.createClass({
+  render: function () {
+    var insanlar = ["Ali", "Ahmet", "Ayse"];
+    var icerik = [];
+
+    for (var i = 0; i < insanlar.length; i++) {
+      icerik.push(<MerhabaDunya ad={insanlar[i]}/>);
+    }
+    return <div>{içerik}</div>;
+}});
+\end{verbatim}
+\end{frame}
+
+\begin{frame}[fragile,label=sec-4]{Daha Karmaşık Bir Örnek}
+ \begin{itemize}
+\item \emph{Key} özelliği
+\item Her çocuk elemanı eşsiz yapmak için
+\item Performans artışı
+\end{itemize}
+
+\begin{verbatim}
+var Insanlar = React.createClass({
+  render: function () {
+    var insanlar = ["Ali", "Ahmet", "Ayse"];
+    var icerik = [];
+
+    for (var i = 0; i < insanlar.length; i++) {
+      icerik.push(<MerhabaDunya key={insanlar[ı]} ad={insanlar[i]}/>);
+    }
+    return <div>{icerik}</div>;
+}});
+\end{verbatim}
+\end{frame}
+
+\begin{frame}[fragile,label=sec-5]{Daha Karmaşık Bir Örnek: Map Kullanarak}
+ \begin{verbatim}
+var Insanlar = React.createClass({
+  render: function () {
+    var insanlar = ["Ali", "Ayşe", "Ahmet"];
+
+    var icerik = insanlar.map(function (person) {
+      return <MerhabaDunya key={person} ad={person}/>;
+    });
+
+    return <div>{içerik}</div>;
+}});
+\end{verbatim}
+\end{frame}
+
+\begin{frame}[fragile,label=sec-6]{Devam}
+ \begin{itemize}
+\item Ara değişkenlere ihtiyacımız yok
+\item Doğrudan bir JSX ifadesi koyabiliriz
+\item Key olarak indeks sayısı kullanabiliriz.
+\end{itemize}
+
+\begin{verbatim}
+var Insanlar = React.createClass({
+  render: function () {
+    var insanlar = ["Ali", "Ayse", "Ahmet"];
+
+    return <div>
+      {insanlar.map(function (insan, i) {
+        return <MerhabaDunya key={i} ad={insan}/>; })}
+    </div>;
+}});
+\end{verbatim}
+\end{frame}
+
+\begin{frame}[fragile,label=sec-7]{Alıştırma:}
+ \begin{itemize}
+\item Todo uygulamasını, yapılacaklar listesi bir string listesi olarak, props
+şeklinde girildiği şekilde degistirin.
+\item Örnek: ToDos bileşenine şu şekilde bir liste geçirilmelidir:
+\item \texttt{["Domates al", "Patates al"]}
+\item Listeyi değiştirin, HTML çıktısının değiştiğini görüntüleyin.
+\item Render metodunu değiştirerek todo listesinin alfabetik sıralı halini görüntüleyin.
+\item Listenin en altında aynı listenin orijinal sırası olacak şekilde bir
+değişiklik yapın.
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}[label=sec-8]{Olaylar (Events) ve Fonksiyonların Props olarak kullanımı}
+\begin{itemize}
+\item Herhangi bir JavaScript ifadesi props olarak kullanılabilir.
+\item JS'te fonksiyonlar birinci sınıf değerlerdir: Fonksiyonları props olarak
+geçirebiliriz.
+\item Olay yönetimi için onClick, onBlur gibi adlarda props'larımız vardır.
+\item Bu propslar için fonksiyon geçirin.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=sec-9]{Bir onClick fonksiyonu bağlamak}
+ \begin{verbatim}
+var MerhabaDunya = React.createClass({
+  onClick: function () {
+    console.log("Merhaba " + this.props.ad);
+  },
+  render: function () {
+    return <div onClick={this.onClick}>
+      {"Merhaba " + this.props.ad}
+    </div>;
+  }
+});
+\end{verbatim}
+\end{frame}
+
+\begin{frame}[fragile,label=sec-10]{İnsan Listesi}
+ \begin{itemize}
+\item İnsan listesi ve MerhabaDunya çocuk bileşenleri
+\item event handler'ın İnsanlar bileşeninde olduğunu varsayın, MerhabaDünya'da değil
+\item MerhabaDunya bileşenine bir onClick özelliği geçirilecek
+\item Tepeden ne inerse o çalıştırılacak
+\end{itemize}
+
+\begin{verbatim}
+var MerhabaDunya = React.createClass({
+  render: function () {
+    return <div onClick={this.props.onClick}>
+      {"Merhaba " + this.props.ad}
+    </div>;
+  }
+});
+\end{verbatim}
+\end{frame}
+
+\begin{frame}[fragile,label=sec-11]{Karmaşıklık Ana Bileşende}
+ \begin{verbatim}
+var Insanlar = React.createClass({
+  onClick: function (ad) {
+    console.log("Merhaba " + ad);
+  },
+  render: function () {
+    var people = ["Ali", "Ahmet", "Ayse"];
+
+    return <div>
+      {insanlar.map(function (person, i) {
+        return <MerhabaDunya
+        key={i}
+        onClick={this.onClick.bind(this, insan)}
+        ad={insan}/>;
+      }.bind(this))}
+    </div>;
+  }});
+\end{verbatim}
+\end{frame}
+
+\begin{frame}[fragile,label=sec-12]{Ne Değişti?}
+ \begin{itemize}
+\item onClick handler'ı ad parametresi alacak şekilde değiştirdik.
+\end{itemize}
+\begin{verbatim}
+onClick: function (ad) {
+\end{verbatim}
+
+\begin{itemize}
+\item MerhabaDunya'ya geçirilen her onClick handler'ı, ad parametresini şu anki
+insan adına bind edecek (bağlamak) şekilde değiştirdik
+\end{itemize}
+\begin{verbatim}
+onClick={this.onClick.bind(this, insan)}
+\end{verbatim}
+\end{frame}
+
+\begin{frame}[fragile,label=sec-13]{Bind metodu}
+ \begin{itemize}
+\item ES5 ile geldi
+\item Bind = Bağlamak
+\item "creates a new function that, when called, has its this keyword set to the
+provided value, with a given sequence of arguments preceding any provided
+when the new function is called."
+\item İlk amaç: \texttt{this} değerini bağlamak
+\item İkinci amaç: argümanları bağlayıp \alert{partial} (yarım) bir fonksiyon oluşturmak
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=sec-14]{Örnek: 5 ile Toplama Yapan Fonksiyon}
+ \begin{verbatim}
+function add(a, b) { return a + b; }
+\end{verbatim}
+
+\begin{itemize}
+\item \texttt{a}'yı 5'e sabitlemek istiyoruz.
+\item \texttt{this}'in değeri önemli değil, çünkü kullanılmıyor
+\item \texttt{this} değerini null'a eşitle
+\end{itemize}
+
+\begin{verbatim}
+var add5 = add.bind(null, 5)
+console.log(add5(3)); // 8
+\end{verbatim}
+\end{frame}
+
+
+\begin{frame}[fragile,label=sec-15]{Alıştırma:}
+ \begin{itemize}
+\item \texttt{console.log} metodunu \texttt{l} adında bir fonksiyona nasıl eşitlersiniz?
+\item Basit bir \verb~var l = console.log~ çözümü doğru mu? Doğru çözüm ne?
+solution?
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=sec-16]{Önceki örneğe tekrar bakış}
+ \begin{verbatim}
+var Insanlar = React.createClass({
+  onClick: function (ad) {
+    console.log("Merhaba " + ad);
+  },
+  render: function () {
+    var insanlar = ["Ali", "Ahmet", "Mehmet"];
+    return <div>
+      {insanlar.map(function (insan, i) {
+        return <MerhabaDunya
+        key={i}
+        onClick={this.onClick.bind(this, insan)}
+        ad={insan}/>;
+      }.bind(this))}
+    </div>;
+  }});
+\end{verbatim}
+
+\begin{itemize}
+\item İkinci bind: this değerini bağlamak.
+\item İlk bind: this değerini ve diğer argümanı bağlamak.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=sec-17]{Daha Uzun Hali}
+ \begin{verbatim}
+var Insanlar = React.createClass({
+  onClick: function (ad) {
+    console.log("Merhaba " + ad);
+  },
+  render: function () {
+    var people = ["Ali", "Ahmet", "Mehmet"];
+
+    return <div>
+    {insanlar.map(function (insan, i) {
+      var boundFunction = this.onClick.bind(this, insan);
+      return <MerhabaDunya
+      onClick={boundFunction}
+       key={i}
+      ad={insan}/>;
+    }.bind(this))}
+    </div>;
+}});
+\end{verbatim}
+\end{frame}
+
+\begin{frame}[fragile,label=sec-18]{Diğer Alternatif}
+ \begin{itemize}
+\item Şu anki \texttt{this} değerini başka bir değişkende sakla, örneğin \texttt{that}
+\end{itemize}
+
+\begin{verbatim}
+var Insanlar = React.createClass({
+  onClick: function (ad) {
+    console.log("Merhaba " + ad);
+  },
+  render: function () {
+    var people = ["Ali", "Ayse", "Ahmet"];
+    var that = this;
+    return <div>
+      {insanlar.map(function (insan, i) {
+        return <MerhabaDunya
+        key={i}
+        onClick={that.onClick.bind(that, insan)}
+        ad={insan}/>; })}
+    </div>;
+  }});
+\end{verbatim}
+\end{frame}
+
+
+\begin{frame}[fragile,label=sec-19]{\_.partial kullanarak alternatif}
+ \begin{verbatim}
+var Insanlar = React.createClass({
+  onClick: function (name) {
+    console.log("Merhaba " + ad);
+  },
+  render: function () {
+    var people = ["Ali", "Ayse", "Ahmet"];
+    var that = this;
+    return <div>
+      {insanlar.map(function (ad) {
+        return <MerhabaDunya
+        onClick={_.partial(that.onClick, insan)}
+        ad={insan}/>; })}
+    </div>;
+  }});
+\end{verbatim}
+\end{frame}
+
+\begin{frame}[label=sec-20]{getDefaultProps}
+\begin{itemize}
+\item Render gibi bir bileşen metodu
+\item Varsayılan özellik değerleri
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}[fragile,label=sec-21]{Örnek: Varsayılan Selamlı MerhabaDunya Bileşeni}
+ \begin{verbatim}
+var MerhabaDunya = React.createClass({
+  getDefaultProps: function () {
+    return {selam: 'Merhaba'}
+  },
+  render: function () {
+    return <div>
+      {this.props.selam} {this.props.ad}
+    </div>;
+  }
+});
+
+var Insanlar = React.createClass({
+  render: function () {
+    return <div>
+      <MerhabaDunya ad="Ali"/>
+      <MerhabaDunya selam="Hello" ad="John"/>
+      </div>}});
+\end{verbatim}
+\end{frame}
+% Emacs 24.4.1 (Org mode 8.2.10)
+\end{document}

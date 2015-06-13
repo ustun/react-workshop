@@ -1,0 +1,203 @@
+% Created 2015-06-13 Sat 08:24
+\documentclass[presentation]{beamer}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{fixltx2e}
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{marvosym}
+\usepackage{wasysym}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\tolerance=1000
+\usetheme{Rochester}
+\author{Ustun Ozgur}
+\date{2015-06-13 Cumartesi}
+\title{Webpack and React}
+\hypersetup{
+  pdfkeywords={},
+  pdfsubject={},
+  pdfcreator={Emacs 24.4.1 (Org mode 8.2.10)}}
+\begin{document}
+
+\maketitle
+
+\begin{frame}[label=sec-1]{Webpack}
+\begin{itemize}
+\item Bundler (birleştirici)
+\item pack (birleştirmek)
+\item weble ilgili şeyleri (js, css, html) tek bir dosyaya birleştirme
+\item browserify benzeri
+\item React ekosisteminde daha popüler
+\item ES6 modüllerini, commonjs modüllerini ve amd modüllerini destekler.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[label=sec-2]{CommonJS modülleri}
+\begin{itemize}
+\item Node.js'teki modüller
+\item Her modül tek bir eleman ya da nesne export eder (dışa aktarır)
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=sec-3]{Tek eleman dışa aktarma item exported}
+ \begin{itemize}
+\item foo.js dosyasında: \verb~module.exports = foo~
+\item Kullanım: \texttt{foo = require('./foo')} aynı klasördeki bar.js'te
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=sec-4]{Birden fazla eleman dışa aktarma ve içe aktarma}
+ \begin{itemize}
+\item \verb~module.exports.bar = bar; modüle.exports.baz = baz~ foo.js
+\item Kullanım: second.js'te \verb~foo = require('./foo'); foo.bar()~
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=sec-5]{Alternatif sözdizim}
+ \begin{itemize}
+\item \verb~module.exports = {bar: bar, baz: baz}~;
+
+\item Dışa aktarmak için ES6 kısayolu: \verb~module.exports = {bar, baz}~;
+
+\item İçe aktarmak için ES6 kısayolu: \verb~{bar, baz} = require('./foo')~
+  (destructuring) (parçalama)
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=sec-6]{React bileşenleri}
+ \begin{itemize}
+\item JSX'ten JS oluşturmak için dönüştürücü modül
+\item webpack'ın loader'ları var
+\item jsx-loader ya da babel-loader
+\item babel-loader daha iyi.
+\item \texttt{npm install babel-loader -{}-save}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=sec-7]{webpack.config.js}
+ \begin{itemize}
+\item webpack çalıştırmak için bir config dosyasına ihtiyaç var
+\item Bu girdi ve çıktıyı belirler ve kullanılacak loaderları gösterir
+\end{itemize}
+
+\begin{verbatim}
+module.exports = {
+  entry: './component.js',
+  output: {path: 'build', filename: 'bundle.js'},
+  module: {
+    loaders: [
+      { test: /\.js$/, exclude: /node_modules/,
+        loader: "babel-loader"}
+    ]
+  }
+
+}
+\end{verbatim}
+
+\begin{itemize}
+\item react, underscore gibi kütüphaneleri kullanabiliriz ve bunlar da
+nodemodules içine kopyalanacaktır.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=sec-8]{Production Ayarları}
+ \begin{itemize}
+\item \texttt{webpack -p} ile çalıştırın.
+\item Dosya adı varsayılan olarak sabit. Değiştirmek için \texttt{[chunkname]}
+\end{itemize}
+\begin{verbatim}
+module.exports = {
+  entry: './component.js',
+  output: {path: 'build',
+           filename: 'bundle.[chunkhash].js'},
+  module: {
+    loaders: [
+      { test: /\.js$/, exclude: /node_modules/,
+        loader: "babel-loader"}
+    ]
+  }
+}
+\end{verbatim}
+\end{frame}
+
+\begin{frame}[fragile,label=sec-9]{Çıktı dosyasının hash'ini almak}
+ \begin{itemize}
+\item \texttt{-j} bayrağı ile bir json özet al
+\item Bunu \texttt{jq} üzerinden geçirerek json çıktısındaki belli bir veriyi al
+\end{itemize}
+
+\begin{verbatim}
+webpack -j | jq ".assetsByChunkName.main"
+\end{verbatim}
+\begin{itemize}
+\item jq şuradan indirilebilir: \url{http://stedolan.github.io/jq/}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=sec-10]{Production ve Dev Ayarları Tek Bir Dosyada}
+ \begin{verbatim}
+module.exports = {
+  entry: './component.js',
+  output: {path: 'build',
+           filename: (
+             process.env.PROD ?
+               'bundle.[chunkhash].js'
+               : 'bundle')},
+  module: {
+    loaders: [
+      { test: /\.js$/, exclude: /node_modules/,
+        loader: "babel-loader"}
+    ]
+  }
+}
+\end{verbatim}
+\end{frame}
+
+\begin{frame}[fragile,label=sec-11]{webpack'i dev ve prod için kullanmak}
+ \begin{itemize}
+\item dev için: \texttt{webpack}
+\item prod için: \verb~PROD=true webpack -p | jq ".assetsByChunkName.main" >   bundle_hash~
+\item HTM:'de bu \texttt{bundle\_hash} içeriğini gömün
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=sec-12]{Geliştirme için İpuçları}
+ \begin{itemize}
+\item İzleme modu: -w bayrağı
+\item Geliştirme için statik sunucu
+
+\item webpack-dev-server yükleyin ve çalıştırın.
+
+\item Şu websocket bağlantısına link verin:
+
+\item \verb~<script src="http://localhost:8080/webpack-dev-server.js"></script>~
+
+\item Çıktı şu adreste geçerli olacaktır \texttt{http://localhost:8080/bundle.js}
+
+\item HTML'de bu adrese referans verin.
+
+\item JS dosyanızda değişiklik yapın ve dosyanın otomatik olarak güncellendiğini görün.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=sec-13]{Alıştırma:}
+ \begin{itemize}
+\item Şuradaki örneği inceleyin: \texttt{/solutions/01\_hello\_world\_webpack}
+\item Örnek üzerinden giderek webpack'ı çalıştırın ve otomatik reload yapan dev
+server'i çalıştırın.
+\item Hello world uygulamasında bazı değişiklikler yapın, otomatik reload'ın
+çalıştığından emin olun.
+\item todo uygulamasını bileşenlere ayırın, bu bileşenleri farklı dosyalara atın,
+ve tek bir dosyada bu bileşenleri require edin.
+\item webpack ıle bu dosyaları tek bir dosyada birleştirin.
+\end{itemize}
+\end{frame}
+% Emacs 24.4.1 (Org mode 8.2.10)
+\end{document}
