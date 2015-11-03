@@ -1,46 +1,47 @@
-% Created 2015-05-26 Tue 04:22
+% Created 2015-11-03 Tue 05:39
 \documentclass[presentation]{beamer}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage{fixltx2e}
 \usepackage{graphicx}
+\usepackage{grffile}
 \usepackage{longtable}
-\usepackage{float}
 \usepackage{wrapfig}
 \usepackage{rotating}
 \usepackage[normalem]{ulem}
 \usepackage{amsmath}
 \usepackage{textcomp}
-\usepackage{marvosym}
-\usepackage{wasysym}
 \usepackage{amssymb}
+\usepackage{capt-of}
 \usepackage{hyperref}
-\tolerance=1000
 \usetheme{default}
-\usecolortheme{spruce}
+\usecolortheme{beaver}
 \author{Ustun Ozgur}
-\date{2015-05-26 Tue}
+\date{2015-11-03 Tue}
 \title{Props}
 \hypersetup{
-  pdfkeywords={},
-  pdfsubject={},
-  pdfcreator={Emacs 24.4.1 (Org mode 8.2.10)}}
+ pdfauthor={Ustun Ozgur},
+ pdftitle={Props},
+ pdfkeywords={},
+ pdfsubject={},
+ pdfcreator={Emacs 24.4.1 (Org mode 8.3.2)},
+ pdflang={English}}
 \begin{document}
 
 \maketitle
 
-\begin{frame}[fragile,label=sec-1]{Props}
+\begin{frame}[fragile,label={sec:orgheadline1}]{Props}
  \begin{itemize}
 \item Short for properties
 \item Both native components like div, p and our custom components like HelloWorld
 can take props
 \item Key-value attributes delimited by equals sign
 \item To pass \texttt{\{name: "ustun"\}} to HelloWorld component
-\item \verb~<HelloWorld name="Ustun"/>~
+\item \texttt{<HelloWorld name="Ustun"/>}
 \end{itemize}
 \end{frame}
 
-\begin{frame}[fragile,label=sec-2]{Props}
+\begin{frame}[fragile,label={sec:orgheadline2}]{Props}
  \begin{itemize}
 \item Can be accessed in the render method and other lifecycle methods
 \item Accessed as \texttt{this.props}
@@ -54,7 +55,7 @@ var HelloWorld = React.createClass({
 \end{verbatim}
 \end{frame}
 
-\begin{frame}[fragile,label=sec-3]{A More Complex Example}
+\begin{frame}[fragile,label={sec:orgheadline3}]{A More Complex Example}
  \begin{itemize}
 \item Aim: Greet a number of people
 \item People array: \texttt{["John", "Mary", "Susan"]}
@@ -75,7 +76,7 @@ var People = React.createClass({
 \end{frame}
 
 
-\begin{frame}[fragile,label=sec-4]{A More Complex Example: Using Map}
+\begin{frame}[fragile,label={sec:orgheadline4}]{A More Complex Example: Using Map}
  \begin{verbatim}
 var People = React.createClass({
   render: function () {
@@ -90,7 +91,7 @@ var People = React.createClass({
 \end{verbatim}
 \end{frame}
 
-\begin{frame}[fragile,label=sec-5]{Cont'd}
+\begin{frame}[fragile,label={sec:orgheadline5}]{Cont'd}
  \begin{itemize}
 \item We don't even need the intermediate variable
 \item Can directly embed in JSX expression
@@ -109,7 +110,7 @@ var People = React.createClass({
 \end{verbatim}
 \end{frame}
 
-\begin{frame}[fragile,label=sec-6]{Exercise:}
+\begin{frame}[fragile,label={sec:orgheadline6}]{Exercise:}
  \begin{itemize}
 \item Modify the todo list application so that a list of todo items (a list of
 strings) is passed as props.
@@ -121,7 +122,7 @@ alphabetically.
 \end{itemize}
 \end{frame}
 
-\begin{frame}[label=sec-7]{Events and Functions as Props}
+\begin{frame}[label={sec:orgheadline7}]{Events and Functions as Props}
 \begin{itemize}
 \item Any JavaScript expression can be passed down as props.
 \item Functions in JS are first class values: We can pass functions as props.
@@ -130,7 +131,7 @@ alphabetically.
 \end{itemize}
 \end{frame}
 
-\begin{frame}[fragile,label=sec-8]{Attaching an onClick handler}
+\begin{frame}[fragile,label={sec:orgheadline8}]{Attaching an onClick handler}
  \begin{verbatim}
 var HelloWorld = React.createClass({
   onClick: function () {
@@ -145,7 +146,7 @@ var HelloWorld = React.createClass({
 \end{verbatim}
 \end{frame}
 
-\begin{frame}[fragile,label=sec-9]{People List}
+\begin{frame}[fragile,label={sec:orgheadline9}]{People List}
  \begin{itemize}
 \item People list and HelloWorld child components
 \item Assume that the event handler logic is in People component, not HelloWorld.
@@ -164,7 +165,7 @@ var HelloWorld = React.createClass({
 \end{verbatim}
 \end{frame}
 
-\begin{frame}[fragile,label=sec-10]{Complexity in the Parent Component}
+\begin{frame}[fragile,label={sec:orgheadline10}]{Complexity in the Parent Component}
  \begin{verbatim}
 var People = React.createClass({
   onClick: function (name) {
@@ -184,7 +185,7 @@ var People = React.createClass({
 \end{verbatim}
 \end{frame}
 
-\begin{frame}[fragile,label=sec-11]{What Changed?}
+\begin{frame}[fragile,label={sec:orgheadline11}]{What Changed?}
  \begin{itemize}
 \item We modified onClick handler so that it accepts a name argument.
 \end{itemize}
@@ -201,7 +202,7 @@ onClick={this.onClick.bind(this, person)}
 \end{verbatim}
 \end{frame}
 
-\begin{frame}[fragile,label=sec-12]{Bind method}
+\begin{frame}[fragile,label={sec:orgheadline12}]{Bind method}
  \begin{itemize}
 \item Introduced in ES5
 \item "creates a new function that, when called, has its this keyword set to the
@@ -212,7 +213,7 @@ when the new function is called."
 \end{itemize}
 \end{frame}
 
-\begin{frame}[fragile,label=sec-13]{Example: Function that Adds 5}
+\begin{frame}[fragile,label={sec:orgheadline13}]{Example: Function that Adds 5}
  \begin{verbatim}
 function add(a, b) { return a + b; }
 \end{verbatim}
@@ -230,15 +231,15 @@ console.log(add5(3)); // 8
 \end{frame}
 
 
-\begin{frame}[fragile,label=sec-14]{Exercise:}
+\begin{frame}[fragile,label={sec:orgheadline14}]{Exercise:}
  \begin{itemize}
 \item Think about how you can rename the method \texttt{console.log} to \texttt{l}.
-\item Does a simple \verb~var l = console.log~ work correctly? What is the correct
+\item Does a simple \texttt{var l = console.log} work correctly? What is the correct
 solution?
 \end{itemize}
 \end{frame}
 
-\begin{frame}[fragile,label=sec-15]{Re-visit previous example}
+\begin{frame}[fragile,label={sec:orgheadline15}]{Re-visit previous example}
  \begin{verbatim}
 var People = React.createClass({
   onClick: function (name) {
@@ -262,7 +263,7 @@ var People = React.createClass({
 \end{itemize}
 \end{frame}
 
-\begin{frame}[fragile,label=sec-16]{Verbose Version}
+\begin{frame}[fragile,label={sec:orgheadline16}]{Verbose Version}
  \begin{verbatim}
 var People = React.createClass({
   onClick: function (name) {
@@ -283,7 +284,7 @@ var People = React.createClass({
 \end{verbatim}
 \end{frame}
 
-\begin{frame}[fragile,label=sec-17]{Another alternative}
+\begin{frame}[fragile,label={sec:orgheadline17}]{Another alternative}
  \begin{itemize}
 \item Store the current \texttt{this} value in a variable, for example \texttt{that}
 \end{itemize}
@@ -307,7 +308,7 @@ var People = React.createClass({
 \end{frame}
 
 
-\begin{frame}[fragile,label=sec-18]{Alternative using \_.partial}
+\begin{frame}[fragile,label={sec:orgheadline18}]{Alternative using \_.partial}
  \begin{verbatim}
 var People = React.createClass({
   onClick: function (name) {
@@ -326,7 +327,7 @@ var People = React.createClass({
 \end{verbatim}
 \end{frame}
 
-\begin{frame}[label=sec-19]{getDefaultProps}
+\begin{frame}[label={sec:orgheadline19}]{getDefaultProps}
 \begin{itemize}
 \item A component method like render
 \item Default property values
@@ -334,7 +335,7 @@ var People = React.createClass({
 \end{frame}
 
 
-\begin{frame}[fragile,label=sec-20]{Example: HelloWorld with Default Greeting}
+\begin{frame}[fragile,label={sec:orgheadline20}]{Example: HelloWorld with Default Greeting}
  \begin{verbatim}
 var HelloWorld = React.createClass({
   getDefaultProps: function () {
@@ -355,5 +356,4 @@ var People = React.createClass({
       </div>}});
 \end{verbatim}
 \end{frame}
-% Emacs 24.4.1 (Org mode 8.2.10)
 \end{document}

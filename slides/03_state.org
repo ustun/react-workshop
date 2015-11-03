@@ -1,9 +1,9 @@
 #+TITLE:   State
 #+AUTHOR:  Ustun Ozgur
 #+EMAIL:   ustun@ustunozgur.com
-#+DATE:    2015-05-26 Tue
+#+DATE:    2015-11-03 Tue
 #+BEAMER-FRAME-LEVEL: 1
-#+BEAMER_COLOR_THEME: spruce
+#+BEAMER_COLOR_THEME: beaver
 #+OPTIONS: toc:nil outline:nil H:1
 
 

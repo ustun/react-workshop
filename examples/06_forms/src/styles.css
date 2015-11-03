@@ -1,0 +1,7 @@
+
+body {
+  background: #eee;
+}
+form input, label {
+  display: block;
+}

@@ -1,36 +1,37 @@
-% Created 2015-05-26 Tue 12:18
+% Created 2015-11-03 Tue 05:46
 \documentclass[presentation]{beamer}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage{fixltx2e}
 \usepackage{graphicx}
+\usepackage{grffile}
 \usepackage{longtable}
-\usepackage{float}
 \usepackage{wrapfig}
 \usepackage{rotating}
 \usepackage[normalem]{ulem}
 \usepackage{amsmath}
 \usepackage{textcomp}
-\usepackage{marvosym}
-\usepackage{wasysym}
 \usepackage{amssymb}
+\usepackage{capt-of}
 \usepackage{hyperref}
-\tolerance=1000
 \usetheme{default}
-\usecolortheme{spruce}
+\usecolortheme{beaver}
 \author{Ustun Ozgur}
-\date{2015-05-26 Tue}
+\date{2015-11-03 Tue}
 \title{Flux}
 \hypersetup{
-  pdfkeywords={},
-  pdfsubject={},
-  pdfcreator={Emacs 24.4.1 (Org mode 8.2.10)}}
+ pdfauthor={Ustun Ozgur},
+ pdftitle={Flux},
+ pdfkeywords={},
+ pdfsubject={},
+ pdfcreator={Emacs 24.4.1 (Org mode 8.3.2)},
+ pdflang={English}}
 \begin{document}
 
 \maketitle
 
 
-\begin{frame}[label=sec-1]{Flux}
+\begin{frame}[label={sec:orgheadline1}]{Flux}
 \begin{itemize}
 \item open sourced by Facebook
 \item not a library, a technique like MVC
@@ -38,7 +39,7 @@
 \end{itemize}
 \end{frame}
 
-\begin{frame}[label=sec-2]{When is Flux a good idea?}
+\begin{frame}[label={sec:orgheadline2}]{When is Flux a good idea?}
 \begin{itemize}
 \item Too deep level in React hiearchy
 \item Need to pass props to the bottom too much
@@ -47,7 +48,7 @@
 \end{frame}
 
 
-\begin{frame}[label=sec-3]{Stores}
+\begin{frame}[label={sec:orgheadline3}]{Stores}
 \begin{itemize}
 \item Enclose the domain logic
 \item Act as event emitters
@@ -59,7 +60,7 @@
 \end{itemize}
 \end{frame}
 
-\begin{frame}[label=sec-4]{Actions}
+\begin{frame}[label={sec:orgheadline4}]{Actions}
 \begin{itemize}
 \item As apps get big, react component should not call store directly
 \item Instead a level of indirection
@@ -68,7 +69,7 @@
 \end{itemize}
 \end{frame}
 
-\begin{frame}[label=sec-5]{Dispatcher}
+\begin{frame}[label={sec:orgheadline5}]{Dispatcher}
 \begin{itemize}
 \item Dispatcher broadcasts events to all stores
 \item Stores decide which events they are interested in
@@ -77,22 +78,21 @@
 \end{itemize}
 \end{frame}
 
-\begin{frame}[label=sec-6]{Flux Architecture (1/3)}
+\begin{frame}[label={sec:orgheadline6}]{Flux Architecture (1/3)}
 \includegraphics[width=.9\linewidth]{./flux1.png}
 \end{frame}
 
 
 
-\begin{frame}[label=sec-7]{Flux Architecture (2/3)}
+\begin{frame}[label={sec:orgheadline7}]{Flux Architecture (2/3)}
 \includegraphics[width=.9\linewidth]{./flux2.png}
 \end{frame}
-\begin{frame}[label=sec-8]{Flux Architecture (3/3)}
+\begin{frame}[label={sec:orgheadline8}]{Flux Architecture (3/3)}
 \includegraphics[width=.9\linewidth]{./flux3.png}
 \end{frame}
-\begin{frame}[label=sec-9]{Detail}
+\begin{frame}[label={sec:orgheadline9}]{Detail}
 \begin{itemize}
 \item \emph{Demo}
 \end{itemize}
 \end{frame}
-% Emacs 24.4.1 (Org mode 8.2.10)
 \end{document}

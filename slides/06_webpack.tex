@@ -1,35 +1,36 @@
-% Created 2015-05-26 Tue 07:46
+% Created 2015-11-03 Tue 05:45
 \documentclass[presentation]{beamer}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage{fixltx2e}
 \usepackage{graphicx}
+\usepackage{grffile}
 \usepackage{longtable}
-\usepackage{float}
 \usepackage{wrapfig}
 \usepackage{rotating}
 \usepackage[normalem]{ulem}
 \usepackage{amsmath}
 \usepackage{textcomp}
-\usepackage{marvosym}
-\usepackage{wasysym}
 \usepackage{amssymb}
+\usepackage{capt-of}
 \usepackage{hyperref}
-\tolerance=1000
 \usetheme{default}
-\usecolortheme{spruce}
+\usecolortheme{beaver}
 \author{Ustun Ozgur}
-\date{2015-05-26 Tue}
+\date{2015-11-03 Tue}
 \title{Webpack and React}
 \hypersetup{
-  pdfkeywords={},
-  pdfsubject={},
-  pdfcreator={Emacs 24.4.1 (Org mode 8.2.10)}}
+ pdfauthor={Ustun Ozgur},
+ pdftitle={Webpack and React},
+ pdfkeywords={},
+ pdfsubject={},
+ pdfcreator={Emacs 24.4.1 (Org mode 8.3.2)},
+ pdflang={English}}
 \begin{document}
 
 \maketitle
 
-\begin{frame}[label=sec-1]{Webpack}
+\begin{frame}[label={sec:orgheadline1}]{Webpack}
 \begin{itemize}
 \item Bundlers
 \item Packs web related things (js, css, html) to one bundle file
@@ -39,38 +40,38 @@
 \end{itemize}
 \end{frame}
 
-\begin{frame}[label=sec-2]{CommonJS modules}
+\begin{frame}[label={sec:orgheadline2}]{CommonJS modules}
 \begin{itemize}
 \item We will focus on this as it is the same as in node.
 \item Each module exports either a single item or an object
 \end{itemize}
 \end{frame}
 
-\begin{frame}[fragile,label=sec-3]{Single item exported}
+\begin{frame}[fragile,label={sec:orgheadline3}]{Single item exported}
  \begin{itemize}
-\item \verb~module.exports = foo~ in foo.js
+\item \texttt{module.exports = foo} in foo.js
 \item Usage: \texttt{foo = require('./foo')} in bar.js in same dir.
 \end{itemize}
 \end{frame}
 
-\begin{frame}[fragile,label=sec-4]{Multiple items exported and required}
+\begin{frame}[fragile,label={sec:orgheadline4}]{Multiple items exported and required}
  \begin{itemize}
-\item \verb~module.exports.bar = bar; module.exports.baz = baz~ in foo.js
-\item Usage: \verb~foo = require('./foo'); foo.bar()~ in second.js
+\item \texttt{module.exports.bar = bar; module.exports.baz = baz} in foo.js
+\item Usage: \texttt{foo = require('./foo'); foo.bar()} in second.js
 \end{itemize}
 \end{frame}
 
-\begin{frame}[fragile,label=sec-5]{Alternative syntax}
+\begin{frame}[fragile,label={sec:orgheadline5}]{Alternative syntax}
  \begin{itemize}
-\item \verb~module.exports = {bar: bar, baz: baz}~;
+\item \texttt{module.exports = \{bar: bar, baz: baz\}};
 
-\item ES6 shortcut: \verb~module.exports = {bar, baz}~;
+\item ES6 shortcut: \texttt{module.exports = \{bar, baz\}};
 
-\item For requiring ES6 shortcut: \verb~{bar, baz} = require('./foo')~ (destructuring)
+\item For requiring ES6 shortcut: \texttt{\{bar, baz\} = require('./foo')} (destructuring)
 \end{itemize}
 \end{frame}
 
-\begin{frame}[fragile,label=sec-6]{React components}
+\begin{frame}[fragile,label={sec:orgheadline6}]{React components}
  \begin{itemize}
 \item Need a way to transform JSX to JS
 \item webpack has loaders
@@ -80,7 +81,7 @@
 \end{itemize}
 \end{frame}
 
-\begin{frame}[fragile,label=sec-7]{webpack.config.js}
+\begin{frame}[fragile,label={sec:orgheadline7}]{webpack.config.js}
  \begin{itemize}
 \item Need a config file to run webpack
 \item This specifies the entry and output files, and the loaders to use.
@@ -102,11 +103,11 @@ module.exports = {
 
 \begin{itemize}
 \item We can also require react, underscore etc and they will be bundled as well
-if they are installed as node$\backslash$$_{\text{modules}}$.
+if they are installed as node$\backslash$\(_{\text{modules}}\).
 \end{itemize}
 \end{frame}
 
-\begin{frame}[fragile,label=sec-8]{Production Settings}
+\begin{frame}[fragile,label={sec:orgheadline8}]{Production Settings}
  \begin{itemize}
 \item Run with \texttt{webpack -p}
 \item File name is fixed by default. Append \texttt{[chunkname]}
@@ -126,7 +127,7 @@ module.exports = {
 \end{verbatim}
 \end{frame}
 
-\begin{frame}[fragile,label=sec-9]{Retrieving the output hash}
+\begin{frame}[fragile,label={sec:orgheadline9}]{Retrieving the output hash}
  \begin{itemize}
 \item Run with \texttt{-j} flag to get a json summary.
 \item Pipe that through \texttt{jq} to get a specific data in the json output
@@ -140,7 +141,7 @@ webpack -j | jq ".assetsByChunkName.main"
 \end{itemize}
 \end{frame}
 
-\begin{frame}[fragile,label=sec-10]{Production and Dev in a Single File}
+\begin{frame}[fragile,label={sec:orgheadline10}]{Production and Dev in a Single File}
  \begin{verbatim}
 module.exports = {
   entry: './component.js',
@@ -159,15 +160,16 @@ module.exports = {
 \end{verbatim}
 \end{frame}
 
-\begin{frame}[fragile,label=sec-11]{Using this webpack config for dev and prod}
+\begin{frame}[fragile,label={sec:orgheadline11}]{Using this webpack config for dev and prod}
  \begin{itemize}
 \item For dev: run \texttt{webpack}
-\item For prod: run \verb~PROD=true webpack -p | jq ".assetsByChunkName.main" >   bundle_hash~
+\item For prod: run \texttt{PROD=true webpack -p | jq ".assetsByChunkName.main" >
+  bundle\_hash}
 \item In your HTML, somehow embed the contents of \texttt{bundle\_hash}
 \end{itemize}
 \end{frame}
 
-\begin{frame}[fragile,label=sec-12]{Further Tips for Development}
+\begin{frame}[fragile,label={sec:orgheadline12}]{Further Tips for Development}
  \begin{itemize}
 \item Watch mode: -w flag
 \item Development static server
@@ -176,7 +178,7 @@ module.exports = {
 
 \item Point to the following for websocket connection:
 
-\item \verb~<script src="http://localhost:8080/webpack-dev-server.js"></script>~
+\item \texttt{<script src="http://localhost:8080/webpack-dev-server.js"></script>}
 
 \item The bundle will be generated at \texttt{http://localhost:8080/bundle.js}
 
@@ -187,7 +189,7 @@ automatically.
 \end{itemize}
 \end{frame}
 
-\begin{frame}[fragile,label=sec-13]{Exercise:}
+\begin{frame}[fragile,label={sec:orgheadline13}]{Exercise:}
  \begin{itemize}
 \item Study the solution at \texttt{/solutions/01\_hello\_world\_webpack}
 \item Go through the sample webpack example to make sure you understand how
@@ -198,5 +200,4 @@ reload works as advertised.
 file and compile it to a single bundle file using webpack.
 \end{itemize}
 \end{frame}
-% Emacs 24.4.1 (Org mode 8.2.10)
 \end{document}

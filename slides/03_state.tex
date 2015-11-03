@@ -1,36 +1,37 @@
-% Created 2015-05-26 Tue 04:42
+% Created 2015-11-03 Tue 05:40
 \documentclass[presentation]{beamer}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage{fixltx2e}
 \usepackage{graphicx}
+\usepackage{grffile}
 \usepackage{longtable}
-\usepackage{float}
 \usepackage{wrapfig}
 \usepackage{rotating}
 \usepackage[normalem]{ulem}
 \usepackage{amsmath}
 \usepackage{textcomp}
-\usepackage{marvosym}
-\usepackage{wasysym}
 \usepackage{amssymb}
+\usepackage{capt-of}
 \usepackage{hyperref}
-\tolerance=1000
 \usetheme{default}
-\usecolortheme{spruce}
+\usecolortheme{beaver}
 \author{Ustun Ozgur}
-\date{2015-05-26 Tue}
+\date{2015-11-03 Tue}
 \title{State}
 \hypersetup{
-  pdfkeywords={},
-  pdfsubject={},
-  pdfcreator={Emacs 24.4.1 (Org mode 8.2.10)}}
+ pdfauthor={Ustun Ozgur},
+ pdftitle={State},
+ pdfkeywords={},
+ pdfsubject={},
+ pdfcreator={Emacs 24.4.1 (Org mode 8.3.2)},
+ pdflang={English}}
 \begin{document}
 
 \maketitle
 
 
-\begin{frame}[fragile,label=sec-1]{State}
+\begin{frame}[fragile,label={sec:orgheadline1}]{State}
  \begin{itemize}
 \item Handling apps with changing state
 \item Two important methods: \texttt{getInitialState} and \texttt{setState}
@@ -40,7 +41,7 @@
 \end{itemize}
 \end{frame}
 
-\begin{frame}[fragile,label=sec-2]{Example: Counter}
+\begin{frame}[fragile,label={sec:orgheadline2}]{Example: Counter}
  \begin{verbatim}
 var Counter = React.createClass({
 
@@ -61,7 +62,7 @@ var Counter = React.createClass({
 \end{verbatim}
 \end{frame}
 
-\begin{frame}[label=sec-3]{Overview}
+\begin{frame}[label={sec:orgheadline3}]{Overview}
 \begin{itemize}
 \item We have `onClick` handler that calls `setState` with state incremented
 by 1.
@@ -69,14 +70,14 @@ by 1.
 \end{itemize}
 \end{frame}
 
-\begin{frame}[label=sec-4]{Passing State as Props to Children}
+\begin{frame}[label={sec:orgheadline4}]{Passing State as Props to Children}
 \begin{itemize}
 \item An owner component can pass its state as props to its children
 \item One component's state is another's props.
 \end{itemize}
 \end{frame}
 
-\begin{frame}[fragile,label=sec-5]{Example: Counter in Counters}
+\begin{frame}[fragile,label={sec:orgheadline5}]{Example: Counter in Counters}
  \begin{verbatim}
 var Counter = React.createClass({
   render: function () {
@@ -90,7 +91,7 @@ var Counter = React.createClass({
 \end{verbatim}
 \end{frame}
 
-\begin{frame}[fragile,label=sec-6]{Example: Counters Component}
+\begin{frame}[fragile,label={sec:orgheadline6}]{Example: Counters Component}
  \begin{verbatim}
 var Counters = React.createClass({
   getInitialState: function () {
@@ -111,7 +112,7 @@ var Counters = React.createClass({
 \end{verbatim}
 \end{frame}
 
-\begin{frame}[fragile,label=sec-7]{A More Succint Version using bind}
+\begin{frame}[fragile,label={sec:orgheadline7}]{A More Succint Version using bind}
  \begin{verbatim}
 var Counters = React.createClass({
   getInitialState: function () {
@@ -133,7 +134,7 @@ var Counters = React.createClass({
 \end{frame}
 
 
-\begin{frame}[label=sec-8]{Summary}
+\begin{frame}[label={sec:orgheadline8}]{Summary}
 \begin{itemize}
 \item Child components never update their props directly.
 \item They inform the parent component that some event has happened via functions
@@ -144,14 +145,18 @@ passed as props.
 \end{itemize}
 \end{frame}
 
-\begin{frame}[label=sec-9]{Exercise:}
+\begin{frame}[label={sec:orgheadline9}]{Exercise:}
 \begin{itemize}
 \item Modify the todo app so that the list items are stored in a store variable
 instead of being passed as props.
 \item Implement toggling of completed status of todo items.
 \item Hint: Should the todo items be a list of strings as it was previously? Is a
 list of objects better?
+\item Implement filtering the todo list by completed items.
+\item Hint: Store whether the filter is in effect by saving it in a state
+variable.
+\item Implement removing a todo item.
+\item Implement showing the number of remaining items.
 \end{itemize}
 \end{frame}
-% Emacs 24.4.1 (Org mode 8.2.10)
 \end{document}

@@ -1,8 +1,8 @@
 var HelloWorld = React.createClass({
 
     render: function () {
-        return <div>Hello World</div>;
+        return <div>Hello Oredev</div>;
     }
 });
 
-React.render(<HelloWorld/>, document.getElementById('app'));
+ReactDOM.render(<HelloWorld/>, document.getElementById('app'));

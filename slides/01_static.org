@@ -1,9 +1,9 @@
 #+TITLE:     Rendering Static Pages in React
 #+AUTHOR:    Ustun Ozgur
 #+EMAIL:     ustun@ustunozgur.com
-#+DATE:      2015-05-26 Tue
+#+DATE:      2015-11-03 Tue
 #+BEAMER-FRAME-LEVEL: 1
-#+BEAMER_COLOR_THEME: spruce
+#+BEAMER_COLOR_THEME: beaver
 #+OPTIONS: toc:nil outline:nil H:1
 
 * Rendering a Static Page in React
@@ -149,7 +149,7 @@ lineHeight: 18 means lineHeight: "18em"
 #+END_EXAMPLE
 
 Write
-#+BEGIN_SRC
+#+BEGIN_SRC js
 lineHeight: '18px'
 #+END_SRC
 
@@ -161,7 +161,7 @@ lineHeight: '18px'
 
 3. Ensure that all the tags are closed properly.
 
-4. Reference the App.js file, add a container HTML element where your React component will live, mount the React component using `React.render`. In fact, you can directly mount to body, but this is discouraged since sometimes using external plugins such as Facebook or Twitter embeds add some nodes into the body and this might cause some bugs.
+4. Reference the App.js file, add a container HTML element where your React component will live, mount the React component using `ReactDOM.render`. In fact, you can directly mount to body, but this is discouraged since sometimes using external plugins such as Facebook or Twitter embeds add some nodes into the body and this might cause some bugs.
 
 For Steps 2-3, run the transpiler in watch mode. Make changes until it no
 longer complains.
@@ -169,12 +169,13 @@ longer complains.
 * Tools for Converting JSX to JavaScript
 
 - Transpilation
-- Install *react-tools* using =npm install -g react-tools=
+- Install *babel-cli* using =npm install -g babel-cli=
+- Install React preset for babel using =npm install= (preset specified in package.json)
 - Two modes: single file input, or directory input
 
 * A Simple Example
 
-#+BEGIN_SRC
+#+BEGIN_SRC js
 var HelloWorld = React.createClass({
     render: function () {
             return <div>Hello World</div>
@@ -183,12 +184,12 @@ var HelloWorld = React.createClass({
 #+END_SRC
 
 In HTML, we have
-#+BEGIN_SRC
+#+BEGIN_SRC js
 <div id="app"></div>
 #+END_SRC
 Mount using:
-#+BEGIN_SRC
-React.render(<HelloWorld/>, document.getElementById('app'))
+#+BEGIN_SRC js
+ReactDOM.render(<HelloWorld/>, document.getElementById('app'))
 #+END_SRC
 
 * Exercise 1: Getting up and running with React: 5-10 minutes
@@ -199,30 +200,30 @@ a - Clone the repository
 
 b - Go to =examples/01_hello_world=
 
-c - Download react.js, install react-tools, compile the application using jsx, and see "Hello World" in browser.
+c - Download react.js, install babel, compile the application using babel, and see "Hello World" in browser.
 
-d - Tweak the application so that you see "Hello Denmark!" in browser.
+d - Tweak the application so that you see "Hello Sweden!" in browser.
 
-e - Repeat for the folder =examples/01_hello_world_watch= but this time, make sure to run jsx in watch mode.
+e - Repeat for the folder =examples/01_hello_world_watch= but this time, make sure to run babel in watch mode.
 
-f - Bonus: How would you copy the React.render call to an inline script in HTML? You need to transform the JSX manually to a React.createElement call.
+f - Bonus: How would you copy the ReactDOM.render call to an inline script in HTML? You need to transform the JSX manually to a React.createElement call.
 
 g - Question: Why do we put the script at the end of body?
-
-* A More Complex Example: ToDo App
-
-- Given =examples/02_todo/mockup.html=, convert to React.
-- Online HTML to JSX transformer:
-  https://facebook.github.io/react/html-jsx.html
-- Command line version: https://www.npmjs.com/package/htmltojsx
-- Paste output in =src/todo.js=
-- Run jsx in directory mode: =jsx src build=
 
 * Exercise 2:
 
 a - Convert the HTML given in =02_convert_mockup/mockup.html= to React. Note
 that you will have two root nodes here, the main part and the footer.
+- Run webpack-dev-server from the examples folder and go to http://localhost:8080 for the remaining exercises.
 
-b - Dissect the ToDo app in smaller components: You should have components
+
+* Exercise 3: A More Complex Example: ToDo App
+
+- Given =examples/03_todo/mockup.html=, convert to React.
+- Online HTML to JSX transformer:
+  https://facebook.github.io/react/html-jsx.html
+- Command line version: https://www.npmjs.com/package/htmltojsx
+- Paste output in =src/todo.js=
+- Dissect the ToDo app in smaller components: You should have components
 like SearchBar, Todos, TodoItem, Footer. This will prepare us for the next
 section, in which we discuss props.

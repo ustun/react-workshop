@@ -1,0 +1,17 @@
+{
+  "name": "01_hello_world",
+  "version": "1.0.0",
+  "description": "Look at the different rules in Makefile.",
+  "main": "01_hello_world.js",
+  "scripts": {
+      "test": "echo \"Error: no test specified\" && exit 1",
+      "compile": "babel 01_hello_world.js > 01_hello_world_compiled.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "babel-cli": "^6.0.15",
+    "babel-preset-react": "^6.0.15"
+  }
+}

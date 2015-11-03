@@ -1,14 +1,10 @@
-install_react_tools:
-	npm install --global --update react-tools
+install_babel:
+	npm install --global --update babel-cli
+	npm install
 
 download_react:
-	curl -s -L https://fb.me/react-0.13.3.js -o react.js
+	curl -s -L https://fb.me/react-0.14.2.js -o react.js
+	curl -s -L https://fb.me/react-dom-0.14.2.js -o react-dom.js
 
 compile:
-	jsx 01_hello_world.js > 01_hello_world_compiled.js
-
-open:
-	open 01_hello_world.html
-
-start:
-	start 01_hello_world.html
+	babel 01_hello_world.js > 01_hello_world_compiled.js

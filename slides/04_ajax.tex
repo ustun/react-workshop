@@ -1,35 +1,36 @@
-% Created 2015-05-26 Tue 06:11
+% Created 2015-11-03 Tue 05:43
 \documentclass[presentation]{beamer}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage{fixltx2e}
 \usepackage{graphicx}
+\usepackage{grffile}
 \usepackage{longtable}
-\usepackage{float}
 \usepackage{wrapfig}
 \usepackage{rotating}
 \usepackage[normalem]{ulem}
 \usepackage{amsmath}
 \usepackage{textcomp}
-\usepackage{marvosym}
-\usepackage{wasysym}
 \usepackage{amssymb}
+\usepackage{capt-of}
 \usepackage{hyperref}
-\tolerance=1000
 \usetheme{default}
-\usecolortheme{spruce}
+\usecolortheme{beaver}
 \author{Ustun Ozgur}
-\date{2015-05-26 Tue}
+\date{2015-11-03 Tue}
 \title{AJAX with React}
 \hypersetup{
-  pdfkeywords={},
-  pdfsubject={},
-  pdfcreator={Emacs 24.4.1 (Org mode 8.2.10)}}
+ pdfauthor={Ustun Ozgur},
+ pdftitle={AJAX with React},
+ pdfkeywords={},
+ pdfsubject={},
+ pdfcreator={Emacs 24.4.1 (Org mode 8.3.2)},
+ pdflang={English}}
 \begin{document}
 
 \maketitle
 
-\begin{frame}[label=sec-1]{Ajax with React}
+\begin{frame}[label={sec:orgheadline1}]{Ajax with React}
 \begin{itemize}
 \item React is agnostic wrt to Ajax
 \item It is just a view layer
@@ -41,7 +42,7 @@
 \end{itemize}
 \end{frame}
 
-\begin{frame}[label=sec-2]{componentDidMount}
+\begin{frame}[label={sec:orgheadline2}]{componentDidMount}
 \begin{itemize}
 \item This is a special lifecycle method like render.
 \item Called when the component is mounted to the real DOM.
@@ -51,16 +52,16 @@ initiate an AJAX call when it is mounted.
 \end{itemize}
 \end{frame}
 
-\begin{frame}[fragile,label=sec-3]{Example: Github}
+\begin{frame}[fragile,label={sec:orgheadline3}]{Example: Github}
  \begin{itemize}
 \item Our aim is to retrieve and show the list of repos of a user.
 \item Github has an endpoint at \texttt{https://api.github.com/users/USER\_NAME/repos} where
-USER$_{\text{NAME}}$ is a placeholder.
+\texttt{USER\_NAME} is a placeholder.
 \item This returns a json response, an array of repos.
 \end{itemize}
 \end{frame}
 
-\begin{frame}[fragile,label=sec-4]{Empty Repos Array from getInitialState}
+\begin{frame}[fragile,label={sec:orgheadline4}]{Empty Repos Array from getInitialState}
  \begin{verbatim}
 var Repos = React.createClass({
   getInitialState: function () {
@@ -80,7 +81,7 @@ var Repos = React.createClass({
 \end{verbatim}
 \end{frame}
 
-\begin{frame}[fragile,label=sec-5]{Retrieving data from Github}
+\begin{frame}[fragile,label={sec:orgheadline5}]{Retrieving data from Github}
  \begin{verbatim}
 var GITHUB_ENDPOINT = "https://api.github.com/users/ustun/repos"
 var Repos = React.createClass({
@@ -99,7 +100,7 @@ var Repos = React.createClass({
 \end{verbatim}
 \end{frame}
 
-\begin{frame}[fragile,label=sec-6]{Making sure that the component is still mounted}
+\begin{frame}[fragile,label={sec:orgheadline6}]{Making sure that the component is still mounted}
  \begin{itemize}
 \item When we initiate the request, the component is mounted,
 \item When the AJAX call returns, we are not sure.
@@ -118,7 +119,7 @@ componentDidMount: function () {
 \end{verbatim}
 \end{frame}
 
-\begin{frame}[label=sec-7]{Summary}
+\begin{frame}[label={sec:orgheadline7}]{Summary}
 \begin{itemize}
 \item Simply call setState in response to AJAX responses.
 \item A usual place to initiate AJAX calls is in componentDidMount.
@@ -126,15 +127,14 @@ componentDidMount: function () {
 \end{itemize}
 \end{frame}
 
-\begin{frame}[fragile,label=sec-8]{Exercise}
+\begin{frame}[fragile,label={sec:orgheadline8}]{Exercise}
  \begin{itemize}
 \item Instagram has an API at \url{https://api.instagram.com/v1/tags/nofilter/media/recent?client_id=CLIENT_ID} where nofilter is the name of the tag.
-\item For the workshop, you can use CLIENT$_{\text{ID}}$=8ed8f14f61b24c95ad54583110ace715 or you can register your own Instagram app at \url{https://instagram.com/developer/}
+\item Register your own Instagram app at \url{https://instagram.com/developer/clients/register/}
 \item Implement an Instagram client that shows the photos tagged as HDR.
 \item The API returns a limited subset of responses, but has a next parameter. Add a "Load More" button at the bottom that loads more items from the API.
-\item Instagram implements same origin policy. To disable, - \verb~open -a Google\ Chrome --args --disable-web-security~
+\item Instagram implements same origin policy. To disable, - \texttt{open -a Google\textbackslash{} Chrome -{}-args -{}-disable-web-security}
 \item \texttt{chrome.exe -{}-disable-web-security}
 \end{itemize}
 \end{frame}
-% Emacs 24.4.1 (Org mode 8.2.10)
 \end{document}

@@ -1,9 +1,9 @@
 #+TITLE:   AJAX with React
 #+AUTHOR:  Ustun Ozgur
 #+EMAIL:   ustun@ustunozgur.com
-#+DATE:    2015-05-26 Tue
+#+DATE:    2015-11-03 Tue
 #+BEAMER-FRAME-LEVEL: 1
-#+BEAMER_COLOR_THEME: spruce
+#+BEAMER_COLOR_THEME: beaver
 #+OPTIONS: toc:nil outline:nil H:1
 
 * Ajax with React
@@ -25,7 +25,7 @@
 
 - Our aim is to retrieve and show the list of repos of a user.
 - Github has an endpoint at =https://api.github.com/users/USER_NAME/repos= where
-  USER_NAME is a placeholder.
+  =USER_NAME= is a placeholder.
 - This returns a json response, an array of repos.
 
 * Empty Repos Array from getInitialState
@@ -94,7 +94,7 @@
 * Exercise
 
 - Instagram has an API at https://api.instagram.com/v1/tags/nofilter/media/recent?client_id=CLIENT_ID where nofilter is the name of the tag.
-- For the workshop, you can use CLIENT_ID=8ed8f14f61b24c95ad54583110ace715 or you can register your own Instagram app at https://instagram.com/developer/
+- Register your own Instagram app at https://instagram.com/developer/clients/register/
 - Implement an Instagram client that shows the photos tagged as HDR.
 - The API returns a limited subset of responses, but has a next parameter. Add a "Load More" button at the bottom that loads more items from the API.
 - Instagram implements same origin policy. To disable, - ~open -a Google\ Chrome --args --disable-web-security~

@@ -1,9 +1,9 @@
 #+TITLE:   Forms with React
 #+AUTHOR:  Ustun Ozgur
 #+EMAIL:   ustun@ustunozgur.com
-#+DATE:    2015-05-26 Tue
+#+DATE:    2015-11-03 Tue
 #+BEAMER-FRAME-LEVEL: 1
-#+BEAMER_COLOR_THEME: spruce
+#+BEAMER_COLOR_THEME: beaver
 #+OPTIONS: toc:nil outline:nil H:1
 
 * Forms
@@ -35,6 +35,8 @@
 - To retrieve the value, use value after getting the DOM node
 - =this.refs.inner.getDOMNode().value=
 
+- As of React 0.14, no need for getDOMNode() for native elements
+- =this.refs.inner.value=
 
 * Example: Form with Uncontrolled Inputs
 
@@ -59,8 +61,8 @@
       <input ref="surname"
        placeholder="What is your surname?"/>
       <textarea ref="comment" placeholder="Comment"/>
-      <label><input ref="fromDenmark"
-              type="checkbox"/>Are you from Denmark?</label>
+      <label><input ref="fromSweden"
+              type="checkbox"/>Are you from Sweden?</label>
       <label>Gender:
       <select ref="gender">
       <option>Male</option>
@@ -78,22 +80,19 @@
 
   onSubmit: function (e) {
     e.preventDefault();
-    var name = React.findDOMNode(this.refs.name).value;
-    var surname = React
-          .findDOMNode(this.refs.surname).value;
-    var comment = React
-          .findDOMNode(this.refs.comment).value;
-    var fromDenmark = React
-          .findDOMNode(this.refs.fromDenmark).checked;
-    var gender = React.findDOMNode(this.refs.gender).value;
+    var name = this.refs.name.value;
+    var surname = this.refs.surname.value;
+    var comment = this.refs.comment.value;
+    var fromSweden = this.refs.fromSweden.checked;
+    var gender = this.refs.gender.value;
 
     console.log("Form submitted with",
                 name, surname, comment,
-                fromDenmark, gender);
+                fromSweden, gender);
 
   }});
 
-  React.render(<MyForm/>, document.body);
+  ReactDOM.render(<MyForm/>, document.body);
 
 #+END_SRC
 

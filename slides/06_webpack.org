@@ -1,9 +1,9 @@
 #+TITLE:   Webpack and React
 #+AUTHOR:  Ustun Ozgur
 #+EMAIL:   ustun@ustunozgur.com
-#+DATE:    2015-05-26 Tue
+#+DATE:    2015-11-03 Tue
 #+BEAMER-FRAME-LEVEL: 1
-#+BEAMER_COLOR_THEME: spruce
+#+BEAMER_COLOR_THEME: beaver
 #+OPTIONS: toc:nil outline:nil H:1
 
 * Webpack
@@ -87,7 +87,7 @@
 - Run with =-j= flag to get a json summary.
 - Pipe that through =jq= to get a specific data in the json output
 
-#+BEGIN_SRC
+#+BEGIN_SRC js
 webpack -j | jq ".assetsByChunkName.main"
 #+END_SRC
 - jq is at http://stedolan.github.io/jq/

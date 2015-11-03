@@ -1,42 +1,43 @@
-% Created 2015-05-26 Tue 06:49
+% Created 2015-11-03 Tue 05:44
 \documentclass[presentation]{beamer}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage{fixltx2e}
 \usepackage{graphicx}
+\usepackage{grffile}
 \usepackage{longtable}
-\usepackage{float}
 \usepackage{wrapfig}
 \usepackage{rotating}
 \usepackage[normalem]{ulem}
 \usepackage{amsmath}
 \usepackage{textcomp}
-\usepackage{marvosym}
-\usepackage{wasysym}
 \usepackage{amssymb}
+\usepackage{capt-of}
 \usepackage{hyperref}
-\tolerance=1000
 \usetheme{default}
-\usecolortheme{spruce}
+\usecolortheme{beaver}
 \author{Ustun Ozgur}
-\date{2015-05-26 Tue}
+\date{2015-11-03 Tue}
 \title{Forms with React}
 \hypersetup{
-  pdfkeywords={},
-  pdfsubject={},
-  pdfcreator={Emacs 24.4.1 (Org mode 8.2.10)}}
+ pdfauthor={Ustun Ozgur},
+ pdftitle={Forms with React},
+ pdfkeywords={},
+ pdfsubject={},
+ pdfcreator={Emacs 24.4.1 (Org mode 8.3.2)},
+ pdflang={English}}
 \begin{document}
 
 \maketitle
 
-\begin{frame}[label=sec-1]{Forms}
+\begin{frame}[label={sec:orgheadline1}]{Forms}
 \begin{itemize}
 \item Uncontrolled
 \item Controlled
 \end{itemize}
 \end{frame}
 
-\begin{frame}[fragile,label=sec-2]{Uncontrolled}
+\begin{frame}[fragile,label={sec:orgheadline2}]{Uncontrolled}
  \begin{itemize}
 \item Discouraged
 \item Native DOM elements are the source of truth, not sate
@@ -46,7 +47,7 @@
 \end{itemize}
 \end{frame}
 
-\begin{frame}[fragile,label=sec-3]{Refs}
+\begin{frame}[fragile,label={sec:orgheadline3}]{Refs}
  \begin{itemize}
 \item Example
 \end{itemize}
@@ -65,11 +66,13 @@
 
 \item To retrieve the value, use value after getting the DOM node
 \item \texttt{this.refs.inner.getDOMNode().value}
+
+\item As of React 0.14, no need for getDOMNode() for native elements
+\item \texttt{this.refs.inner.value}
 \end{itemize}
 \end{frame}
 
-
-\begin{frame}[fragile,label=sec-4]{Example: Form with Uncontrolled Inputs}
+\begin{frame}[fragile,label={sec:orgheadline4}]{Example: Form with Uncontrolled Inputs}
  \begin{verbatim}
 <form onSubmit={this.onSubmit}>
 
@@ -81,7 +84,7 @@
 \end{verbatim}
 \end{frame}
 
-\begin{frame}[fragile,label=sec-5]{Example (cont'd)}
+\begin{frame}[fragile,label={sec:orgheadline5}]{Example (cont'd)}
  \begin{verbatim}
 var MyForm = React.createClass({
 render: function () {
@@ -91,8 +94,8 @@ render: function () {
     <input ref="surname"
      placeholder="What is your surname?"/>
     <textarea ref="comment" placeholder="Comment"/>
-    <label><input ref="fromDenmark"
-            type="checkbox"/>Are you from Denmark?</label>
+    <label><input ref="fromSweden"
+            type="checkbox"/>Are you from Sweden?</label>
     <label>Gender:
     <select ref="gender">
     <option>Male</option>
@@ -105,30 +108,27 @@ render: function () {
 \end{frame}
 
 
-\begin{frame}[fragile,label=sec-6]{Example (cont'd)}
+\begin{frame}[fragile,label={sec:orgheadline6}]{Example (cont'd)}
  \begin{verbatim}
 onSubmit: function (e) {
   e.preventDefault();
-  var name = React.findDOMNode(this.refs.name).value;
-  var surname = React
-        .findDOMNode(this.refs.surname).value;
-  var comment = React
-        .findDOMNode(this.refs.comment).value;
-  var fromDenmark = React
-        .findDOMNode(this.refs.fromDenmark).checked;
-  var gender = React.findDOMNode(this.refs.gender).value;
+  var name = this.refs.name.value;
+  var surname = this.refs.surname.value;
+  var comment = this.refs.comment.value;
+  var fromSweden = this.refs.fromSweden.checked;
+  var gender = this.refs.gender.value;
 
   console.log("Form submitted with",
               name, surname, comment,
-              fromDenmark, gender);
+              fromSweden, gender);
 
 }});
 
-React.render(<MyForm/>, document.body);
+ReactDOM.render(<MyForm/>, document.body);
 \end{verbatim}
 \end{frame}
 
-\begin{frame}[label=sec-7]{Observations}
+\begin{frame}[label={sec:orgheadline7}]{Observations}
 \begin{itemize}
 \item For checkboxes, we use checked attribute, not value.
 \item textarea does not have children content unlike HTML. Its value can be
@@ -139,7 +139,7 @@ default form handler as well. We need to preventDefault.
 \end{itemize}
 \end{frame}
 
-\begin{frame}[label=sec-8]{Controlled Forms}
+\begin{frame}[label={sec:orgheadline8}]{Controlled Forms}
 \begin{itemize}
 \item Idiomatic way
 \item Each input component accepts a value or checked property
@@ -149,7 +149,7 @@ default form handler as well. We need to preventDefault.
 \end{itemize}
 \end{frame}
 
-\begin{frame}[fragile,label=sec-9]{Example: Controlled Input (initial state)}
+\begin{frame}[fragile,label={sec:orgheadline9}]{Example: Controlled Input (initial state)}
  \begin{verbatim}
 var MyForm = React.createClass({
 
@@ -165,7 +165,7 @@ var MyForm = React.createClass({
 \end{verbatim}
 \end{frame}
 
-\begin{frame}[fragile,label=sec-10]{Example (cont'd) (the event handlers)}
+\begin{frame}[fragile,label={sec:orgheadline10}]{Example (cont'd) (the event handlers)}
  \begin{verbatim}
 var MyForm = React.createClass({
 
@@ -184,7 +184,7 @@ var MyForm = React.createClass({
 \end{verbatim}
 \end{frame}
 
-\begin{frame}[fragile,label=sec-11]{Example (the submit handler)}
+\begin{frame}[fragile,label={sec:orgheadline11}]{Example (the submit handler)}
  \begin{verbatim}
 var MyForm = React.createClass({
   onSubmit: function () {
@@ -203,14 +203,14 @@ var MyForm = React.createClass({
 \end{frame}
 
 
-\begin{frame}[label=sec-12]{Other Events Related to Forms}
+\begin{frame}[label={sec:orgheadline12}]{Other Events Related to Forms}
 \begin{itemize}
 \item onBlur
 \item onFocus
 \end{itemize}
 \end{frame}
 
-\begin{frame}[fragile,label=sec-13]{A Debugging Trick}
+\begin{frame}[fragile,label={sec:orgheadline13}]{A Debugging Trick}
  \begin{itemize}
 \item A nice trick in debugging form is to output state visually
 \item \texttt{JSON.stringify(this.state, null, 4)} yields a properly indented version of
@@ -218,7 +218,7 @@ state.
 \end{itemize}
 \end{frame}
 
-\begin{frame}[fragile,label=sec-14]{Example:}
+\begin{frame}[fragile,label={sec:orgheadline14}]{Example:}
  \begin{verbatim}
 var MyForm = React.createClass({
   onSubmit: function () {
@@ -240,7 +240,7 @@ var MyForm = React.createClass({
 DEMO
 \end{frame}
 
-\begin{frame}[fragile,label=sec-15]{Exercise 1/2:}
+\begin{frame}[fragile,label={sec:orgheadline15}]{Exercise 1/2:}
  \begin{itemize}
 \item Add another form input for credit card where the user can only enter numbers.
 \end{itemize}
@@ -260,7 +260,7 @@ there is no name yet, do not greet.
 \end{itemize}
 \end{frame}
 
-\begin{frame}[label=sec-16]{Exercise 2/2:}
+\begin{frame}[label={sec:orgheadline16}]{Exercise 2/2:}
 \begin{itemize}
 \item As the user passes from the name field to the card field, validate the name
 such that it is at least 3 letters. If the name is 2 letters, show a
@@ -275,7 +275,8 @@ pros and cons.
 \item Add validation on submit. The name should be at least 3 letters, the card
 should be at least 3 digits. Should we be storing the validation of the form
 in state? Think about it.
+
+\item Implement adding a todo in the todo application.
 \end{itemize}
 \end{frame}
-% Emacs 24.4.1 (Org mode 8.2.10)
 \end{document}
