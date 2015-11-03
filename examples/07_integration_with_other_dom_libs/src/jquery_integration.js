@@ -134,15 +134,26 @@ ReactDOM.render(<Example />, document.getElementById('jqueryexample'));
 // - Pass the values as props and create a reusable component
 var ChosenExample = React.createClass({
 
+  getInitialState() {
+    return {chosenColor: ''};
+  },
+  handleChange(first, second) {
+    this.setState({chosenColor: second.selected});
+  },
+
+  componentDidMount() {
+    $(this.refs.myHandle).chosen().change(this.handleChange);
+
+  },
   render() {
     return <div>
-      <select>
+      <select ref='myHandle'>
       <option>Black</option>
       <option>Red</option>
       <option>Yellow</option>
       <option>Green</option>
       </select>
-      Selected value is: ?
+      Selected value is: {this.state.chosenColor}
       </div>;
 
   }

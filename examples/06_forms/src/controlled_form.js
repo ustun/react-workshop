@@ -15,6 +15,14 @@ var MyForm = React.createClass({
 
     },
 
+  changeNumber(e) {
+    // debugger
+    e.preventDefault();
+    if (/^\d+$/.test(e.target.value)) {
+      this.setState({number: e.target.value});
+    }
+  },
+
     changeCard: function (e) {
         if (/^[\d-]*$/.test(e.target.value)) {
             this.setState({card: e.target.value});
@@ -39,7 +47,10 @@ var MyForm = React.createClass({
 
         return <form onSubmit={this.onSubmit}>
         <input onChange={this.changeName} value={this.state.name} placeholder="What is your name?"/>
-        <input onChange={this.changeCard} value={this.state.card} placeholder="What is your card?"/>
+  <input onChange={this.changeCard} value={this.state.card} placeholder="What is your card?"/>
+
+          <input onChange={this.changeNumber} value={this.state.number} placeholder="Number input?"/>
+
 
        {inner}
         <pre>{JSON.stringify(this.state, null, 4)}</pre>

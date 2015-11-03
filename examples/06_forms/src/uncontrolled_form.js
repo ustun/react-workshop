@@ -6,14 +6,14 @@ require('./styles.css');
 var MyForm = React.createClass({
 
     onSubmit: function (e) {
-        debugger
+     //   debugger
         e.preventDefault();
-      var name = ReactDOM.findDOMNode(this.refs.name).value;
+      var name = this.refs.name.value;
       // Can also use simply
       // var name = this.refs.name.value;
 
-        var surname = ReactDOM.findDOMNode(this.refs.surname).value;
-        var comment = ReactDOM.findDOMNode(this.refs.comment).value;
+        var surname = this.refs.surname.value;
+        var comment = this.refs.comment.value;
         var fromSweden = ReactDOM.findDOMNode(this.refs.fromSweden).checked;
         var gender = ReactDOM.findDOMNode(this.refs.gender).value;
 

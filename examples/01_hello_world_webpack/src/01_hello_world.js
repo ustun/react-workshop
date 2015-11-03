@@ -3,7 +3,8 @@ var ReactDOM = require('react-dom');
 
 var HelloWorld = React.createClass({
 
-    render() {
+  render() {
+
         return <div>Hello Oredev!</div>;
     }
 });
