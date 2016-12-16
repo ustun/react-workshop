@@ -1,6 +1,6 @@
 var HelloWorld = React.createClass({
     render: function () {
-      return <div>Hello Sweden</div>;
+	return <div>Hello Ankara</div>;
     }
 });
 

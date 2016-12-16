@@ -97,10 +97,10 @@ var App = React.createClass({
   getInitialState() {
     return {
       currentFilter: "All",
-      tasks: [{description: "111buy this", completed: false},
-              {description: "do this", completed: true},
-              {description: "do that", completed: false},
-              {description: "shave", completed: false}]};
+	tasks: [{description: "buy this", completed: false},
+		{description: "do this", completed: true},
+		{description: "do that", completed: false},
+		{description: "shave", completed: false}]};
   },
 
   toggleTaskCompleted(description) {

@@ -1,6 +1,5 @@
 var React = require('react');
-window.React = React;
-// var ReactDOM = require('react-dom');
+var ReactDOM = require('react-dom');
 
 
 var TodoInput = React.createClass({
@@ -102,4 +101,4 @@ var App = React.createClass({
 });
 
 
-React.render(<App/>, document.getElementById('app'));
+ReactDOM.render(<App/>, document.getElementById('app'));
