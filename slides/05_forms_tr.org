@@ -1,7 +1,7 @@
 #+TITLE:   React ile Formlar
 #+AUTHOR:  Ustun Ozgur
 #+EMAIL:   ustun@ustunozgur.com
-#+DATE:    2015-06-13 Cumartesi
+#+DATE:    2016-12-16 Cuma
 #+BEAMER-FRAME-LEVEL: 1
 #+BEAMER_THEME: Rochester
 #+OPTIONS: toc:nil outline:nil H:1
@@ -16,8 +16,12 @@
 - Önerilmez
 - Ana DOM bileşenleri veriyi saklar, state değil
 - Değerler olaylardan (event) ya da ref'ler üzerinden DOM elemanlarından okunur
-- ref: bir çocuk bir eşsiz bir gösterici (ünique identifier)
+- ref: bir çocuk bir eşsiz bir gösterici (unique identifier)
+- ref string ya da fonksiyon olarak verilebilir.
+- string olarak verilen ref'ler =this.refs='te toplanir.
 - =this.refs= aynı =props=, =state= gibi ref'lerden oluşan bir nesnedir
+- ref fonksiyon olarak da verilebilir. Bu durumda gercek renderdan
+  sonraki DOM elemanini o fonksiyon girdi olarak alir.
 
 * Refs
 
@@ -25,17 +29,19 @@
 #+BEGIN_SRC js2
 <div>
     <span ref="inner">This is the inner text</span>
+    <span ref={(inner2)=>this.inner2RealDOMNode = inner;}>This is the inner text</span>
 </div>
 #+END_SRC
 
+- String ref'leri icin
 - İçteki span elemanına şu şekilde ulaşılabilir =this.refs.inner=
 
 - Gerçek bir DOM düğümüne ulaşmak için, sunlar kullanılabilir:
-  - =React.findDOMNode=: tercih edilen
-  - =this.refs.inner.getDOMNode=: eski yöntem
+  - =React.findDOMNode=: string refleri icin
+  - mümkünse string ref kullanmayın!
 
 - Değeri almak için DOM düğümüne eriştikten sonra value değerini okuyun
-- =this.refs.inner.getDOMNode().value=
+- =React.findDOMNode(this.refs.inner).value=
 
 
 * Örnek: Kontrolsüz Girdili (İnput) Bir Form

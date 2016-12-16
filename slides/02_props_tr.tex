@@ -1,34 +1,35 @@
-% Created 2015-06-13 Sat 08:29
+% Created 2016-12-16 Fri 05:28
+% Intended LaTeX compiler: pdflatex
 \documentclass[presentation]{beamer}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
-\usepackage{fixltx2e}
 \usepackage{graphicx}
+\usepackage{grffile}
 \usepackage{longtable}
-\usepackage{float}
 \usepackage{wrapfig}
 \usepackage{rotating}
 \usepackage[normalem]{ulem}
 \usepackage{amsmath}
 \usepackage{textcomp}
-\usepackage{marvosym}
-\usepackage{wasysym}
 \usepackage{amssymb}
+\usepackage{capt-of}
 \usepackage{hyperref}
-\tolerance=1000
 \usetheme{Rochester}
 \author{Ustun Ozgur}
-\date{2015-06-13 Cumartesi}
+\date{2016-12-16 Cuma}
 \title{Props}
 \hypersetup{
-  pdfkeywords={},
-  pdfsubject={},
-  pdfcreator={Emacs 24.4.1 (Org mode 8.2.10)}}
+ pdfauthor={Ustun Ozgur},
+ pdftitle={Props},
+ pdfkeywords={},
+ pdfsubject={},
+ pdfcreator={Emacs 25.1.1 (Org mode 9.0)},
+ pdflang={English}}
 \begin{document}
 
 \maketitle
 
-\begin{frame}[fragile,label=sec-1]{Props}
+\begin{frame}[fragile,label={sec:org51d58a0}]{Props}
  \begin{itemize}
 \item properties (özellikler) için kısaltma
 \item Hem div, p gibi hazır bileşenler, hem de MerhabaDünya gibi özel bileşenler,
@@ -36,26 +37,39 @@ props alabilir
 \item Key-value (anahtar-değer) özellikleri
 \item Eşittir işareti
 \item MerhabaDunya'ya \texttt{\{ad: "ustun"\}} geçirmek için
-\item \verb~<MerhabaDunya ad="Ustun"/>~
+\item \texttt{<MerhabaDunya ad="Ustun"/>}
+\item String literal disindakiler icin ='den sonra \{\}
 \end{itemize}
 \end{frame}
 
-\begin{frame}[fragile,label=sec-2]{Props}
+\begin{frame}[fragile,label={sec:org59cd9c1}]{Props}
  \begin{itemize}
 \item Render metodunda ve diğer yaşam döngüsü metodlarında erişilebilir
 \item \texttt{this.props} olarak erişilir
 \item \texttt{ad} alanına ulaşmak için: \texttt{this.props.ad}
 \end{itemize}
 \begin{verbatim}
-var MerhabaDunya = React.createClass({
+class MerhabaDunya extends React.Component {
   render: function () {
     return <div>{"Merhaba " + this.props.ad}</div>;
-  }});
+  }}
+\end{verbatim}
+\end{frame}
+
+\begin{frame}[fragile,label={sec:orgeb14f93}]{Props}
+ \begin{itemize}
+\item Fonksiyon bilesenlerde dogrudan girdi parametresi
+\item \texttt{ad} alanına ulaşmak için: \texttt{props.ad}
+\end{itemize}
+\begin{verbatim}
+var MerhabaDunya = function (props) {
+    return <div>{"Merhaba " + props.ad}</div>;
+  }
 \end{verbatim}
 \end{frame}
 
 
-\begin{frame}[fragile,label=sec-3]{Daha Karmaşık Bir Örnek}
+\begin{frame}[fragile,label={sec:orgf17086e}]{Daha Karmaşık Bir Örnek}
  \begin{itemize}
 \item Hedef: Birden fazla insana merhaba de
 \item İnsanlar dizisi: \texttt{["Ali", "Ahmet", "Ayse"]}
@@ -75,7 +89,7 @@ var Insanlar = React.createClass({
 \end{verbatim}
 \end{frame}
 
-\begin{frame}[fragile,label=sec-4]{Daha Karmaşık Bir Örnek}
+\begin{frame}[fragile,label={sec:org59988dc}]{Daha Karmaşık Bir Örnek}
  \begin{itemize}
 \item \emph{Key} özelliği
 \item Her çocuk elemanı eşsiz yapmak için
@@ -89,14 +103,15 @@ var Insanlar = React.createClass({
     var icerik = [];
 
     for (var i = 0; i < insanlar.length; i++) {
-      icerik.push(<MerhabaDunya key={insanlar[ı]} ad={insanlar[i]}/>);
+      icerik.push(<MerhabaDunya key={insanlar[i]}
+      ad={insanlar[i]}/>);
     }
     return <div>{icerik}</div>;
 }});
 \end{verbatim}
 \end{frame}
 
-\begin{frame}[fragile,label=sec-5]{Daha Karmaşık Bir Örnek: Map Kullanarak}
+\begin{frame}[fragile,label={sec:org8daff30}]{Daha Karmaşık Bir Örnek: Map Kullanarak}
  \begin{verbatim}
 var Insanlar = React.createClass({
   render: function () {
@@ -111,7 +126,7 @@ var Insanlar = React.createClass({
 \end{verbatim}
 \end{frame}
 
-\begin{frame}[fragile,label=sec-6]{Devam}
+\begin{frame}[fragile,label={sec:org7fec748}]{Devam}
  \begin{itemize}
 \item Ara değişkenlere ihtiyacımız yok
 \item Doğrudan bir JSX ifadesi koyabiliriz
@@ -125,13 +140,13 @@ var Insanlar = React.createClass({
 
     return <div>
       {insanlar.map(function (insan, i) {
-        return <MerhabaDunya key={i} ad={insan}/>; })}
+	return <MerhabaDunya key={i} ad={insan}/>; })}
     </div>;
 }});
 \end{verbatim}
 \end{frame}
 
-\begin{frame}[fragile,label=sec-7]{Alıştırma:}
+\begin{frame}[fragile,label={sec:org00aa166}]{Alıştırma:}
  \begin{itemize}
 \item Todo uygulamasını, yapılacaklar listesi bir string listesi olarak, props
 şeklinde girildiği şekilde degistirin.
@@ -145,7 +160,7 @@ değişiklik yapın.
 \end{frame}
 
 
-\begin{frame}[label=sec-8]{Olaylar (Events) ve Fonksiyonların Props olarak kullanımı}
+\begin{frame}[label={sec:orgd46ca07}]{Olaylar (Events) ve Fonksiyonların Props olarak kullanımı}
 \begin{itemize}
 \item Herhangi bir JavaScript ifadesi props olarak kullanılabilir.
 \item JS'te fonksiyonlar birinci sınıf değerlerdir: Fonksiyonları props olarak
@@ -155,7 +170,7 @@ geçirebiliriz.
 \end{itemize}
 \end{frame}
 
-\begin{frame}[fragile,label=sec-9]{Bir onClick fonksiyonu bağlamak}
+\begin{frame}[fragile,label={sec:orgdcef380}]{Bir onClick fonksiyonu bağlamak}
  \begin{verbatim}
 var MerhabaDunya = React.createClass({
   onClick: function () {
@@ -170,7 +185,7 @@ var MerhabaDunya = React.createClass({
 \end{verbatim}
 \end{frame}
 
-\begin{frame}[fragile,label=sec-10]{İnsan Listesi}
+\begin{frame}[fragile,label={sec:orgfa318ae}]{İnsan Listesi}
  \begin{itemize}
 \item İnsan listesi ve MerhabaDunya çocuk bileşenleri
 \item event handler'ın İnsanlar bileşeninde olduğunu varsayın, MerhabaDünya'da değil
@@ -189,7 +204,7 @@ var MerhabaDunya = React.createClass({
 \end{verbatim}
 \end{frame}
 
-\begin{frame}[fragile,label=sec-11]{Karmaşıklık Ana Bileşende}
+\begin{frame}[fragile,label={sec:orga816a1d}]{Karmaşıklık Ana Bileşende}
  \begin{verbatim}
 var Insanlar = React.createClass({
   onClick: function (ad) {
@@ -200,17 +215,17 @@ var Insanlar = React.createClass({
 
     return <div>
       {insanlar.map(function (person, i) {
-        return <MerhabaDunya
-        key={i}
-        onClick={this.onClick.bind(this, insan)}
-        ad={insan}/>;
+	return <MerhabaDunya
+	key={i}
+	onClick={this.onClick.bind(this, insan)}
+	ad={insan}/>;
       }.bind(this))}
     </div>;
   }});
 \end{verbatim}
 \end{frame}
 
-\begin{frame}[fragile,label=sec-12]{Ne Değişti?}
+\begin{frame}[fragile,label={sec:org3af3252}]{Ne Değişti?}
  \begin{itemize}
 \item onClick handler'ı ad parametresi alacak şekilde değiştirdik.
 \end{itemize}
@@ -227,7 +242,7 @@ onClick={this.onClick.bind(this, insan)}
 \end{verbatim}
 \end{frame}
 
-\begin{frame}[fragile,label=sec-13]{Bind metodu}
+\begin{frame}[fragile,label={sec:org6d3bb7e}]{Bind metodu}
  \begin{itemize}
 \item ES5 ile geldi
 \item Bind = Bağlamak
@@ -239,7 +254,7 @@ when the new function is called."
 \end{itemize}
 \end{frame}
 
-\begin{frame}[fragile,label=sec-14]{Örnek: 5 ile Toplama Yapan Fonksiyon}
+\begin{frame}[fragile,label={sec:org60448d5}]{Örnek: 5 ile Toplama Yapan Fonksiyon}
  \begin{verbatim}
 function add(a, b) { return a + b; }
 \end{verbatim}
@@ -257,15 +272,15 @@ console.log(add5(3)); // 8
 \end{frame}
 
 
-\begin{frame}[fragile,label=sec-15]{Alıştırma:}
+\begin{frame}[fragile,label={sec:org687e8e4}]{Alıştırma:}
  \begin{itemize}
 \item \texttt{console.log} metodunu \texttt{l} adında bir fonksiyona nasıl eşitlersiniz?
-\item Basit bir \verb~var l = console.log~ çözümü doğru mu? Doğru çözüm ne?
+\item Basit bir \texttt{var l = console.log} çözümü doğru mu? Doğru çözüm ne?
 solution?
 \end{itemize}
 \end{frame}
 
-\begin{frame}[fragile,label=sec-16]{Önceki örneğe tekrar bakış}
+\begin{frame}[fragile,label={sec:org9ce2937}]{Önceki örneğe tekrar bakış}
  \begin{verbatim}
 var Insanlar = React.createClass({
   onClick: function (ad) {
@@ -275,10 +290,10 @@ var Insanlar = React.createClass({
     var insanlar = ["Ali", "Ahmet", "Mehmet"];
     return <div>
       {insanlar.map(function (insan, i) {
-        return <MerhabaDunya
-        key={i}
-        onClick={this.onClick.bind(this, insan)}
-        ad={insan}/>;
+	return <MerhabaDunya
+	key={i}
+	onClick={this.onClick.bind(this, insan)}
+	ad={insan}/>;
       }.bind(this))}
     </div>;
   }});
@@ -290,7 +305,7 @@ var Insanlar = React.createClass({
 \end{itemize}
 \end{frame}
 
-\begin{frame}[fragile,label=sec-17]{Daha Uzun Hali}
+\begin{frame}[fragile,label={sec:orgaeb4335}]{Daha Uzun Hali}
  \begin{verbatim}
 var Insanlar = React.createClass({
   onClick: function (ad) {
@@ -312,7 +327,7 @@ var Insanlar = React.createClass({
 \end{verbatim}
 \end{frame}
 
-\begin{frame}[fragile,label=sec-18]{Diğer Alternatif}
+\begin{frame}[fragile,label={sec:org2bd5a69}]{Diğer Alternatif}
  \begin{itemize}
 \item Şu anki \texttt{this} değerini başka bir değişkende sakla, örneğin \texttt{that}
 \end{itemize}
@@ -327,17 +342,17 @@ var Insanlar = React.createClass({
     var that = this;
     return <div>
       {insanlar.map(function (insan, i) {
-        return <MerhabaDunya
-        key={i}
-        onClick={that.onClick.bind(that, insan)}
-        ad={insan}/>; })}
+	return <MerhabaDunya
+	key={i}
+	onClick={that.onClick.bind(that, insan)}
+	ad={insan}/>; })}
     </div>;
   }});
 \end{verbatim}
 \end{frame}
 
 
-\begin{frame}[fragile,label=sec-19]{\_.partial kullanarak alternatif}
+\begin{frame}[fragile,label={sec:org7d6b298}]{\_.partial kullanarak alternatif}
  \begin{verbatim}
 var Insanlar = React.createClass({
   onClick: function (name) {
@@ -348,23 +363,24 @@ var Insanlar = React.createClass({
     var that = this;
     return <div>
       {insanlar.map(function (ad) {
-        return <MerhabaDunya
-        onClick={_.partial(that.onClick, insan)}
-        ad={insan}/>; })}
+	return <MerhabaDunya
+	onClick={_.partial(that.onClick, insan)}
+	ad={insan}/>; })}
     </div>;
   }});
 \end{verbatim}
 \end{frame}
 
-\begin{frame}[label=sec-20]{getDefaultProps}
-\begin{itemize}
+\begin{frame}[fragile,label={sec:org0d9d292}]{getDefaultProps}
+ \begin{itemize}
 \item Render gibi bir bileşen metodu
 \item Varsayılan özellik değerleri
+\item class sozdiziminde metod degil. \texttt{this.defaultProps} constructor metodunda tanimlanir.
 \end{itemize}
 \end{frame}
 
 
-\begin{frame}[fragile,label=sec-21]{Örnek: Varsayılan Selamlı MerhabaDunya Bileşeni}
+\begin{frame}[fragile,label={sec:orgc8b3f30}]{Örnek: Varsayılan Selamlı MerhabaDunya Bileşeni}
  \begin{verbatim}
 var MerhabaDunya = React.createClass({
   getDefaultProps: function () {
@@ -385,5 +401,4 @@ var Insanlar = React.createClass({
       </div>}});
 \end{verbatim}
 \end{frame}
-% Emacs 24.4.1 (Org mode 8.2.10)
 \end{document}

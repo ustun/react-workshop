@@ -1,34 +1,35 @@
-% Created 2015-06-13 Sat 08:29
+% Created 2016-12-16 Fri 05:33
+% Intended LaTeX compiler: pdflatex
 \documentclass[presentation]{beamer}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
-\usepackage{fixltx2e}
 \usepackage{graphicx}
+\usepackage{grffile}
 \usepackage{longtable}
-\usepackage{float}
 \usepackage{wrapfig}
 \usepackage{rotating}
 \usepackage[normalem]{ulem}
 \usepackage{amsmath}
 \usepackage{textcomp}
-\usepackage{marvosym}
-\usepackage{wasysym}
 \usepackage{amssymb}
+\usepackage{capt-of}
 \usepackage{hyperref}
-\tolerance=1000
 \usetheme{Rochester}
 \author{Üstün Özgür}
-\date{2015-06-13 Cumartesi}
+\date{2016-12-16 Cuma}
 \title{React ile statik sayfa görüntüleme}
 \hypersetup{
-  pdfkeywords={},
-  pdfsubject={},
-  pdfcreator={Emacs 24.4.1 (Org mode 8.2.10)}}
+ pdfauthor={Üstün Özgür},
+ pdftitle={React ile statik sayfa görüntüleme},
+ pdfkeywords={},
+ pdfsubject={},
+ pdfcreator={Emacs 25.1.1 (Org mode 9.0)},
+ pdflang={English}}
 \begin{document}
 
 \maketitle
 
-\begin{frame}[label=sec-1]{React ile statik sayfa görüntüleme}
+\begin{frame}[label={sec:org048d91b}]{React ile statik sayfa görüntüleme}
 \begin{block}{\emph{render} metodu}
 \begin{itemize}
 \item render'da bir JSX ifadesi döneriz
@@ -37,11 +38,11 @@
 \end{block}
 \end{frame}
 
-\begin{frame}[fragile,label=sec-2]{JSX Hakkında}
+\begin{frame}[fragile,label={sec:org57d96a0}]{JSX Hakkında}
  \begin{itemize}
 \item Bir HTML ya da XML sürümü değil
 \item Normal JavaScript'e dönüştürülür
-\item \verb~<div ad="foo" soyad="bar">içerik</div>~
+\item \texttt{<div ad="foo" soyad="bar">içerik</div>}
 \item \texttt{React.createElement('div', (\{ad: "foo", soyad: "bar"\}, "icerik")}
 \item Özellikler \emph{props} adı verilen bir nesnede (object) toplanır
 \item Çocuklar sonraki argümanlar olarak geçirilir
@@ -50,7 +51,7 @@
 \end{itemize}
 \end{frame}
 
-\begin{frame}[fragile,label=sec-3]{Daha karmaşık bir örnek}
+\begin{frame}[fragile,label={sec:orgded6bab}]{Daha karmaşık bir örnek}
  \begin{block}{JSX}
 \begin{verbatim}
 <div ad="foo">
@@ -68,7 +69,7 @@ React.createElement('div', {ad: 'foo'},
 \end{block}
 \end{frame}
 
-\begin{frame}[label=sec-4]{JSX: 5 Dakika Verin}
+\begin{frame}[label={sec:org2e8a22e}]{JSX: 5 Dakika Verin}
 \begin{itemize}
 \item JS içinde HTML mi?
 \item HTML içinde JS mi?
@@ -76,7 +77,7 @@ React.createElement('div', {ad: 'foo'},
 \end{itemize}
 \end{frame}
 
-\begin{frame}[fragile,label=sec-5]{Ana Özellikler}
+\begin{frame}[fragile,label={sec:org7397930}]{Ana Özellikler}
  \begin{itemize}
 \item Sadece tek bir eleman dön
 \begin{itemize}
@@ -93,7 +94,7 @@ React.createElement('div', {ad: 'foo'},
 \end{itemize}
 \end{frame}
 
-\begin{frame}[fragile,label=sec-6]{Ana Özellikler}
+\begin{frame}[fragile,label={sec:org5cbd744}]{Ana Özellikler}
  \begin{verbatim}
 var icTaraf = <div>Merhaba</div>
 
@@ -112,7 +113,7 @@ var disTaraf = <div>{icerikler}</div>
 \end{verbatim}
 \end{frame}
 
-\begin{frame}[fragile,label=sec-7]{Ana Özellikler}
+\begin{frame}[fragile,label={sec:org0543cfe}]{Ana Özellikler}
  \begin{verbatim}
 var isimler = ["Ali", "Ahmet", "Mehmet"];
 
@@ -124,7 +125,7 @@ var disEleman = <div>{icEleman}</div>
 \end{verbatim}
 \end{frame}
 
-\begin{frame}[fragile,label=sec-8]{Ana Özellikler}
+\begin{frame}[fragile,label={sec:org52b58d1}]{Ana Özellikler}
  \begin{verbatim}
 var icerik;
 
@@ -137,7 +138,7 @@ dis = <div>{icerik}</div>
 \end{verbatim}
 \end{frame}
 
-\begin{frame}[fragile,label=sec-9]{Ana Özellik}
+\begin{frame}[fragile,label={sec:orgd36c4e7}]{Ana Özellik}
  \begin{itemize}
 \item If ifadeleri statement'tır, expression değildir
 \item Ama üç terimliler expression:
@@ -149,12 +150,12 @@ a == 3 ? "a 3" : "a 3 değil"
 \begin{block}{Örnek}
 \begin{verbatim}
 outer = <div>{this.props.renk == "kırmızı" ?
-                <div>Renk kırmızı</div>:  null}</div>
+		<div>Renk kırmızı</div>:  null}</div>
 \end{verbatim}
 
 \begin{verbatim}
 outer = <div>{this.props.color == "kırmızı" &&
-               <div>Renk kırmızı</div>}</div>
+	       <div>Renk kırmızı</div>}</div>
 \end{verbatim}
 
 \begin{itemize}
@@ -163,7 +164,7 @@ outer = <div>{this.props.color == "kırmızı" &&
 \end{block}
 \end{frame}
 
-\begin{frame}[fragile,label=sec-10]{JSX içinde CSS}
+\begin{frame}[fragile,label={sec:orgb7885e7}]{JSX içinde CSS}
  \begin{itemize}
 \item JSX aslında arka planda sadece JS
 \end{itemize}
@@ -171,7 +172,7 @@ outer = <div>{this.props.color == "kırmızı" &&
 \begin{itemize}
 \item \texttt{class} kelimesi JS içinde rezerve (anahtar kelime)
 \item Bunun yerine \texttt{className} kullanılır
-\item \verb~<div class="foo bar">~ suna dönüşür:  \verb~<div className="foo bar">~
+\item \texttt{<div class="foo bar">} suna dönüşür:  \texttt{<div className="foo bar">}
 \end{itemize}
 \end{block}
 \begin{block}{Stiller}
@@ -183,13 +184,13 @@ kullanılır.
 \end{block}
 \end{frame}
 
-\begin{frame}[fragile,label=sec-11]{JSX içinde CSS (devam)}
- \verb~<div style="color: red; background-color: yellow">~
+\begin{frame}[fragile,label={sec:org4a5c0b6}]{JSX içinde CSS (devam)}
+ \texttt{<div style="color: red; background-color: yellow">}
 \begin{itemize}
 \item String bir JS nesnesine dönüştürülür
 \end{itemize}
 \texttt{\{color: 'red', backgroundColor: 'yellow'\}}
-\verb~<div style={{color: 'red', backgroundColor: 'yellow'}}~
+\texttt{<div style=\{\{color: 'red', backgroundColor: 'yellow'\}\}}
 \begin{itemize}
 \item Dikkat: İki tane \texttt{\{}: Birincisi JSX için, ikincisi JS nesnesi için
 \item Tire yok: Bunun yerine sonraki harfi büyük harfe çevir
@@ -197,7 +198,7 @@ kullanılır.
 \end{itemize}
 \end{frame}
 
-\begin{frame}[fragile,label=sec-12]{JSX içinde CSS (devam)}
+\begin{frame}[fragile,label={sec:org04a4418}]{JSX içinde CSS (devam)}
  \begin{itemize}
 \item JSX'te sayılar: CSS'te çoğu birim px'tır, bu yüzden otomatik olarak eklenir
 \end{itemize}
@@ -210,7 +211,7 @@ fontSize: 12
 \end{verbatim}
 \end{frame}
 
-\begin{frame}[fragile,label=sec-13]{JSX içinde CSS (devam)}
+\begin{frame}[fragile,label={sec:org9bb06f2}]{JSX içinde CSS (devam)}
  \begin{itemize}
 \item Her zaman beklendiği gibi çalışmaz. Örneğin lineHeight için ana birim 'px'
 değil 'em'dir
@@ -225,7 +226,7 @@ lineHeight: '18px'
 \end{verbatim}
 \end{frame}
 
-\begin{frame}[label=sec-14]{Var olan bir HTML'i React'e çevirmek}
+\begin{frame}[label={sec:org71d6b0a}]{Var olan bir HTML'i React'e çevirmek}
 \begin{enumerate}
 \item App adında bir React bileşeni oluşturun. Hazır HTML'i alın ve render
 metodunda bunu dondurun.
@@ -243,7 +244,7 @@ ile yerleştirin (mount). (Doğrudan body'ye de yerlestirilebilir.)
 \end{enumerate}
 \end{frame}
 
-\begin{frame}[fragile,label=sec-15]{JSX'i JavaScript'e Çevirmek İçin Araçlar}
+\begin{frame}[fragile,label={sec:org4f8dce8}]{JSX'i JavaScript'e Çevirmek İçin Araçlar}
  \begin{itemize}
 \item Dönüştürücü (Transpilation)
 \item \alert{react-tools}'u şununla yükleyin: \texttt{npm install -g react-tools}
@@ -251,11 +252,11 @@ ile yerleştirin (mount). (Doğrudan body'ye de yerlestirilebilir.)
 \end{itemize}
 \end{frame}
 
-\begin{frame}[fragile,label=sec-16]{Basit Bir Örnek}
+\begin{frame}[fragile,label={sec:orgfe76248}]{Basit Bir Örnek}
  \begin{verbatim}
 var MerhabaDunya = React.createClass({
     render: function () {
-            return <div>Merhaba Dunya</div>
+	    return <div>Merhaba Dunya</div>
     }
 })
 \end{verbatim}
@@ -266,48 +267,65 @@ HTML kısmında ana bileşen için bir içerici (container)
 \end{verbatim}
 Yerleştirmek (monte) için:
 \begin{verbatim}
-React.render(<MerhabaDunya/>, document.getElementById('app'))
+ReactDOM.render(<MerhabaDunya/>, document.getElementById('app'))
 \end{verbatim}
 \end{frame}
 
-\begin{frame}[fragile,label=sec-17]{Alıştırma 1: React ile Başlangıç: 5-10 dakika}
- İpucu: Makefile dosyasına bakabilirsiniz.
+\begin{frame}[label={sec:org210a2c6}]{Alıştırma 1: React ile Başlangıç: 5-10 dakika}
+İpucu: Makefile dosyasına bakabilirsiniz.
 
-a - Depoyu klonlayın.
+a - create-react-app ile yeni proje olusturun.
 
-b - \texttt{examples/01\_hello\_world} klasörüne gidin.
+b - 3 farkli yontemle ekrana HelloWorld yazdirin:
 
-c - react.js'i indirin, react-tools yükleyin, daha sonra uygulamayı jsx
-kullanarak derleyin, ve tarayıcıda "Merhaba Dünya"'yı görüntüleyin.
+React.createClass, function, class HelloWorld
 
-d - Uygulamayı "Merhaba Istanbul!" diye değiştirin.
-
-e - Aynısını şu klasör için tekrarlayin \texttt{examples/01\_hello\_world\_watch} ama bu
-sefer jsx'i izleme modunda çalıştırın.
-
-f - Bonus: React.render'i doğrudan HTML içindeki bir script içine nasıl
-yerleştirirdiniz. JSX'i elle bir React.createElement çağrısına dönüştürmeniz gerekir.
-
-g - Soru: Niye script'i body'nin sonuna koyuyoruz?
+c - JSX kullanmadan React.createElement kullanarak olusturun.
 \end{frame}
 
-\begin{frame}[fragile,label=sec-18]{Daha Karmaşık bir örnek: ToDo Uygulaması}
+\begin{frame}[fragile,label={sec:org003dc2d}]{Ozet}
+ \begin{itemize}
+\item JSX'te JavaScript expressionlarini embed edebiliriz.
+\end{itemize}
+
+\begin{verbatim}
+function formatName(user) {
+  return user.firstName + ' ' + user.lastName;
+}
+
+const user = {
+  firstName: 'Harper',
+  lastName: 'Perez'
+};
+
+const element = (
+  <h1>
+    Hello, {formatName(user)}!
+  </h1>
+);
+
+ReactDOM.render(
+  element,
+  document.getElementById('root')
+);
+\end{verbatim}
+\end{frame}
+
+\begin{frame}[fragile,label={sec:org8d24e0f}]{Daha Karmaşık bir örnek: ToDo Uygulaması}
  \begin{itemize}
 \item \texttt{examples/02\_todo\_props/mockup.html} alıp React'e çevirin.
 \item Çevrimiçi HTML-JSX dönüştürücü :
 \url{https://facebook.github.io/react/html-jsx.html}
 \item Komut satırı versiyonu: \url{https://www.npmjs.com/package/htmltojsx}
-\item Sonucu \texttt{src/todo.js} klasörüne kopyalayın.
-\item jsx'i klasör modunda çalıştırın: \texttt{jsx src build}
 \end{itemize}
 \end{frame}
 
-\begin{frame}[fragile,label=sec-19]{Alıştırma 2:}
+
+\begin{frame}[fragile,label={sec:org4b9cd72}]{Alıştırma 2:}
  a - \texttt{02\_convert\_mockup/mockup.html}'da verilen HTML'i React'e çevirin. Dikkat:
 Burada iki farklı ana kısım var, o yüzden iki ayrı kök eleman (node) olacak.
 
 b - ToDo uygulamasını küçük bileşenlere parçalayın. Şu adlarda bileşenler
 olusturun: SearchBar, Todos, TodoItem, Footer.
 \end{frame}
-% Emacs 24.4.1 (Org mode 8.2.10)
 \end{document}

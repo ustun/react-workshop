@@ -1,5 +1,6 @@
 var React = require('react');
-var ReactDOM = require('react-dom');
+window.React = React;
+// var ReactDOM = require('react-dom');
 
 
 var TodoInput = React.createClass({
@@ -7,7 +8,7 @@ var TodoInput = React.createClass({
   render() {
     return <header id="header">
           <h1>todos</h1>
-          <input id="new-todo" placeholder="What needs to be done?" autofocus />
+          <input id="new-todo" placeholder="test What needs to be done?" autofocus />
       </header>;
 
   }
@@ -101,4 +102,4 @@ var App = React.createClass({
 });
 
 
-ReactDOM.render(<App/>, document.getElementById('app'));
+React.render(<App/>, document.getElementById('app'));

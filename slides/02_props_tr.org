@@ -1,7 +1,7 @@
 #+TITLE:   Props
 #+AUTHOR:  Ustun Ozgur
 #+EMAIL:   ustun@ustunozgur.com
-#+DATE:    2015-06-13 Cumartesi
+#+DATE:    2016-12-16 Cuma
 #+BEAMER-FRAME-LEVEL: 1
 #+BEAMER_THEME: Rochester
 #+OPTIONS: toc:nil outline:nil H:1
@@ -14,16 +14,26 @@
 - Eşittir işareti
 - MerhabaDunya'ya ={ad: "ustun"}= geçirmek için
 - ~<MerhabaDunya ad="Ustun"/>~
+- String literal disindakiler icin ='den sonra {}
 
 * Props
 - Render metodunda ve diğer yaşam döngüsü metodlarında erişilebilir
 - =this.props= olarak erişilir
 - =ad= alanına ulaşmak için: =this.props.ad=
 #+BEGIN_SRC javascript
-var MerhabaDunya = React.createClass({
+class MerhabaDunya extends React.Component {
   render: function () {
     return <div>{"Merhaba " + this.props.ad}</div>;
-  }});
+  }}
+#+END_SRC
+
+* Props
+- Fonksiyon bilesenlerde dogrudan girdi parametresi
+- =ad= alanına ulaşmak için: =props.ad=
+#+BEGIN_SRC javascript
+var MerhabaDunya = function (props) {
+    return <div>{"Merhaba " + props.ad}</div>;
+  }
 #+END_SRC
 
 
@@ -58,7 +68,8 @@ var MerhabaDunya = React.createClass({
       var icerik = [];
 
       for (var i = 0; i < insanlar.length; i++) {
-        icerik.push(<MerhabaDunya key={insanlar[ı]} ad={insanlar[i]}/>);
+        icerik.push(<MerhabaDunya key={insanlar[i]}
+	ad={insanlar[i]}/>);
       }
       return <div>{icerik}</div>;
   }});
@@ -305,6 +316,7 @@ var Insanlar = React.createClass({
 
 - Render gibi bir bileşen metodu
 - Varsayılan özellik değerleri
+- class sozdiziminde metod degil. =this.defaultProps= constructor metodunda tanimlanir.
 
 
 * Örnek: Varsayılan Selamlı MerhabaDunya Bileşeni

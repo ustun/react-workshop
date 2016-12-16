@@ -1,7 +1,7 @@
 #+TITLE:   Webpack and React
 #+AUTHOR:  Ustun Ozgur
 #+EMAIL:   ustun@ustunozgur.com
-#+DATE:    2015-06-13 Cumartesi
+#+DATE:    2016-12-16 Cuma
 #+BEAMER-FRAME-LEVEL: 1
 #+BEAMER_THEME: Rochester
 #+OPTIONS: toc:nil outline:nil H:1
@@ -40,8 +40,7 @@
 
 - JSX'ten JS oluşturmak için dönüştürücü modül
 - webpack'ın loader'ları var
-- jsx-loader ya da babel-loader
-- babel-loader daha iyi.
+- babel-loader
 - =npm install babel-loader --save=
 
 * webpack.config.js

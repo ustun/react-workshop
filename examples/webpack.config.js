@@ -32,7 +32,7 @@ module.exports = {
   output: {
     path: __dirname  + '/build',
     filename: '[name].js',
-    publicPath: 'http://localhost:8080/assets'
+    publicPath: 'http://localhost:8081/assets'
   },
   resolve: {
     extensions: ['', '.js', '.jsx']

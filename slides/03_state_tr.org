@@ -1,7 +1,7 @@
 #+TITLE:   State
 #+AUTHOR:  Ustun Ozgur
 #+EMAIL:   ustun@ustunozgur.com
-#+DATE:    2015-06-13 Cumartesi
+#+DATE:    2016-12-16 Cuma
 #+BEAMER-FRAME-LEVEL: 1
 #+BEAMER_THEME: Rochester
 #+OPTIONS: toc:nil outline:nil H:1
@@ -9,7 +9,8 @@
 * State
 
 - Değişken verili uygulamalar
-- İki önemli metod: =getİnitialState= ve =setState=
+- İki önemli metod: =getInitialState= ve =setState=
+- class syntax'inda =getInitialState= yerine constructor'da
 - =setState=: girdiyle şu anki state'i birleştirir
 - Ayrıca =replaceState=, şu anki state'i girdi ile değiştirir
 - state'e render metodundan şu şekilde erişilir =this.state=
@@ -34,6 +35,9 @@
 
   });
 #+END_SRC
+
+- Bunu class syntax'i ile yeniden yazin.
+
 
 * Genel Bakış
 

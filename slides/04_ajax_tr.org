@@ -1,7 +1,7 @@
 #+TITLE:   React ile AJAX
 #+AUTHOR:  Ustun Ozgur
 #+EMAIL:   ustun@ustunozgur.com
-#+DATE:    2015-06-13 Cumartesi
+#+DATE:    2016-12-16 Cuma
 #+BEAMER-FRAME-LEVEL: 1
 #+BEAMER_THEME: Rochester
 #+OPTIONS: toc:nil outline:nil H:1

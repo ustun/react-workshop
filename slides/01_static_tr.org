@@ -1,7 +1,7 @@
 #+TITLE:     React ile statik sayfa görüntüleme
 #+AUTHOR:    Üstün Özgür
 #+EMAIL:     ustun@ustunozgur.com
-#+DATE:      2015-06-13 Cumartesi
+#+DATE:      2016-12-16 Cuma
 #+BEAMER-FRAME-LEVEL: 1
 #+BEAMER_THEME: Rochester
 #+OPTIONS: toc:nil outline:nil H:1
@@ -14,6 +14,7 @@
 
 * JSX Hakkında
 
+- React elemanlari olusturur.
 - Bir HTML ya da XML sürümü değil
 - Normal JavaScript'e dönüştürülür
 - ~<div ad="foo" soyad="bar">içerik</div>~
@@ -50,8 +51,9 @@ React.createElement('div', {ad: 'foo'},
   - Bir fonksiyonun tek bir çıktısı olması gibi
 - Bütün elemanlar kapanmalı ya da kendiliğinden kapanır olmalı
   - =<div></div>=, =<img/>=, =<input/>=
-- JSX ifadeleri koymak için süslü parantezler
+- JSX expression (ifadeleri) koymak için süslü parantezler
   - =<div>{2 + 3}</div>= Geçerli JSX
+- Her turlu expression konabilir!
 
 * Ana Özellikler
 
@@ -201,29 +203,45 @@ HTML kısmında ana bileşen için bir içerici (container)
 #+END_SRC
 Yerleştirmek (monte) için:
 #+BEGIN_SRC
-React.render(<MerhabaDunya/>, document.getElementById('app'))
+ReactDOM.render(<MerhabaDunya/>, document.getElementById('app'))
 #+END_SRC
 
 * Alıştırma 1: React ile Başlangıç: 5-10 dakika
 
 İpucu: Makefile dosyasına bakabilirsiniz.
 
-a - Depoyu klonlayın.
+a - create-react-app ile yeni proje olusturun.
 
-b - =examples/01_hello_world= klasörüne gidin.
+b - 3 farkli yontemle ekrana HelloWorld yazdirin:
 
-c - react.js'i indirin, react-tools yükleyin, daha sonra uygulamayı jsx
-kullanarak derleyin, ve tarayıcıda "Merhaba Dünya"'yı görüntüleyin.
+React.createClass, function, class HelloWorld
 
-d - Uygulamayı "Merhaba Istanbul!" diye değiştirin.
+c - JSX kullanmadan React.createElement kullanarak olusturun.
 
-e - Aynısını şu klasör için tekrarlayin =examples/01_hello_world_watch= ama bu
-sefer jsx'i izleme modunda çalıştırın.
+* Ozet
+- JSX'te JavaScript expressionlarini embed edebiliriz.
 
-f - Bonus: React.render'i doğrudan HTML içindeki bir script içine nasıl
-yerleştirirdiniz. JSX'i elle bir React.createElement çağrısına dönüştürmeniz gerekir.
+#+BEGIN_SRC
+function formatName(user) {
+  return user.firstName + ' ' + user.lastName;
+}
 
-g - Soru: Niye script'i body'nin sonuna koyuyoruz?
+const user = {
+  firstName: 'Harper',
+  lastName: 'Perez'
+};
+
+const element = (
+  <h1>
+    Hello, {formatName(user)}!
+  </h1>
+);
+
+ReactDOM.render(
+  element,
+  document.getElementById('root')
+);
+#+END_SRC
 
 * Daha Karmaşık bir örnek: ToDo Uygulaması
 
@@ -231,8 +249,7 @@ g - Soru: Niye script'i body'nin sonuna koyuyoruz?
 - Çevrimiçi HTML-JSX dönüştürücü :
   https://facebook.github.io/react/html-jsx.html
 - Komut satırı versiyonu: https://www.npmjs.com/package/htmltojsx
-- Sonucu =src/todo.js= klasörüne kopyalayın.
-- jsx'i klasör modunda çalıştırın: =jsx src build=
+
 
 * Alıştırma 2:
 
