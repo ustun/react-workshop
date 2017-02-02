@@ -1,0 +1,24 @@
+
+function PoliceFonksiyonu(state, mektup) {
+    
+    if (mektup.type == 'POLICE_UZATIMI') {
+	state.sonTarihi = mektup.bitisTarihi;            
+    }
+
+    if (mektup.type == 'INIT') {
+	state.name = mektup.name;
+	state.baslangicTarihi = mektup.baslangicTarihi;
+	state.sonTarihi = mektup.sonTarihi;
+
+    }
+
+    return state;
+
+}
+
+var armut = {baslangicTarihi: '2011', sonTarihi: '2018'};
+
+var x = PoliceFonksiyonu(armut, {type: 'INIT', bitisTarihi: '2023'})
+
+x?
+
